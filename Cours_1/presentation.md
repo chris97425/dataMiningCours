@@ -20,6 +20,8 @@ Christopher de Boisvillierrs
 2025-03-17
 
 ---
+<!-- header: ✌🏼 Introduction -->
+
 
 # Partie 1: Introduction
 
@@ -154,6 +156,8 @@ Cependant, les médecins ne connaissent **pas à l'avance** les catégories de p
 
 C'est un problème de **clustering** où nous cherchons à découvrir des groupes naturels dans les données sans avoir d'étiquettes prédéfinies.
 
+Ce **lien** sera notre fonction d'attribution.
+
 &#128161; **Objectif** : Utiliser un algorithme pour **regrouper automatiquement** les patients en fonction de leurs caractéristiques médicales.
 
 ---
@@ -245,6 +249,7 @@ Regardons l'image suivante :
 | **Apprentissage par renforcement** | Apprentissage par renforcement      | &#10060; Non                  | &#9989; Oui                | &#128073; Oui                       |
 
 ---
+<!-- header: 📈 Comprendre la data -->
 
 ## Une donnée, c'est quoi ?
 
@@ -303,8 +308,12 @@ Dans d'autres cas, une image peut être traité comme un ensemble de pixel
 - Les vecteurs peuvent être manipulés mathématiquement (addition, multiplication par un scalaire)
 - La **norme** (taille) d'un vecteur $\vec{v} = (x, y)$ est donnée par : $\|\vec{v}\| = \sqrt{x^2 + y^2}$
 
-- La **distance de Manhattan** entre deux vecteurs $\vec{v}_1 = (x_1, y_1)$ et $\vec{v}_2 = (x_2, y_2)$ est : $d(\vec{v}_1, \vec{v}_2) = |x_2 - x_1| + |y_2 - y_1|$
-- Pour des vecteurs à n dimensions $\vec{v}_1 = (x_1, x_2, ..., x_n)$ et $\vec{v}_2 = (y_1, y_2, ..., y_n)$, la distance de Manhattan est : $d(\vec{v}_1, \vec{v}_2) = \sum_{i=1}^{n} |y_i - x_i|$
+<!-- - La **distance de Manhattan** entre deux vecteurs $\vec{v}_1 = (x_1, y_1)$ et $\vec{v}_2 = (x_2, y_2)$ est : $d(\vec{v}_1, \vec{v}_2) = |x_2 - x_1| + |y_2 - y_1|$ -->
+<!-- - Pour des vecteurs à n dimensions $\vec{v}_1 = (x_1, x_2, ..., x_n)$ et $\vec{v}_2 = (y_1, y_2, ..., y_n)$, la distance de Manhattan est : $d(\vec{v}_1, \vec{v}_2) = \sum_{i=1}^{n} |y_i - x_i|$ -->
+
+- La **distance euclidienne** entre deux vecteurs $\vec{v}_1 = (x_1, y_1)$ et $\vec{v}_2 = (x_2, y_2)$ est : $d(\vec{v}_1, \vec{v}_2) = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$
+- Pour des vecteurs à n dimensions $\vec{v}_1 = (x_1, x_2, ..., x_n)$ et $\vec{v}_2 = (y_1, y_2, ..., y_n)$, la distance euclidienne est : $d(\vec{v}_1, \vec{v}_2) = \sqrt{\sum_{i=1}^{n} (y_i - x_i)^2}$
+
 
 ---
 
@@ -319,7 +328,7 @@ Plus visuellement
   </div>
   <div style="text-align: center;">
     <p style="font-weight: bold;">La distance de manhattan</p>
-    <img width="300px" src="images/manh.png">
+    <img width="300px" src="images/euclidienne.png">
   </div>
 </div>
 
@@ -369,11 +378,11 @@ Plus visuellement
 
 <div style="display: flex; justify-content: space-between;">
   <div style="text-align: center;">
-    <p>Représentation dans un éspace à 2d</p>
+    <p>Représentation dans un éspace en 2d</p>
     <img width="400px" src="images/2dvec.png">
   </div>
   <div style="text-align: center;">
-    <p>Représentation dans un éspace à 3d</p>
+    <p>Représentation dans un éspace en 3d</p>
     <img width="400px" src="images/3dvec.png">
   </div>
 </div>
@@ -408,8 +417,9 @@ Le **clustering** est une technique d'apprentissage non supervisé qui consiste 
 </div>
 
 L'objectif du clustering est d'identifier dans un amas de points ( **vecteurs** ) les groupes qui pourraient se former naturellement.
-
+Une fonction d'attribution !
 ### **Pour réussir à répondre à cette problématique il nous faut quoi ?**
+
 
 ---
 
@@ -467,9 +477,9 @@ $G_k$ : Nombre total de clusters:
 
 $n_k$: Nombre de points appartenant au cluster k:
 
-$d^2(G_k, G)$ : Distance quadratique entre le centroïde du cluster G_k et le centre global G:
+$d^2(G_k, G)$ : Distance quadratique entre le centroïde du cluster $G_k$ et le centre global G:
 
-$d^2(i, G_k)$ : Distance quadratique entre un point i et le centroïde de son cluster G_k
+$d^2(i, G_k)$ : Distance quadratique entre un point i et le centroïde de son cluster $G_k$
 
 ---
 ### **Pour résoudre un problème de clustering il nous faut :**
@@ -516,8 +526,10 @@ $
     - $\mu_k = \frac{1}{|C_k|} \sum_{x_i \in C_k} x_i$
 5. Vérification du **critère d'arrêt** :  
    - L’algorithme s’arrête si les centroïdes **ne bougent plus** :  
-    $||C_k^{(t+1)} - C_k^{(t)}|| < \epsilon$
+      • $||C_k^{(t+1)} - C_k^{(t)}|| < \epsilon$
    - Ou si un **nombre maximal d'itérations** est atteint.
+   	•	On prend souvent $\epsilon = 10^{-4}$ ou $10^{-5}$ pour s’assurer d’une bonne convergence.
+
 
 
 ---
