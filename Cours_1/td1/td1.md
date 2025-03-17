@@ -82,7 +82,6 @@ où $|C_i|$ est le nombre d’éléments du cluster $C_i$ et $\mu$ est le centro
 Pour mieux comprendre l’évolution des clusters, nous allons :
 
 - **Tracer les points de l’ensemble E** en **indiquant leur appartenance aux clusters**.
-- **Visualiser les centroïdes à chaque itération**.
 
 
 
