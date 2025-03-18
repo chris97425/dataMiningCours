@@ -1,5 +1,5 @@
 {
     "markdown.marp.themes": [
-        "./themes/neobeam.css"
+        "Cours_1/themes/neobeam.css"
     ]
 } 

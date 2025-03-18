@@ -246,7 +246,7 @@ Regardons l'image suivante :
 |                                    | Tâche de régression                 | &#9989; Oui                   | &#9989; Oui                | &#9989; Oui (valeurs )              |
 | **Apprentissage non supervisé**    | Clustering                          | &#9989; Oui                   | &#10060; Non               | &#10060; Non                        |
 |                                    | Réduction de dimension (ACP, t-SNE) | &#9989; Oui                   | &#10060; Non               | &#10060; Non                        |
-| **Apprentissage par renforcement** | Apprentissage par renforcement      | &#10060; Non                  | &#9989; Oui                | &#128073; Oui                       |
+| **Apprentissage par renforcement** | Apprentissage par renforcement      | &#9989; Oui                  | &#9989; Oui                | &#128073; Oui                       |
 
 ---
 <!-- header: 📈 Comprendre la data -->
