@@ -473,7 +473,9 @@ $$
 
 $d^2(i, G)$ : Distance quadratique entre un point i et le centre global G
 
-$G_k$ : Nombre total de clusters:
+$G_k$ : Le cluster $k$
+
+$|G_k|$ : Nombre total de clusters:
 
 $n_k$: Nombre de points appartenant au cluster k:
 
