@@ -7,6 +7,10 @@ math: mathjax
 header: Cours Esiroi 2025
 footer: Data mining - Christopher de Boisvilliers
 title: Marp custom themes
+style: |
+  pre, code {
+    font-size: 100px !important;
+  
 ---
 
 <!-- _class: title -->
@@ -15,18 +19,18 @@ title: Marp custom themes
 
 <br/>
 
-Christopher de Boisvillierrs
+Christopher de Boisvilliers
 
-2025-03-17
+2025-03-23
 
 
 ------
 <!-- header: ⭐️ Plan du cours -->
 
 # Plan du cours
-1. La régression linéaire **alias** prédire un nombre 
-2. La régression logistique **alias** prédire une classe
-3. Quelques notions (---- à completer ----)
+- La régression linéaire **alias** prédire un nombre
+
+- Un peu de pratique avec scikit learn
 ---
 <!-- header: 📈 La Régression linéaire -->
 
@@ -67,18 +71,18 @@ Qui peut m'expliquer cette phrase:
 </div>
 
 ### Question &#128269;
-Sur les deux graphiques ci-dessus, qu'est que ma **régression linéaire** ? **Ma prédiction** ? **Mon erreur** ? 
+Sur les deux graphiques ci-dessus, qu'est-ce que ma **régression linéaire** ? **Ma prédiction** ? **Mon erreur** ? 
 
 
 ---
 
-### **La régression linéaire n'est finalement qu'une simple droite/plan**
+### **La régression linéaire n'est finalement qu'une droite/plan**
 
-Cela implique qu'elle est représenté mathématiquement par une formule très simple:
+Cela implique qu'elle est représentée mathématiquement par une formule très simple :
 
 - $y=ax+b$
 
-C'est presque ça, il faut prendre en compte la notion d'erreurs et nous obtenons :
+C'est presque cela, il faut prendre en compte la notion d'erreur et nous obtenons :
 
 - $\hat{y} = \beta_0+\beta_1x_1+\beta_2x_2 ... +\beta_nx_n +\epsilon$
 
@@ -97,8 +101,8 @@ Explication des termes :
 
 ### **Le but du jeu**
 
-Notre algorithme a une seule mission : trouver l’intercept $\beta_0$ ainsi que les coefficients de régression $\beta_1, \dots, \beta_n$ qui minimisent l’erreur $\varepsilon$, définie comme la différence entre les valeurs observées et les valeurs prédites.
-#### **Un petit éxemple**
+Notre algorithme a une seule mission : trouver l'intercept $\beta_0$ ainsi que les coefficients de régression $\beta_1, \dots, \beta_n$ qui minimisent l'erreur $\varepsilon$, définie comme la différence entre les valeurs observées et les valeurs prédites.
+#### **Un petit exemple**
 ![width:500](images/reggif.gif)
 [Visualisation interactive de la régression par moindres carrés ordinaires](https://setosa.io/ev/ordinary-least-squares-regression/)
 
@@ -116,17 +120,17 @@ Il éxiste deux méthodes que nous allons voir dans ce cours:
 
 ### **La méthode des moindres carrés**
 
-1. Trouver $\hat{\beta}$ les coefficients estimés
-2. Effectuer la prediction afin de determiner l'erreur $\epsilon$
+1. Trouver $\hat{\beta}$, les coefficients estimés
+2. Effectuer la prédiction afin de déterminer l'erreur $\epsilon$
 
-Nous avons:
+Nous avons :
 $\vec{Y}=X\vec{β}+\vec{u}$
 
-Ceux qui nous donne pour une seule observation : 
+Ce qui nous donne pour une seule observation :
 
 $\vec{Y}=β_0+β_1X_1+β_2X_2+…+β_kX_k+\epsilon_1$
 
-Et pour l'ensemble de nos observations nous obtenons : 
+Et pour l'ensemble de nos observations, nous obtenons :
 $\begin{bmatrix}
 y_1 \\
 y_2 \\
@@ -161,7 +165,7 @@ La méthode des moindres carrés nous dit que pour obtenir les coefficients esti
 
 - $\hat{\beta}= (X^TX)^{-1}X^Ty$
 
-Prenons l'éxemple suivant : 
+Prenons l'exemple suivant : 
 
 
 $\mathbf{X} =
@@ -180,7 +184,6 @@ $\mathbf{X} =
 
 <br>
 
-**Je fais quoi avec les deux matrices $X$ et $Y$ précedente ?** 
 
 ---
 
@@ -248,7 +251,7 @@ Notre modèle de régression linéaire aura donc la formule suivante :
 
 - $\hat{y} = 4 + 2x_1 + 1x_2$
 
-###### **Question: Comment je calcule les erreurs ?** 
+###### **Question : Comment calculer les erreurs ?**
 
 ---
 
@@ -360,11 +363,10 @@ Son but est de minimiser l'erreurs $\epsilon$ en ajustant progressivement les po
 La notion d'erreur est très importante il faut reussir à la représenter mathématiquement, à la calculer ! 
 
 ---
-<!-- header: La descente de gradient: La loss function -->
 
 ### **Deux notions importantes pour comprendre cet algorithme**
 
-1. La loss function (représentative de l'érreur **globale** à chaque itération de notre algorithme)
+1. La loss function (représentative de l'erreur **globale** à chaque itération de notre algorithme)
 2. Le learning rate 
 
 ---
@@ -405,7 +407,7 @@ Elle nous donne un **score**:
 
 ---
 
-### &#128201; Un éxemple concret
+### **Un exemple concret**
 
 On dispose d’un jeu de données simple :
 
@@ -424,7 +426,7 @@ Objectif : trouver $\beta_0, \beta_1$ qui **minimisent l’erreur** entre les $y
 
 ---
 
-### &#128200; Fonction de perte (MSE)
+### **Fonction de perte (MSE)**
 
 On minimise la **somme des carrés des erreurs** :
 
@@ -436,35 +438,109 @@ Cette fonction est **convexe** → elle a **un unique minimum**.
 
 On veut **trouver ce minimum** à l’aide de la **descente de gradient**.
 
+N'oubliez pas qu'ici nos inconnues sont $\beta_0$ et $\beta_1$ et non $y_i$ et $x_i$.
+
+Notre but sera de trouver ce minimum à l’aide de la **descente de gradient**, en ajustant les paramètres $\beta_0$ et $\beta_1$ pour réduire progressivement l’erreur.
+
 ---
 
-### 📉 Slide 3 — Visualisation de la perte
+### **Visualisation de la perte**
 
 La fonction $\mathcal{L}(\beta_1)$ peut être **visualisée** comme une courbe :
 
-![width:500px](https://upload.wikimedia.org/wikipedia/commons/1/1b/Gradient_descent.svg)
+![width:500px](images/2dsgd.gif)
 
 - L’axe horizontal : valeurs possibles de $\beta_1$
 - L’axe vertical : valeur de la perte
-- Le **minimum** correspond à la **meilleure droite**
+- Le **minimum** correspond à la **meilleure droite** de régression
+
+---
+### **Mais ou est passer $\beta_0$**
+
+Dans les faits la recherche de minimum doit se faire dans un espace à $n+2$ dimensions.
+- **Pourquoi ?**
+- **Comment notre descente de gradient peut savoir ou se diriger ?**
+
+![width:400px](images/3dmse.png)
+
 
 ---
 
-### 🧮 Slide 4 — Calcul de la tangente : la dérivée
+### &#128202; Calcul de la tangente : la dérivée
 
-On calcule la **dérivée** de la fonction de perte pour connaître la **pente locale** :
+On calcule la **dérivée** de la fonction de perte en un point pour connaître la **pente locale**.
+
+Pourquoi ? Parce que la **tangente est la droite qui "colle" le mieux à la courbe localement**.  
+Elle nous donne la **variation instantanée** de la fonction autour d’un point.
+
+
+---
+
+### Et si on a plusieurs features ?
+
+Dans ce cas, on ne calcule pas une dérivée, mais le **gradient** :
+
+$
+\nabla \mathcal{L} =
+\begin{bmatrix}
+\frac{\partial \mathcal{L}}{\partial \beta_0} \\
+\frac{\partial \mathcal{L}}{\partial \beta_1} \\
+\vdots \\
+\frac{\partial \mathcal{L}}{\partial \beta_p}
+\end{bmatrix}
+$
+
+On effectue donc une **dérivée partielle pour chaque coefficient** $\beta_j$.
+
+Ce **vecteur de gradient** nous indique la **direction complète dans l’espace des paramètres**  
+→ On le suit (dans le sens inverse) pour **atteindre le minimum de la fonction de perte**.
+
+---
+
+
+Prenons la dérivé partielle de notre fonction : 
+- 
+$
+\mathcal{L}(\beta_0, \beta_1) = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \frac{1}{n} \sum_{i=1}^n (y_i - (\beta_0 + \beta_1 x_i))^2
+$ en $\beta_1$
+
+Nous obtenons: 
 
 $
 \frac{\partial \mathcal{L}}{\partial \beta_1} = -\frac{2}{n} \sum_{i=1}^n x_i (y_i - (\beta_0 + \beta_1 x_i))
 $
 
-💡 Cette dérivée **donne la direction de la tangente** :  
+Cette dérivée **donne la direction de la tangente** et indirectement ou nous devons aller à la prochaine étape d'itération :  
 - Si $\frac{d\mathcal{L}}{d\beta_1} > 0$ → pente positive → il faut **descendre à gauche**
 - Si $< 0$ → pente négative → **descendre à droite**
 
 ---
+### &#128202; **Prenons l'exemple suivant :**
 
-### 🔁 Slide 5 — Mise à jour des paramètres
+- Soit la fonction :  
+  
+  $f(x) = (x - 3)^2 + 2$
+  
+
+Sa dérivée est :
+
+- $f'(x) = 2(x - 3) = 2x - 6$
+
+---
+
+
+### **Analyse au point \( x = 5 \) :**
+
+- $f'(5) = 2 \cdot 5 - 6 = 4$
+
+Cela signifie que **la tangente à la courbe en \( x = 5 \)** a une **pente de 4**  
+→ **Une droite de coefficient directeur 4**, comme représentée ci-dessous :
+
+![width:600px](images/tang.png)
+
+---
+
+### **Mise à jour des paramètres $\beta_n$**
 
 À chaque itération, on met à jour les paramètres comme ceci :
 
@@ -479,9 +555,24 @@ $
 - $\eta$ : learning rate (pas de mise à jour)
 - On répète jusqu’à **convergence**
 
+<br>
+
+**Pourquoi le $-$ ??**
+
+
 ---
 
-### 🧪 Slide 6 — Exemple chiffré simple
+ ### **L'impace d'un learning rate $\eta$, petit grand moyen, moyennement grand etc..** 
+
+ L'image suivante parle d'elle même: 
+
+
+![width:600px](images/learning_rate.gif)
+
+
+---
+
+###  Exemple  simple
 
 Soit 3 points : $(1, 2), (2, 4), (3, 6)$
 
@@ -498,140 +589,426 @@ Learning rate $\eta = 0.1$
    \beta_1 \leftarrow 0 + 0.1 \cdot 18.67 = 1.867
    $
 
-✅ On s'est rapproché du minimum !
+On s'est rapproché du minimum !
 
 ---
 
-### 🧠 Slide 7 — Conclusion
+### **La convergence** 
 
-- La **tangente** indique la direction pour **réduire la perte**
-- Le gradient est utilisé pour **ajuster les poids**
-- À chaque itération, le modèle **apprend à mieux prédire**
-- La descente de gradient est au cœur de **tous les modèles d’apprentissage supervisé**
+**D'après vous quand est atteint la convergence de notre algorithme ?** 
 
 ---
 
-# &#128202; Régression Linéaire
+### **Plusieurs réponses possibles**
+1. La variation du coût est négligeable :
 
-## &#128204; Objectifs
+$|\mathcal{L}_{t+1} - \mathcal{L}_t| < \varepsilon$
 
-- Comprendre la **régression linéaire**
-- Expliquer **l'ajustement des coefficients**
-- Voir comment **trouver le minimum**
-- Implémenter avec **Scikit-Learn**
+$\varepsilon$ est un petit seuil fixé à l’avance (ex: $10^{-6}$)
 
----
+Cela signifie que le modèle n’améliore plus significativement la perte.
 
-# &#128269; Définition de la Régression Linéaire
+⸻
 
-La régression linéaire est un **modèle statistique** utilisé pour prédire une variable $y$ en fonction d’une ou plusieurs variables explicatives $x$.
+2. La variation des paramètres est très faible :
 
-### &#128197; Forme générale :
+$\|\boldsymbol{\beta}^{(t+1)} - \boldsymbol{\beta}^{(t)}\| < \varepsilon$
 
-$$
-y = \beta_0 + \beta_1 x + \varepsilon
-$$
+Cela signifie que les poids ne bougent presque plus.
 
-- **$y$** : Variable à prédire (dépendante)
-- **$x$** : Variable explicative (indépendante)
-- **$\beta_0, \beta_1$** : Coefficients du modèle
-- **$\varepsilon$** : Erreur résiduelle
+⸻
+
+3. Nombre maximal d’itérations atteint
+
+Même si ça n’a pas convergé complètement, on force l’arrêt après un certain nombre d’itérations pour éviter une boucle infinie.
 
 ---
 
-# &#128295; Principe de la Régression Linéaire
 
-L’objectif est de **trouver la droite** qui minimise l’écart entre les points et la prédiction.
+### &#9888;&#65039; **Outliers et choix de la fonction de coût**
 
-&#128161; **On cherche à minimiser la somme des erreurs au carré (MSE) :**
 
-$$
-J(\beta_0, \beta_1) = \sum (y_i - (\beta_0 + \beta_1 x_i))^2
-$$
+Dans certains jeux de données, il peut exister des **valeurs extrêmes** (*outliers*) qui s'écartent fortement du reste des observations.
 
-- **Plus $ J $ est petit, meilleur est l’ajustement.**
+&#10145;&#65039; Ces points peuvent **fausser l'entraînement du modèle** si on utilise une fonction de coût trop sensible aux grandes erreurs.
 
 ---
 
-# &#128293; Trouver le Minimum
+### &#9989; Exemple : la MSE
 
-On utilise **deux méthodes principales** pour minimiser la fonction de coût :
+La **MSE** (erreur quadratique moyenne) donne **plus de poids aux grandes erreurs**, car elle élève les résidus au carré :
 
-1. **Moindres Carrés Ordinaires (OLS)** : 
-   - Calcul exact basé sur les dérivées partielles.
 
-2. **Descente de Gradient** :
-   - Approche itérative qui ajuste progressivement $ \beta_0, \beta_1 $.
+$\mathcal{L}_{MSE} = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2$
 
----
-
-# &#128220; Méthode des Moindres Carrés
-
-Pour minimiser $ J(\beta_0, \beta_1) $, on résout :
-
-$$
-\beta_1 = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}
-$$
-
-$$
-\beta_0 = \bar{y} - \beta_1 \bar{x}
-$$
-
-✅ **Avantage** : Solution exacte et rapide
-
-🚨 **Inconvénient** : Ne fonctionne pas bien si $ X $ est trop grand
+&#9989; Très efficace quand les erreurs sont symétriques et les données propres  
+&#9888;&#65039; Mais **elle amplifie l'influence des outliers**, qui peuvent alors **dominer l’apprentissage**
 
 ---
 
-# &#9889; Descente de Gradient
+### &#128736;&#65039; Alternatives plus robustes
 
-La descente de gradient met à jour $ \beta_0 $ et $ \beta_1 $ en fonction du gradient de la fonction de coût :
+Lorsque les données contiennent des outliers, on peut préférer des fonctions de coût **moins sensibles aux valeurs extrêmes**, comme :
 
-$$
-\beta_j = \beta_j - \alpha \frac{\partial J}{\partial \beta_j}
-$$
+- **MAE** (Mean Absolute Error) :
 
-avec **$ \alpha $** le **taux d’apprentissage**.
+$\mathcal{L}_{MAE} = \frac{1}{n} \sum_{i=1}^n |y_i - \hat{y}_i|$
 
-🚀 **Idée** : On ajuste progressivement les paramètres jusqu’à convergence.
+&#10133; Résiste mieux aux outliers  
+&#10134; Moins fluide à optimiser (non dérivable en 0)
+
+- **Huber Loss** (hybride entre MSE et MAE) :
+  - Quadratique si l’erreur est petite
+  - Linéaire si l’erreur est grande
+  - Très utilisée pour combiner **précision** et **robustesse**
 
 ---
 
-# &#128187; Implémentation en Python
+### &#128161; En résumé
 
-📌 **Exemple avec Scikit-Learn**
+- Le **choix de la fonction de coût** doit tenir compte de la **présence d’outliers**  
+- Utiliser une fonction robuste comme la **MAE** ou la **Huber Loss** permet de **protéger le modèle** contre ces valeurs extrêmes
 
-```python
+![width:900px](images/compareloss.png)
+
+
+---
+
+### **Nous avons exploré**
+
+- La régression linéaire
+- L'ols
+- La descente de gradient
+- La loss function et des alternatives 
+- Pourquoi la descente de gradient est fonctionnel
+- Le learning rate
+
+**Des questions ?**
+
+--- 
+
+<!-- header: Implémentation sur scikit learn -->
+
+## **Scikit learn la mise en place d'une régression linéaire**
+
+La théorie c'est important, l'intuition dans les problèmes de data science ne peut venir qu'avec de la pratique et de l'éxpérimentation. 
+
+
+---
+
+
+### **Étape 1 : Import des bibliothèques**
+
+
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+    train_test_split
+  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 16px; line-height: 1.2; white-space: pre; overflow-x: auto;">
+import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
-
-# Génération des données
-X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
-y = np.array([2, 3, 4, 5, 6])
-
-# Création du modèle
-model = LinearRegression()
-model.fit(X, y)
-
-# Prédictions
-y_pred = model.predict(X)
-
-# Affichage
-plt.scatter(X, y, color='blue', label='Données')
-plt.plot(X, y_pred, color='red', label='Régression')
-plt.legend()
-plt.show()
-```
-
-✅ **Facile à utiliser !**
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+  </div>
+</div>
 
 ---
 
-# &#128221; Résumé
+### **Étape 2 : Chargement et préparation des données**
 
-✔ **Régression linéaire** = Ajustement d’une droite aux données.
-✔ **Méthodes d’optimisation** : Moindres carrés et Descente de gradient.
-✔ **Scikit-Learn** simplifie l’implémentation.
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+    Chargement des données
+  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 14px; line-height: 1.2; overflow: visible">
+df = pd.read_csv("donnees.csv")<br># Supposons que l'on souhaite prédire "prix"<br>
+X = df[["surface", "nombre_pieces"]]<br>
+y = df["prix"]<br>
+  </div>
+</div>
 
-💡 **Prochaine étape : Régression logistique !** 🚀
+- `X` contient les **caractéristiques explicatives** (ex: surface, nombre de pièces)
+- `y` contient la **variable à prédire** (le prix ici)
+
+**<span style="color: red;">Voir cours 1 pour le prétraitement des données</span>** 
+
+**Attention pour la normalisation, robust scaling ou même imputation faites d'abord la séparation entre train et test pour éviter le <span style="color: red;">data leaking!</span>** 
+
+> #### Data Leaking
+> Le data leaking se produit lorsque des informations du jeu de test "fuient" dans le processus d'entraînement, donc dans le $y_{train}$. Cela peut fausser énormement vos résultat à la fin de l'entrainement.
+
+
+
+---
+
+### **Etape 3: train test split**
+
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+    train_test_split
+  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 16px; line-height: 1.2; white-space: pre; overflow-x: auto;">
+X_train, X_test, y_train, y_test = train_test_split     
+  (
+  X, y, test_size=0.2, random_state=42
+  )
+  </div>
+</div>
+
+- 80% pour l’entraînement
+-  20% pour le test
+
+Pourquoi faire cette manipulation ? 
+
+**Je me répète:** On effectue le train/test split avant le scaling, pour ne pas utiliser les données de test dans le calcul de la moyenne/écart-type.
+
+Ensuite lorsque nous calculerons nos resultat nous appliquerons nos valeurs de scaling trouvé dans le train pour l'appliquer sur le test. 
+
+---
+
+### **Etape 4: Standardisation des variables**
+
+
+
+
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+Entrainement du modèle  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 16px; line-height: 1.2; white-space: pre; overflow-x: auto;">
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+  </div>
+</div>
+
+Petit rappel sur le choix du scaler : 
+
+| Scaler | Quand l'utiliser ? |
+|--------|-------------------|
+| StandardScaler | Données gaussiennes (répartition normale) |
+| MinMaxScaler | Données comprises entre 0 et 1 (réseaux de neurones) |
+| RobustScaler | Données avec outliers importants |
+
+
+---
+
+### **Etape 5: Entraïnement du modèle**
+
+Nous pouvons basiquement appliquer cette méthode : 
+
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+Entrainement du modèle  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 16px; line-height: 1.2; white-space: pre; overflow-x: auto;">
+model = LinearRegression()
+model.fit(X_train_scaled, y_train)
+  </div>
+</div>
+
+: 
+Attention, par défaut, LinearRegression() utilise :
+
+- La méthode analytique (moindres carrés ordinaires)
+-	Pas de descente de gradient
+-	Pas de learning rate ou de choix de loss custom
+
+
+---
+
+### **Etape 5: Entraïnement du modèle - bis**
+
+Si nous souhaitons jouer avec les paramètres que nous avons vue précedement à savoir: 
+- Le learning rate
+- La modification de la loss
+- la méthode de convergence
+
+Nous devons utiliser sgdregressor:
+
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+Entrainement du modèle  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 16px; line-height: 1.2; white-space: pre; overflow-x: auto;">
+model = SGDRegressor(
+    loss="squared_error",      # ou "huber", "epsilon_insensitive", etc.
+    learning_rate="invscaling",# ou "constant", "adaptive"
+    eta0=0.01,                 # learning rate initial
+    max_iter=1000,             # nombre d'itérations
+    tol=1e-3                   # critère de convergence
+)
+  </div>
+</div>
+
+---
+### **SGD vs GD**
+
+Pour bien comprendre :
+
+1. Gradient Descent (GD) classique :
+	•	Calcule le vrai gradient moyen :
+$\nabla \mathcal{L}(\boldsymbol{\beta}) = \frac{1}{n} \sum_{i=1}^n \nabla \mathcal{L}_i(\boldsymbol{\beta})$
+	•	Direction toujours régulière, vers le minimum global
+
+2. Stochastic Gradient Descent (SGD) :
+	•	Calcule le gradient à partir d’un seul point $\nabla \mathcal{L}_i(\boldsymbol{\beta})$
+	•	Ce gradient varie fortement d’un point à l’autre
+	•	Donc la direction prise “saute” un peu partout
+
+---
+
+### **Visuellement, ça donne quoi ?**
+
+- 	GD : tu descends une pente avec une belle ligne droite fluide
+- SGD : tu descends la même pente, mais en zigzaguant, parfois tu remontes un peu, puis tu redescends → c’est ça le bruit.
+
+
+![width:900px](images/sgdvsgdi.webp)
+
+---
+
+### **Métaphore :**
+
+Imagine que tu veux suivre un chemin en regardant une carte complète (GD) vs en demandant à une personne différente à chaque croisement (SGD).
+- Tu avances plus vite, mais parfois tu fais de petits détours.
+
+
+**Pourquoi on l’utilise quand même ?**
+-	Parce que malgré le bruit, le coût par itération est faible
+-	Et sur de gros datasets, c’est souvent plus efficace globalement
+
+---
+
+### **Etape 6: Prédictions et évaluation**
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+Entrainement du modèle  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 16px; line-height: 1.2; white-space: pre; overflow-x: auto;">
+y_pred = model.predict(X_test_scaled)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print("MSE :", mse)
+print("R² :", r2)
+print("Intercept :", model.intercept_)
+print("Coefficients :", model.coef_)
+  </div>
+</div>
+
+---
+### **Etape 6: Prédictions et évaluation - intérprétation des résultats**
+
+
+Comment interpréter ces résultats ?
+-	MSE (Mean Squared Error)
+    - Erreur moyenne au carré entre les prédictions et les vraies valeurs
+    - Plus cette valeur est basse, plus les prédictions sont proches de la réalité
+-	R² (coefficient de détermination)
+    - Exprime la proportion de la variance expliquée par le modèle
+    - Compris entre 0 et 1 (parfois négatif si le modèle est pire qu’une constante !)
+    - Plus il est proche de 1, mieux le modèle explique les données
+
+---
+### **Etape 6: Prédictions et évaluation - Comprendre les paramètres du modèle**
+-	intercept_
+    - C’est le ( $\beta_0$ ) : la constante, le point d’interception de la droite sur l’axe vertical
+    - Elle correspond à la valeur prédite quand toutes les variables valent 0
+-	coef_
+    - C’est la liste des ( $\beta_1, \beta_2, …, \beta_p$ )
+    - Chaque valeur représente l’impact d’une feature sur la cible :
+“Quand cette variable augmente de 1, la cible varie de…”
+
+---
+
+### **Étape 7 : Détection d'overfitting ou underfitting**
+
+Après avoir entraîné un modèle, il est essentiel de **vérifier sa capacité à généraliser** :
+
+#### Comment faire ?
+
+##### ➤ Utiliser une **courbe d’apprentissage** (learning curve)
+
+
+<div style="background-color: #1e1e1e; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin: 5px 0; overflow: hidden; font-family: 'Roboto Mono', monospace;">
+  <div style="background-color: #252526; color: #cccccc; font-size: 12px; padding: 8px 16px; border-bottom: 1px solid #333333;">
+Entrainement du modèle  </div>
+  <div style="padding: 16px; color: #d4d4d4; font-size: 16px; line-height: 1.2; white-space: pre; overflow-x: auto;">
+train_sizes, train_scores, test_scores = learning_curve(
+    model, X, y, train_sizes=np.linspace(0.1, 1.0, 10), 
+    scoring='neg_mean_squared_error', cv=5
+)
+
+  </div>
+</div>
+
+<br>
+<span style="color:red">Voir notes/learning_curve</span>
+
+-	Elle affiche l’erreur d’entraînement et l’erreur de validation
+-	Permet de visualiser rapidement :
+-	S’il y a un écart ➜ overfitting
+-	Si les deux erreurs sont hautes ➜ underfitting
+
+---
+
+### **Étape 8 : Réévaluation du pipeline – On recommence si besoin !**
+
+Si ton modèle donne de **mauvais résultats**, il ne suffit pas de "changer de modèle".
+
+- Ce n’est pas toujours la faute de l’algorithme.
+
+---
+
+###  Que faire en cas de résultats médiocres ?
+
+**Reprendre depuis le début** : tout part des données !
+
+---
+
+### Vérifications et améliorations possibles
+
+| Étape à revoir             | Stratégies recommandées |
+|---------------------------|--------------------------|
+| **Prétraitement des données** | Vérifie les **valeurs manquantes**, les **outliers**, la **distribution** des variables |
+| **Scaling**                | As-tu bien adapté ton scaler ? (`RobustScaler` pour outliers par ex.) |
+| **Variables choisies**     | Peut-on **ajouter des features pertinentes** ou en **retirer des inutiles** ? |
+| **Encodage**               | Les variables catégorielles sont-elles **bien transformées** (`OneHotEncoder`, etc.) ? |
+| **Modèle trop simple**     | Essaie un modèle plus flexible (`Ridge`, `Lasso`, `PolynomialFeatures`) |
+| **Modèle trop complexe**   | Ajoute de la **régularisation** pour limiter l’overfitting |
+| **Jeu de données trop petit** | Collecter plus de données, ou utiliser des techniques de validation robustes |
+
+---
+
+### En résumé :
+
+> Si le modèle ne fonctionne pas :
+> - On **réanalyse les données**
+> - On **revoit le prétraitement**
+> - Puis on **reteste le modèle avec une nouvelle approche**
+
+Et on recommence, jusqu'à trouver **l’équilibre entre biais et variance** 
+
+---
+
+### **Pour finir: Équilibre entre Biais et Variance**
+
+- Un **modèle trop simple** a :
+  - Un **fort biais** (il ne capture pas la complexité)
+  - Une **faible variance**
+
+- Un **modèle trop complexe** a :
+  - Un **faible biais**
+  - Une **forte variance** (il s’adapte trop aux données)
+
+---
+
+### Objectif : Trouver le bon compromis
+
+- La **courbe d’erreur totale** est la somme du biais² et de la variance
+- Il existe un point où cette erreur est **minimale**
+- C’est là que le modèle **généralise le mieux**
+
+![width:400px](images/bv.png)
+
+
+---
+
+### **Des questions ?**
