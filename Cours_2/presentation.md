@@ -251,7 +251,9 @@ Notre modèle de régression linéaire aura donc la formule suivante :
 
 - $\hat{y} = 4 + 2x_1 + 1x_2$
 
-###### **Question : Comment calculer les erreurs ?**
+###### **Question : Comment calculer les résidus ?**
+
+- $\hat{y}-y=\epsilon$
 
 ---
 
@@ -405,7 +407,7 @@ Elle nous donne un **score**:
 </div>
 
 
----
+<!-- ---
 
 ### **Un exemple concret**
 
@@ -422,7 +424,7 @@ $
 \hat{y} = \beta_0 + \beta_1 x
 $
 
-Objectif : trouver $\beta_0, \beta_1$ qui **minimisent l’erreur** entre les $y_i$ et les $\hat{y}_i$
+Objectif : trouver $\beta_0, \beta_1$ qui **minimisent l’erreur** entre les $y_i$ et les $\hat{y}_i$ -->
 
 ---
 
@@ -466,7 +468,7 @@ Dans les faits la recherche de minimum doit se faire dans un espace à $n+2$ dim
 
 ---
 
-### &#128202; Calcul de la tangente : la dérivée
+### &#128202; **Calcul de la tangente : la dérivée**
 
 On calcule la **dérivée** de la fonction de perte en un point pour connaître la **pente locale**.
 
@@ -476,7 +478,7 @@ Elle nous donne la **variation instantanée** de la fonction autour d’un point
 
 ---
 
-### Et si on a plusieurs features ?
+### **Et si on a plusieurs features ?**
 
 Dans ce cas, on ne calcule pas une dérivée, mais le **gradient** :
 
@@ -519,12 +521,13 @@ Cette dérivée **donne la direction de la tangente** et indirectement ou nous d
 
 - Soit la fonction :  
   
-  $f(x) = (x - 3)^2 + 2$
+  $f(x) = (x - 3)^2 + 2 = x^2 -6x + 9 +2 = x^2 -6x +11$
+
   
 
 Sa dérivée est :
 
-- $f'(x) = 2(x - 3) = 2x - 6$
+- $f'(x) =  2x - 6$
 
 ---
 
@@ -574,7 +577,7 @@ $
 
 ###  Exemple  simple
 
-Soit 3 points : $(1, 2), (2, 4), (3, 6)$
+Soit 3 points $(x,y)$ : $(1, 2), (2, 4), (3, 6)$
 
 On initialise $\beta_0 = 0, \beta_1 = 0$  
 Learning rate $\eta = 0.1$
