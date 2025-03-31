@@ -30,9 +30,7 @@ Christopher de Boisvilliers
 # Plan du cours
 - Rappel ou découverte sur les statistiques
 - L'hypothèse et la p-value
-- La régression logistique
 - OverFitting / UnderFitting
-- Model Tuning
 ---
 <!-- header: 📈 Rappel ou découverte sur les statistiques -->
 # 1. Rappels sur les statistiques
@@ -210,7 +208,7 @@ Une idée ?
 
 -	En statistiques, on travaille souvent avec des **échantillons** tirés d’une population.
 -	Chaque **échantillon** donne une moyenne différente.
--	Le TCL explique ce qui se passe lorsqu’on répète ces moyennes plusieurs fois.
+-	Le TCL explique ce qui se passe lorsqu'on prélève plusieurs échantillons dans notre population et que l'on calcule leur moyenne à chaque fois
 
 
  <!-- Que deviennent les moyennes d’échantillons tirés au hasard ? -->
@@ -383,7 +381,7 @@ C’est ce qui nous permet d’utiliser des outils comme les intervalles de conf
 
 <!-- header: 🔍 Les hypothèses et la p-value -->
 
-### **La p-value et les hyptohèses**
+# 3. La p-value et les hyptohèse
 
 *"La p-value nous aide à savoir si une variable a probablement un effet **réel** sur une observation, ou si ce qu’on observe pourrait juste venir du **hasard**."* -  Cdb
 
@@ -427,7 +425,7 @@ Si cette probabilité est très faible, on peut conclure que le type d’entraî
 
 Cela revient à dire que notre variable explicative est statistiquement significative dans la description du résultat.
 
-Pourquoi c’est puissant ?
+Pourquoi c’est fort ?
 
 Parce que ça nous permet de prendre des décisions basées sur des données :
 	•	Garder l’entraînement A si son effet est significatif
@@ -670,7 +668,7 @@ $$
 
 - $\Phi(z)$ : fonction de répartition de la loi normale standard $\mathcal{N}(0,1)$
 
-![width:450px](./images/repar.png)
+![width:550px](./images/repar.png)
 
 ---
 ###  **Formule générale**
@@ -846,6 +844,8 @@ $$
  On remplace $\sigma$ par $s$ (l'écart-type de l’échantillon)  
  On utilise la **loi de Student** avec $n-1$ degrés de liberté
 
+
+> Pourquoi $n-1$ :  [correction de Bessel](https://www.statisticshowto.com/bessels-correction/)
 ---
 
 ### **Des indicateurs de sélection**
@@ -987,10 +987,10 @@ Qu'est ce qu'on peut y voir ?
  La learning curve t’aide à savoir si **ton modèle a besoin de + de données**, **moins de complexité**, ou **plus de régularisation**.
 
 ---
-### **Comment coder une learning curve** (3/3)
+### **Comment coder une learning curve** 
 
 Pour voir un exemple de code complet pour créer une learning curve, consultez la documentation officielle de scikit-learn :  
-[Scikit learn pour la learning curve](https://scikit-learn.org/stable/auto_examples/model_selection/plot_learning_curve.html#sphx-glr-auto-examples-model-selection-plot-learning-curve-py)
+> [Scikit learn pour la learning curve](https://scikit-learn.org/stable/auto_examples/model_selection/plot_learning_curve.html#sphx-glr-auto-examples-model-selection-plot-learning-curve-py)
 
 ---
 
