@@ -1,0 +1,4 @@
+numpy
+scikit-learn==1.6.1
+gensim==4.4.0
+jupyterlab

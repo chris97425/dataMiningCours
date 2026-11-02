@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="190" viewBox="0 0 880 190" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect x="42.0" y="45" width="178" height="80" rx="10" fill="#ffffff" stroke="#3d65f6" stroke-width="1.8"/>
+<text x="131.0" y="83" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Texte brut</text>
+<text x="131.0" y="107" font-size="16" fill="#4b5563" text-anchor="middle">caractères</text>
+<line x1="223.0" y1="85.0" x2="244.0" y2="85.0" stroke="#3d65f6" stroke-width="2.2"/>
+<polygon points="244.0,85.0 236.0,79.0 236.0,91.0" fill="#3d65f6"/>
+<rect x="248.0" y="45" width="178" height="80" rx="10" fill="#ffffff" stroke="#3d65f6" stroke-width="1.8"/>
+<text x="337.0" y="83" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Tokens</text>
+<text x="337.0" y="107" font-size="16" fill="#4b5563" text-anchor="middle">unités</text>
+<line x1="429.0" y1="85.0" x2="450.0" y2="85.0" stroke="#3d65f6" stroke-width="2.2"/>
+<polygon points="450.0,85.0 442.0,79.0 442.0,91.0" fill="#3d65f6"/>
+<rect x="454.0" y="45" width="178" height="80" rx="10" fill="#ffffff" stroke="#3d65f6" stroke-width="1.8"/>
+<text x="543.0" y="83" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Représentation</text>
+<text x="543.0" y="107" font-size="16" fill="#4b5563" text-anchor="middle">vecteurs</text>
+<line x1="635.0" y1="85.0" x2="656.0" y2="85.0" stroke="#3d65f6" stroke-width="2.2"/>
+<polygon points="656.0,85.0 648.0,79.0 648.0,91.0" fill="#3d65f6"/>
+<rect x="660.0" y="45" width="178" height="80" rx="10" fill="#ffffff" stroke="#3d65f6" stroke-width="1.8"/>
+<text x="749.0" y="83" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Similarité</text>
+<text x="749.0" y="107" font-size="16" fill="#4b5563" text-anchor="middle">score, classement</text>
+<text x="440.0" y="165" font-size="16" fill="#4b5563" text-anchor="middle">Le contexte, lui, sera encodé dans la représentation à partir de la séance 6.</text>
+</svg>
