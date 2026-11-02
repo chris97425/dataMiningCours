@@ -1194,23 +1194,30 @@ Attention : c'est une similarité <strong>distributionnelle</strong>, pas du « 
 
 ---
 
-### **Un vecteur, c'est un déplacement**
+### **Lire un espace d'embeddings**
 
-![width:760px](./images/analogie-parallelogramme.svg)
+![width:700px](./images/analogie-espace-embeddings.svg)
 
-<div style="display:flex; gap:14px; font-size:.8em; margin-top:4px;">
-<div style="flex:1; border-left:4px solid #3d65f6; padding-left:10px;">
-<strong>Le même déplacement les relie</strong><br/>
-Ajouter le vecteur « genre » à <code>homme</code> donne <code>femme</code> ; ajouté à <code>roi</code>, il donne <code>reine</code>.
+<div style="display:flex; gap:16px; font-size:.78em; margin-top:2px;">
+<div style="flex:1;">
+
+**1.** Chaque mot est un **vecteur depuis l'origine** (pointillés gris).
+
+**2.** La flèche violette « Genre » est la **même** de `homme` à `femme` et de `roi` à `reine`.
+
 </div>
-<div style="flex:1; border-left:4px solid #0f9d58; padding-left:10px;">
-<strong>Et l'autre aussi</strong><br/>
-Ajouter le vecteur « royauté » à <code>homme</code> donne <code>roi</code> ; ajouté à <code>femme</code>, il donne <code>reine</code>.
+<div style="flex:1;">
+
+**3.** La flèche orange « Royauté » est la **même** de `homme` à `roi` et de `femme` à `reine`.
+
+**4.** Donc `reine = roi + (femme − homme)`.
+
 </div>
 </div>
 
-<p style="text-align:center; font-size:.9em; color:#4b5563; margin-top:8px;">
+<p style="text-align:center; font-size:.82em; color:#4b5563; margin-top:8px;">
 Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et il se réutilise.
+<span style="font-size:.72em; color:#9aa4b8;">(schéma redessiné d'après @akshay_pachaar)</span>
 </p>
 
 ---

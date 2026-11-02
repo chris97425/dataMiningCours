@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="470" viewBox="0 0 880 470" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="880" height="470" fill="#ffffff"/>
+<line x1="80" y1="405" x2="852.8" y2="405.0" stroke="#111827" stroke-width="2" stroke-linecap="round"/><polygon points="860.0,405.0 848.8,409.2 848.8,400.8" fill="#111827"/>
+<line x1="80" y1="405" x2="80.0" y2="29.2" stroke="#111827" stroke-width="2" stroke-linecap="round"/><polygon points="80.0,22.0 84.2,33.2 75.8,33.2" fill="#111827"/>
+<polygon points="310,320 640,286 730,78 400,112" fill="#f4f7ff" stroke="none" opacity="0.8"/>
+<line x1="80" y1="405" x2="310" y2="320" stroke="#9aa4b8" stroke-width="1.8" stroke-dasharray="5 4"/>
+<line x1="80" y1="405" x2="640" y2="286" stroke="#9aa4b8" stroke-width="1.8" stroke-dasharray="5 4"/>
+<line x1="80" y1="405" x2="400" y2="112" stroke="#9aa4b8" stroke-width="1.8" stroke-dasharray="5 4"/>
+<line x1="80" y1="405" x2="730" y2="78" stroke="#9aa4b8" stroke-width="1.8" stroke-dasharray="5 4"/>
+<line x1="310" y1="320" x2="625.7" y2="287.5" stroke="#7c3aed" stroke-width="3.6" stroke-linecap="round"/><polygon points="634.0,286.6 621.5,292.9 620.5,283.1" fill="#7c3aed"/>
+<line x1="400" y1="112" x2="715.7" y2="79.5" stroke="#7c3aed" stroke-width="3.6" stroke-linecap="round"/><polygon points="724.0,78.6 711.5,84.9 710.5,75.1" fill="#7c3aed"/>
+<line x1="310" y1="320" x2="394.3" y2="125.2" stroke="#d97706" stroke-width="3.6" stroke-linecap="round"/><polygon points="397.6,117.5 396.9,131.5 387.9,127.6" fill="#d97706"/>
+<line x1="640" y1="286" x2="724.3" y2="91.2" stroke="#d97706" stroke-width="3.6" stroke-linecap="round"/><polygon points="727.6,83.5 726.9,97.5 717.9,93.6" fill="#d97706"/>
+<circle cx="310" cy="320" r="7" fill="#111827"/>
+<circle cx="640" cy="286" r="7" fill="#111827"/>
+<circle cx="400" cy="112" r="7" fill="#111827"/>
+<circle cx="730" cy="78" r="7" fill="#111827"/>
+<text x="210" y="356" font-size="24" font-weight="700" fill="#111827">homme</text>
+<text x="654" y="294" font-size="24" font-weight="700" fill="#111827">femme</text>
+<text x="374" y="86" font-size="24" font-weight="700" fill="#111827">roi</text>
+<text x="726" y="52" font-size="24" font-weight="700" fill="#111827">reine</text>
+<text x="495" y="272" font-size="19" font-weight="700" fill="#7c3aed">Genre</text>
+<text x="585" y="62" font-size="19" font-weight="700" fill="#7c3aed">Genre</text>
+<text x="300" y="200" font-size="19" font-weight="700" fill="#d97706">Royauté</text>
+<text x="690" y="176" font-size="19" font-weight="700" fill="#d97706">Royauté</text>
+</svg>
