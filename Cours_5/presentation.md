@@ -195,7 +195,8 @@ Chaque brique sera construite à la main avant d'être appelée via une biblioth
 | Terme | Définition |
 |---|---|
 | **Type** | forme distincte |
-| **Token** | occurrence d'une forme |
+| **Occurrence** | apparition d'un type dans le texte |
+| **Token** | unité produite par le tokenizer (ici : un mot) |
 | **Vocabulaire $V$** | ensemble des types |
 | **Identifiant** | entier associé à un type |
 
@@ -212,8 +213,9 @@ Chaque brique sera construite à la main avant d'être appelée via une biblioth
 </div>
 </div>
 
-<div style="margin-top:14px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.85em;">
-Un modèle ne voit jamais de texte : il voit des <strong>identifiants</strong>. Toute la question est de savoir ce qu'on met <em>derrière</em> ces identifiants.
+<div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.85em;">
+Un modèle ne voit jamais de texte : il voit des <strong>identifiants</strong>. Toute la question est de savoir ce qu'on met <em>derrière</em> ces identifiants.<br/>
+<span style="color:#4b5563;">Dans tout ce cours, <strong>token = un mot</strong>. En séance 6, le token deviendra un <strong>morceau de mot</strong> : c'est le même mot, pas la même unité.</span>
 </div>
 
 ---
@@ -255,8 +257,9 @@ Règle pratique : <code>unicodedata.normalize("NFC", texte)</code> avant de comp
 Il n'existe pas de « bonne » normalisation : il existe des <strong>choix</strong>, et chacun se paie quelque part.
 </div>
 
-<p style="margin-top:12px; font-size:.85em; color:#4b5563;">
-Un tokenizer préentraîné (BERT, GPT…) applique déjà sa propre normalisation : la refaire peut la contredire.
+<p style="margin-top:10px; font-size:.85em; color:#4b5563;">
+Un tokenizer préentraîné (BERT, GPT…) applique déjà sa propre normalisation : la refaire peut la contredire.<br/>
+<strong>Règle d'arbitrage :</strong> comparer deux chaînes → les normaliser <em>toutes les deux</em> dans la même forme (NFC par défaut, NFKC si ligatures ou compatibilité) ; passer du texte à un tokenizer préentraîné → ne rien normaliser soi-même.
 </p>
 
 ---
@@ -365,7 +368,7 @@ Plus lent ; `meilleur → bon` dépend de l'analyseur.
 
 <div style="font-size:.88em;">
 
-**1 · Les sous-mots (BPE, WordPiece)**
+**1 · Les sous-mots (BPE, WordPiece)** — ici « token » ne veut plus dire « mot » : c'est un morceau de mot, et ce sera le sens du terme en séance 6.
 
 `incroyable` → `in` + `croy` + `able` (segmentation illustrative) : un mot inconnu devient une suite de morceaux connus.
 C'est la réponse au problème des mots hors vocabulaire. Le principe est repris par tous les Transformers — BPE, WordPiece ou Unigram selon le modèle (séance 6).
@@ -600,6 +603,26 @@ C'est l'ensemble des colonnes de la matrice.
 
 Deux sacs étant donnés, comment dire qu'ils se ressemblent — avec un **nombre**, pas une intuition ?
 
+</div>
+</div>
+
+
+---
+
+### **Le sac, mécaniquement**
+
+![width:700px](./images/bow-mecanique.svg)
+
+<div style="display:flex; gap:14px; align-items:center; margin-top:6px;">
+<div style="flex:0 0 auto;">
+
+![width:96px](./images/bow-sac.jpg)
+
+</div>
+<div style="flex:1; font-size:.84em; color:#4b5563;">
+Deux phrases qui disent la même chose dans un autre ordre donnent <strong>le même vecteur</strong> : c'est le prix de la méthode — et sa force, car le comptage devient comparable.
+<br/><span style="font-size:.94em;">Le vecteur a <strong>une case par terme du vocabulaire</strong> : ici 5 termes, sur les 18 du corpus — les autres cases valent 0. La dimension est fixe, même si la phrase est courte.</span>
+<br/><span style="font-size:.78em; color:#9aa4b8;">Le sac, au sens littéral : on y jette des morceaux, on perd leur disposition. Photo : Meritxell.canela, Wikimedia Commons, domaine public.</span>
 </div>
 </div>
 
@@ -1253,6 +1276,9 @@ Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et 
 - transporte les **biais** du corpus
 - un petit modèle à 100 dimensions amplifie tout ça
 
+<div style="margin-top:6px; font-size:.95em; color:#4b5563;">
+Ces 0,37 ne sont pas une similarité entre mots : c'est le cosinus de deux <em>déplacements</em> (reine − roi et femme − homme), mesuré sur le petit modèle du TP. Les 0,6–0,9 de la slide précédente sont des similarités de <em>position</em>, sur un gros corpus : ni la même grandeur, ni le même modèle.</div>
+
 </div>
 </div>
 
@@ -1319,11 +1345,12 @@ Le mot `avocat` n'a pas un sens : il a **des** sens. Un vecteur unique force à 
 
 <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px; font-size:.82em;">
 <div style="background:#f4f7ff; border-left:4px solid #3d65f6; border-radius:8px; padding:10px 14px;">
-« L'<strong>avocat</strong> mûr tombe de l'arbre. » → vecteur A (fruit)
+« L'<strong>avocat</strong> mûr tombe de l'arbre. » → un vecteur calculé <em>pour cette occurrence</em> (fruit)
 </div>
 <div style="background:#f4f7ff; border-left:4px solid #d97706; border-radius:8px; padding:10px 14px;">
-« L'<strong>avocat</strong> plaide au tribunal. » → vecteur B (métier)
+« L'<strong>avocat</strong> plaide au tribunal. » → un autre vecteur, recalculé (métier)
 </div>
+<p style="font-size:.8em; color:#4b5563; margin-top:6px;">Ce ne sont pas deux entrées d'un dictionnaire : le vecteur est <strong>calculé à chaque contexte</strong>, pour chaque token. Le même mot dans la même phrase redonne le même vecteur — ce n'est pas aléatoire, c'est conditionnel.</p>
 </div>
 
 <div style="margin-top:12px; font-size:.84em;">
@@ -1352,7 +1379,7 @@ On prépare les documents <strong>une fois</strong>, avant toute question.
 </div>
 <div style="align-self:center; color:#3d65f6; font-size:1.6em;">→</div>
 <div style="flex:1; background:#f4f7ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 6px;">
-<strong>Encodeur</strong><br/><span style="color:#4b5563;">1 vecteur par chunk</span>
+<strong>Encodeur</strong><br/><span style="color:#4b5563;">1 vecteur par chunk</span><br/><span style="color:#9aa4b8; font-size:.85em;">il ne chiffre rien : il projette dans un espace dense</span>
 </div>
 <div style="align-self:center; color:#3d65f6; font-size:1.6em;">→</div>
 <div style="flex:1; background:#f4f7ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 6px;">

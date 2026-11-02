@@ -94,10 +94,25 @@
 
 ---
 
-## 4. Risques signalés mais NON corrigés (à arbitrer)
+## 4. Les 5 risques restants — traités le 2026-11-02
 
-- **p. 8 vs p. 9** : la p. 8 donne `normalize("NFC")` comme règle pratique, la p. 9 prévient que refaire la normalisation peut contredire le tokenizer. Il faudrait une phrase d'arbitrage explicite : comparer des chaînes brutes → NFC ; passer à un tokenizer préentraîné → ne rien faire.
-- **« token » change de sens** (mot en p. 7 et 10, sous-mot en p. 13) sans avertissement.
-- **p. 46** : comparer un cosinus de vecteurs-différence (0,37) à des cosinus de voisins (0,6–0,9) mélange deux échelles.
-- **p. 49** « vecteur A / vecteur B » suggère un catalogue fini de sens, alors que le vecteur est recalculé à chaque occurrence.
-- **p. 50** : « encodeur » pourrait être glosé en une ligne (« il ne chiffre rien, il traduit en coordonnées »).
+| Point | Traitement |
+|---|---|
+| p. 8 / p. 9 — normalisation NFC contradictoire | Règle d'arbitrage ajoutée : normaliser **les deux** chaînes dans la même forme (NFC par défaut, **NFKC** si ligatures/compatibilité) ; ne rien normaliser si un tokenizer préentraîné est utilisé |
+| « token » à trois sens | Tableau corrigé (Type / Occurrence / Token défini comme *unité du tokenizer*) + phrase en tête : « dans tout ce cours token = un mot ; en séance 6, un morceau de mot » |
+| p. 46 — échelles mélangées | Reformulé : 0,37 n'est **pas** une similarité entre mots, c'est un cosinus de deux déplacements sur le petit modèle ; les 0,6–0,9 sont des similarités de position sur un gros corpus |
+| p. 49 — « vecteur A / vecteur B » | Devenu « un vecteur calculé pour cette occurrence », + « même mot, même phrase → même vecteur : c'est conditionnel, pas aléatoire » |
+| p. 50 — « encodeur » | Glose : « il ne chiffre rien : il **projette** dans un espace dense » |
+
+## 5. Challenge DeepSeek-V4-Pro (2026-11-02)
+
+Après corrections, une passe critique indépendante a été demandée à `deepseek-v4-pro` sur ces cinq points plus la nouvelle slide « Le sac, mécaniquement ». Verdicts : 6 « à corriger », 1 « validé » (le budget du TP). Corrections appliquées dans la foulée :
+
+- normalisation : préciser « les deux chaînes » et NFKC (fait) ;
+- token : trois sens réconciliés par le tableau, pas par une subordonnée (fait) ;
+- sac : ajouter les **cases à zéro** et la **dimension fixe** au schéma (fait) ;
+- 0,37 : nommer la grandeur et le modèle, ne pas la comparer aux voisins (fait) ;
+- contexte : « à chaque contexte, pour chaque token » (fait) ;
+- encodeur : « projette », et non « traduit en coordonnées » (fait).
+
+Défaut signalé et **non traité** : sur la slide « on remplit case par case », les lignes déjà calculées montrent presque toute la matrice, ce qui affaiblit la révélation de la slide suivante. À arbitrer : masquer les cases non encore calculées.
