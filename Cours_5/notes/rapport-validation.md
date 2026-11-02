@@ -1,7 +1,7 @@
 # Rapport de validation — Cours 5
 
 **Projet** : `dataMiningCours/Cours_5` · **Date** : 2026-11-02 · **Auteur** : Christopher de Boisvilliers
-**Périmètre** : plan pédagogique, 58 slides MARP, TP d'une heure.
+**Périmètre** : plan pédagogique, 59 slides MARP, TP d'une heure.
 
 ---
 
@@ -88,9 +88,9 @@ Le corrigé du TP a été **exécuté intégralement** (11 cellules, sorties ré
 
 ## 4. Contrôle du rendu
 
-- Export PDF : 59 pages à la dernière compilation, format 4:3 (720 × 540 pt), `marp-cli 4.5.1`, thème `neobeam` — **à recompiler** : le Markdown compte 58 slides depuis l'ajout de la slide d'objectifs.
+- Export PDF : 59 pages, format 4:3 (720 × 540 pt), `marp-cli 4.5.1`, thème `neobeam` — compilé et vérifié après chaque ajout de slide.
 - **Piège technique documenté** : Marp CLI exige `--html` **et** `--allow-local-files` ; sans `--html`, tous les `<div>` sont aplatis (premier rendu cassé, corrigé).
-- Planche de contrôle (`notes/planche-55-slides.png`) inspectée sur la version à 55 slides : aucun débordement, aucun texte tronqué. **Les trois slides ajoutées depuis n'ont pas encore été contrôlées visuellement** — c'est le premier point à refaire après recompilation.
+- Planche de contrôle (`notes/planche-59-slides.png`) inspectée sur la version à 59 slides : aucun débordement, aucun texte tronqué. Les slides ajoutées (objectifs, sac mécanique, présence/comptage, POS, rareté IDF) ont été contrôlées une par une.
 - Cinq SVG locaux utilisés (`niveaux-analyse`, `pipeline-cours5`, `bow-mecanique`, `cosinus`, `word2vec-plan`). Les deux SVG d'analogie devenus inutiles (`analogie-espace-embeddings`, `analogie-parallelogramme`) ont été supprimés — récupérables dans l'historique Git. Deux images bitmap : `bow-sac.jpg` (Wikimedia Commons, domaine public, crédit affiché sur la slide) et `analogie-embedding-space.png` (figure externe créditée « @akshay_pachaar » — **licence à préciser** avant toute diffusion hors cours).
 
 ---
@@ -111,7 +111,7 @@ Le corrigé du TP a été **exécuté intégralement** (11 cellules, sorties ré
 |---|---|---|
 | Plan pédagogique | `Cours_5/PLAN_PEDAGOGIQUE.md` | ✅ v2.2, alignée sur le cours réellement produit |
 | Cours 5 (59 slides) | `Cours_5/presentation.md` | ✅ |
-| Export PDF | `Cours_5/presentation.pdf` | ⚠️ 57 pages — **à recompiler** (58 slides dans le Markdown) |
+| Export PDF | `Cours_5/presentation.pdf` | ✅ 59 pages |
 | Thème | `Cours_5/themes/neobeam.css` | ✅ identique au cours 4 |
 | Illustrations | `Cours_5/images/` | ✅ 5 SVG + 2 bitmaps |
 | Énoncé TP | `tp/tp5_enonce.md` | ✅ |
