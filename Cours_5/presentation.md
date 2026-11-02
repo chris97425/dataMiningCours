@@ -55,7 +55,7 @@ Christopher de Boisvilliers
 3. **Distance d'édition**
 4. **Sac de mots et cosinus**
 5. **TF-IDF**
-6. **Word2Vec et les vecteurs**
+6. **Des mots aux vecteurs (Word2Vec)**
 7. **Limites et préparation au RAG**
 
 </div>
@@ -309,9 +309,8 @@ Aucune règle naïve n'est correcte pour toutes les tâches : le bon découpage 
 
 **Le gain**
 
-- moins de dimensions donc moins de bruit
-- moins de bruit dans le sac de mots
-- calculs plus rapides
+- moins de dimensions donc des calculs plus rapides
+- moins de bruit : les mots outils n'occupent plus l'essentiel des comptages
 
 </div>
 <div style="flex:1; font-size:.85em;">
@@ -386,7 +385,7 @@ Question suivante : comment dire que <strong>deux textes se ressemblent</strong>
 
 ---
 
-<!-- header: ⭐️ Mesurer la ressemblance -->
+<!-- header: ⭐️ Distance d'édition -->
 
 ### **Deux chaînes se ressemblent-elles ?**
 
@@ -625,6 +624,42 @@ Deux phrases qui disent la même chose dans un autre ordre donnent <strong>le m�
 <br/><span style="font-size:.78em; color:#9aa4b8;">Le sac, au sens littéral : on y jette des morceaux, on perd leur disposition. Photo : Meritxell.canela, Wikimedia Commons, domaine public.</span>
 </div>
 </div>
+
+
+---
+
+### **Remplir les cases : présence ou comptage ?**
+
+<p style="font-size:.84em; color:#4b5563; margin:2px 0 6px 0;">
+Une seule phrase : <code>le chat dort, le chat dort encore</code> — vocabulaire de 4 termes.
+</p>
+
+<div style="display:flex; gap:20px; font-size:.86em;">
+<div style="flex:1;">
+
+**Présence (0 / 1)**
+
+<table style="border-collapse:collapse;margin:6px auto;"><tr><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>le</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>chat</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>dort</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>encore</th></tr><tr><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td></tr></table>
+
+Le modèle sait que les mots sont là — pas combien de fois.
+
+</div>
+<div style="flex:1;">
+
+**Comptage**
+
+<table style="border-collapse:collapse;margin:6px auto;"><tr><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>le</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>chat</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>dort</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>encore</th></tr><tr><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td></tr></table>
+
+La répétition est conservée : c'est cette version que TF-IDF pondérera.
+
+</div>
+</div>
+
+<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
+Même phrase, même vocabulaire, <strong>deux vecteurs différents</strong> : le choix du score fait partie du modèle, pas du texte.
+</div>
+
+<p style="font-size:.66em; color:#9aa4b8; margin-top:4px;">D'après J. Brownlee, <em>A Gentle Introduction to the Bag-of-Words Model</em>, Machine Learning Mastery, 2019.</p>
 
 ---
 
@@ -1210,7 +1245,7 @@ Et pour chaque paire, il faut calculer <em>|V|</em> scores : c'est ce <strong>co
 </div>
 <div style="flex:1; font-size:.84em;">
 
-Après entraînement sur un gros corpus, les voisins de `chat` sont `chien`, `matou`, `félin` — avec des cosinus de 0,6 à 0,9.
+Après entraînement sur un gros corpus, les voisins de `chat` sont `chien`, `matou`, `félin` — avec des cosinus de 0,6 à 0,9.<br/><span style="color:#4b5563;">Même famille sur le modèle du TP : `félin` 0,72 · `chien` 0,62 · `chats` 0,62.</span>
 
 Les thèmes se regroupent **sans qu'on les ait jamais nommés**.
 
@@ -1437,10 +1472,10 @@ Ce que ce cours a construit : le <strong>vecteur</strong> (séance 5, section 6)
 
 | Séance | Ce qu'elle ajoute | Ce qu'elle reprend ici |
 |---|---|---|
-| **6** — Embeddings et Transformers | attention, BERT, `sentence-transformers`, pooling | S6 (projection), S7 (polysémie) |
-| **7** — Recherche vectorielle | chunking, index HNSW, `rappel@k` | S4 (cosinus), S5 (TF-IDF comme baseline) |
+| **6** — Embeddings et Transformers | attention, BERT, `sentence-transformers`, pooling | section 6 (projection), section 7 (polysémie) |
+| **7** — Recherche vectorielle | chunking, index HNSW, `rappel@k` | section 4 (cosinus), section 5 (TF-IDF comme baseline) |
 | **8** — RAG avec LangChain | loaders, splitters, retriever, chaîne complète | le schéma en deux phases ci-dessus |
-| **9** — Évaluer et industrialiser | fidélité, coûts, latence, garde-fous | les limites de S3 à S7 |
+| **9** — Évaluer et industrialiser | fidélité, coûts, latence, garde-fous | les limites des sections 3 à 7 |
 
 <div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
 Rien dans la suite ne sera magique : chaque brique aura été construite à la main avant d'être appelée par une bibliothèque.

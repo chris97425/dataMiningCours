@@ -1,6 +1,6 @@
 # Cours 5 — Fondamentaux du NLP et préparation au RAG
 
-**Plan pédagogique — v2.1 (validé, décisions utilisateur intégrées)**
+**Plan pédagogique — v2.2 (validé, décisions utilisateur intégrées, aligné sur le cours produit)**
 
 | | |
 |---|---|
@@ -8,12 +8,14 @@
 | Durée | 3 h 30 = 2 h 30 théorie + 1 h TP |
 | Public | Étudiants ayant suivi les cours 1–4 (data mining appliqué, Python/scikit-learn) |
 | Auteur | Christopher de Boisvilliers |
-| Statut | **Plan validé le 2026-11-02.** Production des slides en cours |
+| Statut | **Plan validé le 2026-11-02.** Slides (56) et TP produits ; contrôle de cohérence finale en cours |
 | Revue externe | Codex / `gpt-5.6-sol`, raisonnement `xhigh`, 2026-11-02 — verdict v1 : **À RESTRUCTURER** (rapport intégral : `Cours_5/notes/revue-codex-v1.md`) |
 
-**Décisions utilisateur du 2026-11-02** : 54 slides · POS tagging à 3 lignes dans le pipeline · **construction pas à pas de la matrice de Levenshtein dans le tronc (+4 min sur S3)** · embeddings du TP pré-calculés et commités.
+**Décisions utilisateur du 2026-11-02** : **56 slides à la livraison** (54 au moment de la validation, puis ajout de « Le sac, mécaniquement » et du découpage « comptage brut → TF-IDF ») · POS tagging à 3 lignes dans le pipeline · **construction pas à pas de la matrice de Levenshtein dans le tronc (+4 min sur S3)** · embeddings du TP pré-calculés et commités.
 
 **Ce qui change entre v1 et v2** : 73 → 54 slides ; 145 → 120 minutes de contenu avec 30 minutes explicitement réservées à l'interaction ; corpus d'exemple unique de 4 documents recalculé avec la convention scikit-learn ; schéma RAG séparé en indexation hors ligne / interrogation en ligne ; TP ramené à 3 blocs avec dépendances préinstallées ; suppression de la formule softmax de Word2Vec ; correction des exemples fautifs signalés par la revue.
+
+**Ce qui change entre v2.1 et v2.2** : 54 → 56 slides (les chiffres du §4 sont désormais ceux du fichier `presentation.md` réel) ; correction de la valeur `félin` du tableau S4 (0,333 et non 0,378) ; nombre de questions du bloc 1 du TP (3 et non 2) ; accroche des deux phrases rattachée à S1 dans le plan ; titres de sections harmonisés avec le plan de la séance.
 
 ---
 
@@ -49,6 +51,8 @@
   header: Cours Esiroi 2025
   footer: Data mining - Christopher de Boisvilliers
   ```
+
+  Le cours 5 conserve la structure mais s'écarte sur trois points assumés : `header: Cours Esiroi 2026` (année de l'édition), `html: true` (indispensable pour les `<div>` de mise en page) et un `title` réel au lieu du `title: Marp custom themes` resté par défaut dans les cours 3 et 4. Le bloc `style:` des cours 3 et 4 (`pre, code { font-size: 100px !important }`) n'a pas été repris : c'est un reliquat de test.
 
 - **Thème** : `themes/neobeam.css` (556 lignes, dérivé de *Beam*). Copie locale par cours. `Cours_3` et `Cours_4` partagent exactement le même fichier (md5 `83e636c3…`) → version de référence à reprendre.
 - **Hiérarchie** : `#` pour le titre et le plan, `###` en gras pour le titre de slide, `##` rare.
@@ -153,21 +157,21 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 
 **Budget** : **120 minutes de contenu + 30 minutes explicitement réservées** aux questions, aux deux démonstrations live, aux transitions et aux incidents techniques = 150 minutes. Les 30 minutes ne sont pas « la marge » : elles sont réparties mentalement sur chaque séquence et doivent être consommées par l'interaction.
 
-**Volume cible** : 55 slides.
+**Volume cible** : 57 slides (deux slides ajoutées sur la mécanique du sac de mots).
 
 ### S0 — Ouverture (3 min, 2 slides)
 
 - **Objectif** : poser le problème et situer le cours dans les 5 séances.
 - **Notions** : corpus, token, représentation, retrieval.
-- **Exemple d'accroche** (corrigé) : « Le chat dort sur le canapé. » / « Un félin se repose sur le sofa. » — 10 mots, **2 mots outils en commun** (`le`, `sur`), **0 mot porteur de sens**. Toute méthode lexicale des cours 1–4 conclut « rien à voir ».
-- **Illustration** : les deux phrases, mots communs surlignés (2 en gris), frise des 5 séances.
-- **Formules** : aucune. **Transition** : pourquoi est-ce si difficile ?
-- **Acquis** : savoir que la similarité lexicale et la similarité de sens sont deux choses différentes.
+- **Contenu réel** : page de titre + plan de la séance (7 sections, frise des séances 5 à 9, glose du sigle RAG).
+- **Formules** : aucune. **Transition** : l'accroche des deux phrases ouvre S1 — pourquoi est-ce si difficile ?
+- **Acquis** : savoir où l'on va, et que ce cours précède une série de 4 séances sur les embeddings, la recherche vectorielle et le RAG.
 
 ### S1 — Pourquoi le langage est difficile (7 min, 4 slides)
 
 - **Objectif** : identifier **quatre** sources de difficulté (liste close), puis distinguer cette liste des *niveaux d'analyse*, qui est une autre classification.
 - **Les quatre sources** : (1) ambiguïté, (2) productivité / créativité, (3) variabilité de surface, (4) dépendance au contexte.
+- **Accroche (slide 1 de S1, corrigée)** : « Le chat dort sur le canapé. » / « Un félin se repose sur le sofa. » — 13 occurrences, **10 formes**, **2 formes communes** (`le`, `sur`), **0 mot de contenu commun**. Toute méthode lexicale des cours 1–4 conclut « rien à voir ». Définition de « mot de contenu » affichée sur la slide.
 - **Exemples** : `avocat` (fruit / métier) ; `J'ai vu l'homme avec le télescope` ; `C'est chanmé` (argot hors vocabulaire) ; `La banque était fermée` (indécidable sans contexte).
 - **Illustration** : schéma des niveaux d'analyse (morphologique → syntaxique → sémantique → discursif), présenté comme **niveaux**, pas comme difficultés.
 - **Transition** : pour traiter tout ça, il faut d'abord découper.
@@ -216,7 +220,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 - **Acquis** : interpréter une distance, savoir qu'elle ne capture pas le sens, connaître son usage réel (correcteur, dédoublonnage).
 - **Décision utilisateur** : la construction pas à pas reste **dans le tronc** (+4 min), et non en annexe. L'exercice optionnel du TP (implémentation complète en Python) est conservé pour les plus rapides.
 
-### S4 — Sac de mots et cosinus (22 min, 10 slides)
+### S4 — Sac de mots et cosinus (24 min, 12 slides)
 
 - **Objectif** : représenter un document par un vecteur et classer des documents par similarité.
 - **Corpus de référence unique** (utilisé aussi en S5) :
@@ -238,7 +242,9 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
   | `le chat` (comptages) | **0,671** | 0,447 | 0 | 0,365 |
   | `le chat` (TF-IDF) | **0,641** | 0,288 | 0 | 0,214 |
   | `animal de compagnie` | 0 | 0 | 0 | 0 |
-  | `félin` | 0 | 0 | **0,378** | 0 |
+  | `félin` (comptages) | 0 | 0 | **0,333** | 0 |
+  | `félin salon` (comptages) | 0,224 | 0,224 | 0,236 | **0,365** |
+  | `félin salon` (TF-IDF) | 0,144 | 0,144 | **0,291** | 0,214 |
 
 - **Points de méthode** :
   - `fit` sur le corpus puis `transform` sur la requête : le vocabulaire est **figé** à l'entraînement.
@@ -322,16 +328,16 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 | S1 Difficulté du langage | 7 min | 4 |
 | S2 Texte → tokens | 17 min | 7 |
 | S3 Distance d'édition | 15 min | 8 |
-| S4 BoW + cosinus | 22 min | 10 |
+| S4 BoW + cosinus | 24 min | 12 |
 | S5 TF-IDF | 15 min | 7 |
 | S6 Word2Vec | 22 min | 9 |
 | S7 Limites + RAG | 11 min | 5 |
 | S8 Synthèse | 8 min | 3 |
-| **Contenu** | **120 min** | **55** |
-| Interactions, démos, transitions, imprévus | 30 min | — |
-| **Total** | **150 min = 2 h 30** | **55** |
+| **Contenu** | **122 min** | **57** |
+| Interactions, démos, transitions, imprévus | 28 min | — |
+| **Total** | **150 min = 2 h 30** | **56** |
 
-54 slides pour 120 minutes de contenu = 2 min 13 s par slide en moyenne, **hors** les 30 minutes d'interaction. C'est cohérent avec le cours 4 (45 pages pour un contenu homogène).
+56 slides pour 120 minutes de contenu = 2 min 09 s par slide en moyenne, **hors** les 30 minutes d'interaction. C'est cohérent avec le cours 4 (45 pages pour un contenu homogène).
 
 ---
 
@@ -349,7 +355,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 
 | Bloc | Durée | Contenu | Acquis visé |
 |---|---|---|---|
-| **1 — Prétraitement** | 15 min | `normalize()` et `tokenize()` fournies **à trous** (2 lignes à écrire chacune) ; chargement des stop words depuis `data/` ; mesure du vocabulaire avant/après ; 2 questions d'interprétation | Relier chaque décision de S2 à son effet mesuré |
+| **1 — Prétraitement** | 15 min | `normalize()` et `tokenize()` fournies **à trous** (2 lignes à écrire chacune) ; chargement des stop words depuis `data/` ; mesure du vocabulaire avant/après ; 4 questions d'interprétation (dont une sur la liste de stop words accentuée, laissée telle quelle à dessein) | Relier chaque décision de S2 à son effet mesuré |
 | **2 — BoW, TF-IDF, cosinus** | 20 min | `CountVectorizer` puis `TfidfVectorizer` ; classement d'une requête ; requête volontairement OOV → vecteur nul ; comparaison des deux classements | Comprendre `fit`/`transform` et le vecteur nul |
 | **3 — Embeddings pré-calculés** | 12 min | `KeyedVectors.load_word2vec_format` sur `embeddings_fr_mini.vec` ; plus proches voisins de 3 mots ; une analogie ; un échec (polysémie `avocat`) ; comparaison avec le classement TF-IDF du bloc 2 | Voir la différence lexical/dense **sur des données réelles** |
 | **Marge** | 13 min | Lecture des consignes, erreurs d'exécution, sauvegarde, questions | — |
@@ -433,7 +439,7 @@ Revue complète : `Cours_5/notes/revue-codex-v1.md` (Codex `gpt-5.6-sol`, `reaso
 | Revue critique Codex | ✅ effectuée — verdict v1 : À RESTRUCTURER — 19 remarques traitées (18 acceptées, 1 refusée avec justification) |
 | Plan révisé (v2.1) | ✅ validé le 2026-11-02 |
 | Validation humaine | ⏳ en attente |
-| Slides S0–S8 (54 slides) | ✅ produits, compilés en PDF, contrôlés visuellement un par un |
+| Slides S0–S8 (56 slides) | ✅ produits, compilés en PDF (56 pages), contrôlés visuellement un par un |
 | Revue Codex blocs 1 à 4 | ✅ 3 revues, 43 corrections appliquées |
 | Revue blocs 5 à 8 | ⚠️ Codex indisponible (quota) — revue par sous-agent indépendant + script de vérification numérique |
 | TP (énoncé, notebook, corrigé, données) | ✅ corrigé exécuté intégralement, sorties réelles |

@@ -86,7 +86,7 @@ Le corrigé du TP a été **exécuté intégralement** (11 cellules, sorties ré
 
 ## 4. Contrôle du rendu
 
-- Export PDF : 55 pages, format 4:3 (720 × 540 pt), `marp-cli 4.5.1`, thème `neobeam`.
+- Export PDF : 57 pages, format 4:3 (720 × 540 pt), `marp-cli 4.5.1`, thème `neobeam`.
 - **Piège technique documenté** : Marp CLI exige `--html` **et** `--allow-local-files` ; sans `--html`, tous les `<div>` sont aplatis (premier rendu cassé, corrigé).
 - Planche de contrôle des 55 slides inspectée : aucun débordement, aucun texte tronqué.
 - Trois SVG produits pour le cours (`niveaux-analyse`, `pipeline-cours5`, `cosinus`, `word2vec-plan`), tous en local, aucun lien distant.
@@ -108,8 +108,8 @@ Le corrigé du TP a été **exécuté intégralement** (11 cellules, sorties ré
 | Livrable | Fichier | État |
 |---|---|---|
 | Plan pédagogique | `Cours_5/PLAN_PEDAGOGIQUE.md` | ✅ v2.1 validée |
-| Cours 5 (55 slides) | `Cours_5/presentation.md` | ✅ |
-| Export PDF | `Cours_5/presentation.pdf` | ✅ 55 pages |
+| Cours 5 (57 slides) | `Cours_5/presentation.md` | ✅ |
+| Export PDF | `Cours_5/presentation.pdf` | ✅ 57 pages |
 | Thème | `Cours_5/themes/neobeam.css` | ✅ identique au cours 4 |
 | Illustrations | `Cours_5/images/*.svg` | ✅ 4 SVG |
 | Énoncé TP | `tp/tp5_enonce.md` | ✅ |

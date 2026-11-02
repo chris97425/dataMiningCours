@@ -1,4 +1,10 @@
-numpy
+# Environnement du TP 5 — à installer AVANT la séance (aucun pip install pendant le TP).
+# Python 3.10+ (corrigé exécuté avec 3.11).
+
+# --- Versions figées : elles déterminent les valeurs numériques du corrigé ---
+numpy==2.0.2
 scikit-learn==1.6.1
 gensim==4.4.0
-jupyterlab
+
+# --- Interface seulement : n'influe pas sur les résultats, donc bornée et non figée ---
+jupyterlab>=4.0,<5
