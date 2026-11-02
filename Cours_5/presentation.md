@@ -76,8 +76,9 @@ Christopher de Boisvilliers
 </div>
 </div>
 
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.9em;">
-Aujourd'hui : <strong>2 h 30 de cours</strong> — puis <strong>1 h de TP</strong>.
+<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.86em;">
+Aujourd'hui : <strong>2 h 30 de cours</strong> — puis <strong>1 h de TP</strong>.<br/>
+<span style="color:#4b5563;">RAG = <em>Retrieval-Augmented Generation</em> : répondre à une question en retrouvant d'abord les bons passages d'un corpus, puis en les donnant à un modèle de langage.</span>
 </div>
 
 ---
@@ -97,6 +98,7 @@ Aujourd'hui : <strong>2 h 30 de cours</strong> — puis <strong>1 h de TP</stron
 
 <div style="text-align:center; font-size:.78em; color:#4b5563; white-space:nowrap;">
 13 occurrences · 10 formes · <strong>2 formes communes</strong> (<code>le</code>, <code>sur</code>) · <strong>0 mot de contenu commun</strong>
+<div style="font-size:.86em; margin-top:2px; color:#4b5563;">« mot de contenu » = un mot qui porte du sens (nom, verbe, adjectif), par opposition aux mots outils.</div>
 </div>
 
 <div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.95em;">
@@ -486,7 +488,7 @@ Chaque case regarde ses <strong>trois voisines</strong> (haut, gauche, diagonale
 <tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>t</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td></tr>
 </table>
 <div style="font-size:.82em; margin-top:2px;">
-haut = 1+1 = 2 · gauche = 2+1 = 3 · diagonale = 0+0 = <strong>0</strong> (mêmes caractères) → <strong>0</strong>
+haut = 1+1 = 2 · gauche = 1+1 = 2 · diagonale = 0+0 = <strong>0</strong> (mêmes caractères) → <strong>0</strong>
 </div>
 
 ---
@@ -935,7 +937,7 @@ Aucun terme n'est jamais annulé : <code>le</code>, présent dans 3 documents su
 Requête : <code>félin salon</code>
 </p>
 
-| Document | Comptages | TF-IDF |
+| Document | Cosinus (comptages) | Cosinus (TF-IDF) |
 |---|---|---|
 | D1 le chat dort sur le canapé du salon | 0,224 | 0,144 |
 | D2 le chien dort sur le tapis du salon | 0,224 | 0,144 |
@@ -987,7 +989,7 @@ Reste un mur : deux mots qui veulent dire la même chose n'ont <strong>aucune co
 <div style="font-size:.86em;">
 
 1. **TF** mesure la présence dans le document, **IDF** la rareté dans le corpus.
-2. La convention scikit-learn est **lissée** : un mot présent partout garde un IDF de 1.
+2. La convention scikit-learn est **lissée** : un mot présent partout garde un IDF de 1 — un **plancher**, pas un poids fort.
 3. TF-IDF **accentue les écarts** ; il ne change l'ordre que quand un mot banal écrase un mot discriminant.
 4. Il reste **lexical** : synonymes, polysémie et mots inconnus lui échappent.
 
@@ -1124,6 +1126,11 @@ $$
 h=\frac{1}{|C|}\sum_{w\in C} \mathbf{e}_w
 \qquad\text{avec } C=\text{contexte}\setminus\{w_t\},\ |C|\leq 2k
 $$
+
+<div style="font-size:.78em; color:#4b5563; margin-top:2px;">
+<em>e<sub>w</sub></em> = le vecteur du mot <em>w</em> (une ligne de W) · <em>h</em> = le vecteur agrégé du contexte ·
+|C| ≤ 2k parce qu'au premier mot de la phrase, la fenêtre ne contient que k voisins.
+</div>
 
 <div style="font-size:.84em; margin-top:6px;">
 
@@ -1290,7 +1297,7 @@ Tant que ce maillon n'est pas vu, le RAG reste une boîte noire.
 
 | Limite | Symptôme | Ce qu'il faudrait |
 |---|---|---|
-| **Lexical** | `voiture` / `automobile` → cosinus 0 | des vecteurs appris |
+| **Lexical** (BoW, TF-IDF) | `voiture` / `automobile` → cosinus 0 | des vecteurs appris |
 | **Polysémie** | `avocat` = fruit **et** métier, un seul vecteur | un vecteur **par contexte** |
 | **Ordre** | `le chien mord l'homme` ≈ `l'homme mord le chien` | modéliser la séquence |
 | **Hors vocabulaire** | un mot absent n'a <em>aucun</em> vecteur | des sous-mots (fastText), un vrai encodeur |
@@ -1354,7 +1361,7 @@ On prépare les documents <strong>une fois</strong>, avant toute question.
 </div>
 
 <div style="margin-top:10px; font-size:.82em;">
-Ce que le cours 5 a construit : le <strong>vecteur</strong> (S6) et la <strong>similarité</strong> (S4). Ce que la séance 7 ajoutera : le <strong>chunking</strong> et l'<strong>index</strong>.
+Ce que ce cours a construit : le <strong>vecteur</strong> (séance 5, section 6) et la <strong>similarité</strong> (section 4). Ce que la séance 7 ajoutera : le <strong>chunking</strong> et l'<strong>index</strong>.
 </div>
 
 <p style="font-size:.68em; color:#9aa4b8; margin-top:6px;">Lewis et al. (2020), <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>.</p>
@@ -1484,6 +1491,10 @@ BoW → TF-IDF → cosinus. Classer une requête, provoquer un vecteur nul.
 Embeddings pré-calculés : voisins, analogie, un échec à expliquer.
 </div>
 </div>
+
+<p style="font-size:.76em; color:#4b5563; margin-top:8px;">
+Total des blocs : 47 min — les <strong>13 minutes restantes</strong> sont la lecture des consignes, les erreurs d'exécution et les questions.
+</p>
 
 <div style="margin-top:14px; font-size:.84em;">
 
