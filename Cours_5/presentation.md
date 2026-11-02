@@ -1194,33 +1194,54 @@ Attention : c'est une similarité <strong>distributionnelle</strong>, pas du « 
 
 ---
 
-### **Arithmétique, puis limites**
+### **Un vecteur, c'est un déplacement**
 
-<div style="display:flex; gap:18px; font-size:.84em;">
+![width:760px](./images/analogie-parallelogramme.svg)
+
+<div style="display:flex; gap:14px; font-size:.8em; margin-top:4px;">
+<div style="flex:1; border-left:4px solid #3d65f6; padding-left:10px;">
+<strong>Le même déplacement les relie</strong><br/>
+Ajouter le vecteur « genre » à <code>homme</code> donne <code>femme</code> ; ajouté à <code>roi</code>, il donne <code>reine</code>.
+</div>
+<div style="flex:1; border-left:4px solid #0f9d58; padding-left:10px;">
+<strong>Et l'autre aussi</strong><br/>
+Ajouter le vecteur « royauté » à <code>homme</code> donne <code>roi</code> ; ajouté à <code>femme</code>, il donne <code>reine</code>.
+</div>
+</div>
+
+<p style="text-align:center; font-size:.9em; color:#4b5563; margin-top:8px;">
+Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et il se réutilise.
+</p>
+
+---
+
+### **Ce que ça vaut vraiment**
+
+<div style="display:flex; gap:18px; font-size:.82em;">
 <div style="flex:1;">
 
-**L'analogie célèbre**
+**Sur notre modèle de TP**
 
-$$
-\vec{\text{roi}}-\vec{\text{homme}}+\vec{\text{femme}}\approx\vec{\text{reine}}
-$$
-
-Une **translation** dans l'espace : la relation « masculin → féminin » est la même partout.
+- $\cos(\vec{\text{reine}}-\vec{\text{roi}},\ \vec{\text{femme}}-\vec{\text{homme}}) = \mathbf{0{,}37}$
+- l'analogie place bien `reine` en tête (hors variante `roy`)
+- mais `paris − france + italie` donne **`espagne`**
 
 </div>
 <div style="flex:1;">
 
-**Quand ça échoue**
+**Pourquoi ce n'est pas une loi**
 
-- mots rares : vecteur mal estimé
-- corpus spécialisé : analogies absurdes
-- **biais** : les stéréotypes du corpus se retrouvent dans la géométrie
+- dépend du corpus et de sa taille
+- dépend des fréquences (mots rares mal estimés)
+- transporte les **biais** du corpus
+- un petit modèle à 100 dimensions amplifie tout ça
 
 </div>
 </div>
 
-<div style="margin-top:12px; font-size:.84em; color:#4b5563;">
-L'analogie n'est pas une preuve d'intelligence : c'est une régularité statistique du corpus. Elle marche souvent, pas toujours.
+<div style="margin-top:12px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.86em;">
+L'analogie n'est pas une preuve d'intelligence : c'est une <strong>régularité statistique</strong> qui marche souvent, pas toujours.
+Elle illustre une propriété du corpus, pas une compréhension du monde.
 </div>
 
 ---

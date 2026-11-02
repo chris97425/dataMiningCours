@@ -153,7 +153,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 
 **Budget** : **120 minutes de contenu + 30 minutes explicitement réservées** aux questions, aux deux démonstrations live, aux transitions et aux incidents techniques = 150 minutes. Les 30 minutes ne sont pas « la marge » : elles sont réparties mentalement sur chaque séquence et doivent être consommées par l'interaction.
 
-**Volume cible** : 54 slides.
+**Volume cible** : 55 slides.
 
 ### S0 — Ouverture (3 min, 2 slides)
 
@@ -271,7 +271,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 - **Transition** : aucune dimension commune entre `voiture` et `automobile` → il faut des vecteurs denses.
 - **Acquis** : calculer un IDF avec la convention sklearn, expliquer le rôle du log et du lissage, prédire quand TF-IDF change un classement.
 
-### S6 — Des mots aux vecteurs : Word2Vec (22 min, 8 slides)
+### S6 — Des mots aux vecteurs : Word2Vec (22 min, 9 slides)
 
 - **Objectif** : comprendre comment on fabrique des vecteurs qui rapprochent les mots de contextes similaires.
 - **Notions** : one-hot et orthogonalité ; hypothèse distributionnelle ; fenêtre de contexte ; CBOW / Skip-gram ; matrice de projection ; agrégation du contexte ; coût en paramètres ; voisins ; analogies ; limites.
@@ -324,12 +324,12 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 | S3 Distance d'édition | 15 min | 8 |
 | S4 BoW + cosinus | 22 min | 10 |
 | S5 TF-IDF | 15 min | 7 |
-| S6 Word2Vec | 22 min | 8 |
+| S6 Word2Vec | 22 min | 9 |
 | S7 Limites + RAG | 11 min | 5 |
 | S8 Synthèse | 8 min | 3 |
-| **Contenu** | **120 min** | **54** |
+| **Contenu** | **120 min** | **55** |
 | Interactions, démos, transitions, imprévus | 30 min | — |
-| **Total** | **150 min = 2 h 30** | **54** |
+| **Total** | **150 min = 2 h 30** | **55** |
 
 54 slides pour 120 minutes de contenu = 2 min 13 s par slide en moyenne, **hors** les 30 minutes d'interaction. C'est cohérent avec le cours 4 (45 pages pour un contenu homogène).
 
