@@ -1196,29 +1196,32 @@ Attention : c'est une similarité <strong>distributionnelle</strong>, pas du « 
 
 ### **Lire un espace d'embeddings**
 
-![width:700px](./images/analogie-espace-embeddings.svg)
+<div style="display:flex; gap:14px; align-items:flex-start;">
+<div style="flex:1.05;">
 
-<div style="display:flex; gap:16px; font-size:.78em; margin-top:2px;">
-<div style="flex:1;">
-
-**1.** Chaque mot est un **vecteur depuis l'origine** (pointillés gris).
-
-**2.** La flèche violette « Genre » est la **même** de `homme` à `femme` et de `roi` à `reine`.
+![width:470px](./images/analogie-embedding-space.png)
 
 </div>
-<div style="flex:1;">
+<div style="flex:1; font-size:.76em;">
 
-**3.** La flèche orange « Royauté » est la **même** de `homme` à `roi` et de `femme` à `reine`.
+**1.** Chaque mot est un **vecteur tracé depuis l'origine** (MAN = `homme`, WOMAN = `femme`, KING = `roi`, QUEEN = `reine`).
 
-**4.** Donc `reine = roi + (femme − homme)`.
+**2.** Les flèches violettes « Gender » sont **identiques** : MAN→WOMAN et KING→QUEEN.
+
+**3.** Les flèches orange « Royalty » sont **identiques** : MAN→KING et WOMAN→QUEEN.
+
+**4.** Les quatre points forment un **parallélogramme** :
+
+<code style="font-size:1.05em;">QUEEN = KING + (WOMAN − MAN)</code>
 
 </div>
 </div>
 
-<p style="text-align:center; font-size:.82em; color:#4b5563; margin-top:8px;">
+<p style="text-align:center; font-size:.8em; color:#4b5563; margin-top:4px;">
 Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et il se réutilise.
-<span style="font-size:.72em; color:#9aa4b8;">(schéma redessiné d'après @akshay_pachaar)</span>
 </p>
+
+<p style="font-size:.6em; color:#9aa4b8; margin-top:0;">Figure : @akshay_pachaar (utilisée à titre illustratif).</p>
 
 ---
 
