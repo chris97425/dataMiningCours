@@ -3,6 +3,8 @@
 **Méthode** : 8 relecteurs indépendants, 7 à 8 pages chacun, le 2026-11-02. Consigne identique : *pour chaque page, quelle notion un étudiant de licence/master appliqué n'ayant jamais fait de NLP peut mal comprendre, et quel exemple visuel simple la débloquerait*.
 **Statut** : revue de lecture seule. Les corrections objectives signalées ont été appliquées le jour même (voir §3). Le challenge Codex du PDF complet est programmé à 17:05.
 
+> ⚠️ **Numérotation obsolète.** Cette revue porte sur la version à **55 slides**. Trois slides ont été insérées depuis — « Objectifs de la séance » (p. 3), « Le sac, mécaniquement » (p. 24) et « Remplir les cases : présence ou comptage ? » (p. 25) — et le cours en compte **58**. Les numéros de page cités ci-dessous restent valables comme *désignations*, à ceci près que les pages 3 à 22 ont glissé de +1 et les pages 23 et suivantes de +3 (ex. : la p. 42 « Où sont les vecteurs ? » est la p. 45 aujourd'hui ; la p. 50 « RAG — phase 1 » est la p. 53 ; la p. 55 « Le TP » est la p. 58).
+
 ---
 
 ## 1. Tableau complet

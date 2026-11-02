@@ -11,11 +11,11 @@
 | Statut | **Plan validé le 2026-11-02.** Slides (56) et TP produits ; contrôle de cohérence finale en cours |
 | Revue externe | Codex / `gpt-5.6-sol`, raisonnement `xhigh`, 2026-11-02 — verdict v1 : **À RESTRUCTURER** (rapport intégral : `Cours_5/notes/revue-codex-v1.md`) |
 
-**Décisions utilisateur du 2026-11-02** : **56 slides à la livraison** (54 au moment de la validation, puis ajout de « Le sac, mécaniquement » et du découpage « comptage brut → TF-IDF ») · POS tagging à 3 lignes dans le pipeline · **construction pas à pas de la matrice de Levenshtein dans le tronc (+4 min sur S3)** · embeddings du TP pré-calculés et commités.
+**Décisions utilisateur du 2026-11-02** : **58 slides à la livraison** (54 au moment de la validation, puis « Le sac, mécaniquement », « Remplir les cases : présence ou comptage ? » et « Objectifs de la séance ») · POS tagging à 3 lignes dans le pipeline · **construction pas à pas de la matrice de Levenshtein dans le tronc (+4 min sur S3)** · embeddings du TP pré-calculés et commités.
 
 **Ce qui change entre v1 et v2** : 73 → 54 slides ; 145 → 120 minutes de contenu avec 30 minutes explicitement réservées à l'interaction ; corpus d'exemple unique de 4 documents recalculé avec la convention scikit-learn ; schéma RAG séparé en indexation hors ligne / interrogation en ligne ; TP ramené à 3 blocs avec dépendances préinstallées ; suppression de la formule softmax de Word2Vec ; correction des exemples fautifs signalés par la revue.
 
-**Ce qui change entre v2.1 et v2.2** : 54 → 56 slides (les chiffres du §4 sont désormais ceux du fichier `presentation.md` réel) ; correction de la valeur `félin` du tableau S4 (0,333 et non 0,378) ; nombre de questions du bloc 1 du TP (3 et non 2) ; accroche des deux phrases rattachée à S1 dans le plan ; titres de sections harmonisés avec le plan de la séance.
+**Ce qui change entre v2.1 et v2.2** : 54 → 58 slides (les chiffres du §4 sont désormais ceux du fichier `presentation.md` réel) ; slide d'objectifs ajoutée en S0 ; deux slides de clarification sur la mécanique du sac de mots en S4 ; correction de la valeur `félin` du tableau S4 (0,333 et non 0,378) ; bloc 1 du TP à 4 questions ; accroche des deux phrases rattachée à S1 dans le plan ; titres de bandeau harmonisés avec le plan de la séance ; entrée « Les 5 séances » renommée « du texte aux vecteurs ».
 
 ---
 
@@ -155,15 +155,15 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 
 ## 4. Plan détaillé — 2 h 30 de théorie
 
-**Budget** : **120 minutes de contenu + 30 minutes explicitement réservées** aux questions, aux deux démonstrations live, aux transitions et aux incidents techniques = 150 minutes. Les 30 minutes ne sont pas « la marge » : elles sont réparties mentalement sur chaque séquence et doivent être consommées par l'interaction.
+**Budget** : **122 minutes de contenu + 28 minutes explicitement réservées** aux questions, aux deux démonstrations live, aux transitions et aux incidents techniques = 150 minutes. Ces 28 minutes ne sont pas « la marge » : elles sont réparties mentalement sur chaque séquence et doivent être consommées par l'interaction. (Les deux slides ajoutées en S4 ont pris 2 minutes sur cette réserve.)
 
-**Volume cible** : 57 slides (deux slides ajoutées sur la mécanique du sac de mots).
+**Volume cible** : 59 slides (mécanique du sac de mots + POS tagging).
 
-### S0 — Ouverture (3 min, 2 slides)
+### S0 — Ouverture (3 min, 3 slides)
 
 - **Objectif** : poser le problème et situer le cours dans les 5 séances.
 - **Notions** : corpus, token, représentation, retrieval.
-- **Contenu réel** : page de titre + plan de la séance (7 sections, frise des séances 5 à 9, glose du sigle RAG).
+- **Contenu réel** : page de titre + plan de la séance (7 sections, frise des séances 5 à 9, glose du sigle RAG) + **slide d'objectifs** : 5 objectifs en verbes d'action, chacun rattaché à sa section, puis les prérequis (cours 1 à 4, aucune connaissance en linguistique supposée). Cette slide reprend l'usage du cours 4 (« Objectifs du début de cours »).
 - **Formules** : aucune. **Transition** : l'accroche des deux phrases ouvre S1 — pourquoi est-ce si difficile ?
 - **Acquis** : savoir où l'on va, et que ce cours précède une série de 4 séances sur les embeddings, la recherche vectorielle et le RAG.
 
@@ -177,7 +177,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 - **Transition** : pour traiter tout ça, il faut d'abord découper.
 - **Acquis** : citer 4 causes de difficulté, 1 exemple chacune, et ne pas les confondre avec les niveaux d'analyse.
 
-### S2 — Du texte aux tokens (17 min, 7 slides)
+### S2 — Du texte aux tokens (19 min, 8 slides)
 
 - **Objectif** : construire une chaîne de prétraitement **minimale et justifiée**, en sachant à chaque étape ce qu'on perd.
 - **Notions** : type / token / identifiant / vocabulaire ; normalisation Unicode ; tokenisation ; stop words ; stemming vs lemmatisation ; mention de POS et de sous-mots.
@@ -324,20 +324,20 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 
 | Séquence | Durée | Slides |
 |---|---|---|
-| S0 Ouverture | 3 min | 2 |
+| S0 Ouverture | 3 min | 3 |
 | S1 Difficulté du langage | 7 min | 4 |
-| S2 Texte → tokens | 17 min | 7 |
+| S2 Texte → tokens | 19 min | 8 |
 | S3 Distance d'édition | 15 min | 8 |
 | S4 BoW + cosinus | 24 min | 12 |
 | S5 TF-IDF | 15 min | 7 |
 | S6 Word2Vec | 22 min | 9 |
 | S7 Limites + RAG | 11 min | 5 |
 | S8 Synthèse | 8 min | 3 |
-| **Contenu** | **122 min** | **57** |
-| Interactions, démos, transitions, imprévus | 28 min | — |
-| **Total** | **150 min = 2 h 30** | **56** |
+| **Contenu** | **124 min** | **59** |
+| Interactions, démos, transitions, imprévus | 26 min | — |
+| **Total** | **150 min = 2 h 30** | **58** |
 
-56 slides pour 120 minutes de contenu = 2 min 09 s par slide en moyenne, **hors** les 30 minutes d'interaction. C'est cohérent avec le cours 4 (45 pages pour un contenu homogène).
+58 slides pour 122 minutes de contenu = 2 min 06 s par slide en moyenne, **hors** les 28 minutes d'interaction. C'est cohérent avec le cours 4 (45 pages pour un contenu homogène).
 
 ---
 
@@ -418,7 +418,7 @@ Revue complète : `Cours_5/notes/revue-codex-v1.md` (Codex `gpt-5.6-sol`, `reaso
 
 | Question | Décision |
 |---|---|
-| Volume | **54 slides** (dont 30 min d'interaction) |
+| Volume | **54 slides** (dont 30 min d'interaction) — **58 à la livraison** : voir le budget révisé du §4 |
 | POS tagging | **3 lignes** dans le slide pipeline |
 | Levenshtein | **Construction pas à pas dans le tronc** (+4 min sur S3, compensés sur S1, S4, S5 et S6) |
 | Embeddings du TP | **Fichier pré-calculé commité** (~5 Mo, 5 000 mots × 100 dimensions) |
@@ -439,7 +439,7 @@ Revue complète : `Cours_5/notes/revue-codex-v1.md` (Codex `gpt-5.6-sol`, `reaso
 | Revue critique Codex | ✅ effectuée — verdict v1 : À RESTRUCTURER — 19 remarques traitées (18 acceptées, 1 refusée avec justification) |
 | Plan révisé (v2.1) | ✅ validé le 2026-11-02 |
 | Validation humaine | ⏳ en attente |
-| Slides S0–S8 (56 slides) | ✅ produits, compilés en PDF (56 pages), contrôlés visuellement un par un |
+| Slides S0–S8 (58 slides) | ✅ produits ; **PDF à recompiler** après l'ajout de la slide d'objectifs, et contrôle visuel à refaire sur les deux slides nouvelles |
 | Revue Codex blocs 1 à 4 | ✅ 3 revues, 43 corrections appliquées |
 | Revue blocs 5 à 8 | ⚠️ Codex indisponible (quota) — revue par sous-agent indépendant + script de vérification numérique |
 | TP (énoncé, notebook, corrigé, données) | ✅ corrigé exécuté intégralement, sorties réelles |

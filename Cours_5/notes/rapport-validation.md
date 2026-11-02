@@ -1,7 +1,7 @@
 # Rapport de validation — Cours 5
 
 **Projet** : `dataMiningCours/Cours_5` · **Date** : 2026-11-02 · **Auteur** : Christopher de Boisvilliers
-**Périmètre** : plan pédagogique, 55 slides MARP, TP d'une heure.
+**Périmètre** : plan pédagogique, 58 slides MARP, TP d'une heure.
 
 ---
 
@@ -43,6 +43,8 @@
 ---
 
 ## 2 bis. Corrections issues de la revue indépendante (blocs 5–8)
+
+> Les numéros de slide de ce tableau sont ceux de la version à **55 pages**. Trois slides ont été insérées depuis (p. 3 « Objectifs de la séance », « Le sac, mécaniquement » et « Remplir les cases : présence ou comptage ? ») : les pages ≥ 27 ont glissé de +3.
 
 | # | Problème | Correction |
 |---|---|---|
@@ -86,20 +88,20 @@ Le corrigé du TP a été **exécuté intégralement** (11 cellules, sorties ré
 
 ## 4. Contrôle du rendu
 
-- Export PDF : 57 pages, format 4:3 (720 × 540 pt), `marp-cli 4.5.1`, thème `neobeam`.
+- Export PDF : 59 pages à la dernière compilation, format 4:3 (720 × 540 pt), `marp-cli 4.5.1`, thème `neobeam` — **à recompiler** : le Markdown compte 58 slides depuis l'ajout de la slide d'objectifs.
 - **Piège technique documenté** : Marp CLI exige `--html` **et** `--allow-local-files` ; sans `--html`, tous les `<div>` sont aplatis (premier rendu cassé, corrigé).
-- Planche de contrôle des 55 slides inspectée : aucun débordement, aucun texte tronqué.
-- Trois SVG produits pour le cours (`niveaux-analyse`, `pipeline-cours5`, `cosinus`, `word2vec-plan`), tous en local, aucun lien distant.
+- Planche de contrôle (`notes/planche-55-slides.png`) inspectée sur la version à 55 slides : aucun débordement, aucun texte tronqué. **Les trois slides ajoutées depuis n'ont pas encore été contrôlées visuellement** — c'est le premier point à refaire après recompilation.
+- Cinq SVG locaux utilisés (`niveaux-analyse`, `pipeline-cours5`, `bow-mecanique`, `cosinus`, `word2vec-plan`). Les deux SVG d'analogie devenus inutiles (`analogie-espace-embeddings`, `analogie-parallelogramme`) ont été supprimés — récupérables dans l'historique Git. Deux images bitmap : `bow-sac.jpg` (Wikimedia Commons, domaine public, crédit affiché sur la slide) et `analogie-embedding-space.png` (figure externe créditée « @akshay_pachaar » — **licence à préciser** avant toute diffusion hors cours).
 
 ---
 
 ## 5. Limites assumées
 
 1. **Blocs 5 à 8 non relus par Codex** (quota) : revue indépendante par sous-agent, plus faible qu'une revue Codex complète.
-2. **Pas de test en amphithéâtre** : les 120 minutes de contenu sont une estimation construite, pas une mesure.
+2. **Pas de test en amphithéâtre** : les 122 minutes de contenu sont une estimation construite, pas une mesure.
 3. **Corpus du TP volontairement minuscule** (282 mots) : les scores illustrent des mécanismes, pas des performances ; l'IDF sur 30 documents n'a aucune stabilité.
 4. **Embeddings du TP** : `fr_core_news_md` tronqué à 100 dimensions et 5 000 mots — qualité suffisante pour les exercices, insuffisante pour des conclusions scientifiques.
-5. **Illustrations** : schémas SVG maison ; aucune image externe, donc aucune question de licence, mais pas de photographie ni d'animation.
+5. **Illustrations** : les schémas sont des SVG maison, mais **deux images ne le sont pas** — `bow-sac.jpg` (Wikimedia Commons, domaine public) et `analogie-embedding-space.png` (figure externe, crédit d'auteur sans licence explicite). Aucune animation.
 
 ---
 
@@ -107,15 +109,70 @@ Le corrigé du TP a été **exécuté intégralement** (11 cellules, sorties ré
 
 | Livrable | Fichier | État |
 |---|---|---|
-| Plan pédagogique | `Cours_5/PLAN_PEDAGOGIQUE.md` | ✅ v2.1 validée |
-| Cours 5 (57 slides) | `Cours_5/presentation.md` | ✅ |
-| Export PDF | `Cours_5/presentation.pdf` | ✅ 57 pages |
+| Plan pédagogique | `Cours_5/PLAN_PEDAGOGIQUE.md` | ✅ v2.2, alignée sur le cours réellement produit |
+| Cours 5 (59 slides) | `Cours_5/presentation.md` | ✅ |
+| Export PDF | `Cours_5/presentation.pdf` | ⚠️ 57 pages — **à recompiler** (58 slides dans le Markdown) |
 | Thème | `Cours_5/themes/neobeam.css` | ✅ identique au cours 4 |
-| Illustrations | `Cours_5/images/*.svg` | ✅ 4 SVG |
+| Illustrations | `Cours_5/images/` | ✅ 5 SVG + 2 bitmaps |
 | Énoncé TP | `tp/tp5_enonce.md` | ✅ |
 | Notebook étudiant | `tp/tp5_etudiant.ipynb` | ✅ |
-| Corrigé exécuté | `tp/tp5_corrige.ipynb` | ✅ 11 cellules, sorties réelles |
+| Corrigé exécuté | `tp/tp5_corrige.ipynb` | ✅ 11 cellules exécutées + 1 note enseignant ; le code de calcul n'a pas été modifié, les sorties restent valides |
 | Données | `tp/data/` | ✅ corpus, stop words, embeddings (4,2 Mo) |
 | Installation | `tp/README.md`, `tp/requirements.txt` | ✅ |
 | Progression séances 6–9 | `PLAN_PEDAGOGIQUE.md` §6 | ✅ |
 | Rapport de validation | ce fichier | ✅ |
+
+---
+
+## 7. Contrôle de cohérence du 2026-11-02 (passe finale)
+
+**Méthode** : relecture intégrale de `presentation.md`, du plan, du TP et des notes ; **toutes les valeurs numériques ont été recalculées indépendamment** (script Python, `scikit-learn 1.6.1` / `numpy 2.0.2`, et relecture directe des 5 000 vecteurs du TP sans `gensim`).
+
+**Revérifié et confirmé — aucune correction nécessaire** :
+
+- corpus d'exemple : 18 termes ; matrice 26 cases non nulles sur 72 (36 %) ; `le` = 6 occurrences dans 3 documents sur 4, `salon` 4 dans 3 sur 4, `félin` 1 dans 1 sur 4 ;
+- cosinus BoW « le chat » 0,671 / 0,447 / 0 / 0,365 et TF-IDF 0,641 / 0,288 / 0 / 0,214 ; « animal de compagnie » = 0 partout ;
+- IDF 1,223 / 1,511 / 1,916 ; « félin salon » 0,224 / 0,224 / 0,236 / 0,365 → TF-IDF 0,144 / 0,144 / 0,291 / 0,214 ;
+- Levenshtein 1 / 1 / 3 / 2 / 8 et similarités normalisées 0,80 / 0,86 / 0,40 / 0,80 / 0,20 ;
+- matrice `chat → chats` : case (a,a) = 0 (haut 1+1, gauche 1+1, diagonale 0+0), dernière case = 1, chemin optimal correct ;
+- Word2Vec : 2 × 10⁶ et 60 × 10⁶ paramètres ; fenêtre de `dort` = {le, chat, sur, canapé} (écarts 2, 1, 1, 2) ;
+- TP : sorties des blocs 1 et 2 **reproduites à l'identique** (0,535 / 0,316 / 0,289 ; 0,471 / 0,300 / 0,234 ; norme 0,0) ; `cos(reine − roi, femme − homme)` = **0,3726** ; voisins de `chat` : félin 0,717 · chien 0,618 · chats 0,615.
+
+**Corrections appliquées aux slides** :
+
+| # | Défaut relevé | Correction |
+|---|---|---|
+| 1 | Le bandeau de la section 3 (« Mesurer la ressemblance ») ne reprenait pas l'intitulé annoncé dans le plan de la séance | Bandeau → « Distance d'édition » ; item 6 du plan → « Des mots aux vecteurs (Word2Vec) » ; bandeau 7 → « Limites et préparation au RAG » |
+| 2 | Renvois internes `S3` … `S7`, sigle jamais défini (et confondable avec « séance 6 ») | Écrits en clair : « section 3 » … « section 7 » |
+| 3 | Aucune slide d'objectifs, alors que le cours 4 en a une | Slide « Objectifs de la séance » (5 objectifs en verbes d'action, rattachés à leur section, + prérequis) |
+| 4 | « la slide précédente » renvoyait à une slide sans aucun chiffre | « la slide « Ce que ça donne » » |
+| 5 | « Ces 0,37 ne sont pas une similarité » (accord) | « Ce 0,37 n'est pas une similarité » |
+| 6 | Deux puces redondantes sur les stop words, avec une causalité fausse | Réécrites : gain de dimensions / gain de bruit |
+| 7 | « dimension : 100 à 300 — … au-delà les gains… » (ponctuation) | Point-virgule + virgule |
+| 8 | « les 13 minutes restantes sont la lecture des consignes » | « sont consacrées à la lecture des consignes, aux erreurs… » |
+| 9 | En-tête de colonne « Comptages » pour des cosinus (slide TF-IDF) | « Cosinus (comptages) » / « Cosinus (TF-IDF) », comme la slide suivante |
+| 10 | « il ne sépare au mieux que D3 des trois autres » (ambigu) | « il ne peut, au mieux, que distinguer D3 des trois autres » |
+| 11 | Bigramme `mord homme` incompatible avec la découpe en tokens retenue | `mord l'homme` |
+| 12 | « Stemming (radical) » contredisait la glose « un stem n'est pas un radical » | « Stemming (stem produit) » |
+| 13 | « Plus lent » pour la lemmatisation (accord) | « Plus lente » |
+| 14 | « token = un mot » (slide 3) contredisait « ici token ne veut plus dire mot » (fin de S2) | « c'est le même terme, mais pas la même unité » + « avec les sous-mots, « token » ne veut plus dire « mot » » |
+| 15 | Le `+1` de l'IDF justifié par une division par zéro impossible (`df ≥ 1`) | « les +1 lissent le rapport : l'IDF ne peut jamais être nul ni négatif » |
+| 16 | `w_t` employé dans la formule CBOW sans définition, et `contexte \ {w_t}` vide par construction | `C = contexte(w_t), w_t ∉ C` + glose « w_t = le mot central, la cible » |
+| 17 | « il n'y a pas de couche « cachée » séparée » (contredit la couche *h*) | « la couche intermédiaire n'est que la moyenne de ces lignes » |
+| 18 | Voisins de `chat` cités (`matou`) absents du vocabulaire du TP — l'étudiant ne pouvait pas vérifier | Valeurs du TP ajoutées sous la phrase : `félin` 0,72 · `chien` 0,62 · `chats` 0,62 |
+| 19 | « un chunk » employé avant sa glose | « un chunk (un passage de document) » |
+| 20 | « l'ordre et le contexte disparaissent » (le pooling ne retire pas de contexte à des vecteurs statiques) | « l'ordre et les relations entre mots » |
+| 21 | Entrée « 5 · NLP : du texte au sens » ≠ titre du cours | « 5 · NLP : du texte aux vecteurs » |
+
+**Corrections appliquées aux documents annexes** :
+
+- **Plan** : 54/55/56/57 slides → **58** ; budget 122 min de contenu + 28 min d'interaction ; valeur `félin` 0,378 → **0,333** ; « 2 questions » → 4 ; accroche des deux phrases rattachée à S1 ; note sur les écarts de front-matter (2026, `html: true`, `title`).
+- **TP** : « La requête contient quatre mots » → la requête en compte **six** tokens ; l'énoncé annonçait `animal de compagnie` alors que le notebook utilise `gâteau au chocolat` ; **question 4** ajoutée sur la liste de stop words accentuée (défaut volontaire, documenté dans le README et dans une note enseignant du corrigé) ; prérequis et installation ajoutés à l'énoncé ; `requirements.txt` réellement figé ; « section S2 » → « section 2 » ; `docs = tokenize_corpus = …` nettoyé.
+- **Ce rapport** : « quatre SVG » annoncés avec quatre noms, mais six existent ; « aucune image externe » contredit `bow-sac.jpg` et `analogie-embedding-space.png`.
+
+**Points laissés à l'arbitrage de l'auteur** :
+
+1. `analogie-embedding-space.png` : crédit d'auteur affiché sur la slide, mais **licence non explicite** — à préciser avant toute diffusion publique du support.
+2. Espaces insécables avant `:` `?` `!` `;` : absents du fichier (~140 occurrences) et absents des cours 1 à 4 — correction globale à décider.
+3. Gloses de `rappel@k`, HNSW et « fidélité » sur la slide « Qui traite quoi ».
+4. Recompilation du PDF et contrôle visuel des trois slides ajoutées.

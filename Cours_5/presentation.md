@@ -43,7 +43,7 @@ Christopher de Boisvilliers
 
 ---
 
-<!-- header: ⭐️ Plan du cours -->
+<!-- header: ⭐️ Plan de la séance -->
 
 ### **Plan de la séance**
 
@@ -63,7 +63,7 @@ Christopher de Boisvilliers
 
 **Les 5 séances**
 
-<span style="color:#3d65f6; font-weight:700;">5 · NLP : du texte au sens</span>
+<span style="color:#3d65f6; font-weight:700;">5 · NLP : du texte aux vecteurs</span>
 
 6 · Embeddings et Transformers
 
@@ -79,6 +79,38 @@ Christopher de Boisvilliers
 <div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.86em;">
 Aujourd'hui : <strong>2 h 30 de cours</strong> — puis <strong>1 h de TP</strong>.<br/>
 <span style="color:#4b5563;">RAG = <em>Retrieval-Augmented Generation</em> : répondre à une question en retrouvant d'abord les bons passages d'un corpus, puis en les donnant à un modèle de langage.</span>
+</div>
+
+---
+
+<!-- header: ⭐️ Objectifs de la séance -->
+
+### **Objectifs de la séance**
+
+<p style="font-size:.84em; margin:0 0 6px 0;">
+À la fin de cette séance, vous saurez :
+</p>
+
+<div style="display:flex; flex-direction:column; gap:7px; font-size:.8em;">
+<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
+<strong>1.</strong> <strong>préparer</strong> un texte pour un modèle — normaliser, tokeniser, filtrer — et dire ce que chaque choix coûte. <span style="color:#9aa4b8;">(section 2)</span>
+</div>
+<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
+<strong>2.</strong> <strong>mesurer</strong> une ressemblance : d'abord par les caractères (distance d'édition), puis par les mots (cosinus). <span style="color:#9aa4b8;">(sections 3 et 4)</span>
+</div>
+<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
+<strong>3.</strong> <strong>pondérer</strong> les termes pour qu'un mot présent partout n'écrase plus un mot discriminant. <span style="color:#9aa4b8;">(section 5)</span>
+</div>
+<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
+<strong>4.</strong> <strong>obtenir</strong> des vecteurs denses qui rapprochent <code>voiture</code> et <code>automobile</code>, et <strong>nommer</strong> leurs limites. <span style="color:#9aa4b8;">(sections 6 et 7)</span>
+</div>
+<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
+<strong>5.</strong> <strong>décrire</strong> les deux phases d'un RAG <span style="color:#9aa4b8;">(section 7)</span> et <strong>choisir</strong> une représentation en assumant son prix.
+</div>
+</div>
+
+<div style="margin-top:12px; padding:10px 14px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.84em;">
+<strong>Prérequis</strong> : cours 1 à 4 (Python, <code>scikit-learn</code>, régression logistique). <strong>Aucune</strong> connaissance en linguistique n'est supposée : tout est introduit à partir d'exemples chiffrés.
 </div>
 
 ---
@@ -215,7 +247,7 @@ Chaque brique sera construite à la main avant d'être appelée via une biblioth
 
 <div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.85em;">
 Un modèle ne voit jamais de texte : il voit des <strong>identifiants</strong>. Toute la question est de savoir ce qu'on met <em>derrière</em> ces identifiants.<br/>
-<span style="color:#4b5563;">Dans tout ce cours, <strong>token = un mot</strong>. En séance 6, le token deviendra un <strong>morceau de mot</strong> : c'est le même mot, pas la même unité.</span>
+<span style="color:#4b5563;">Dans tout ce cours, <strong>token = un mot</strong>. En séance 6, le token deviendra un <strong>morceau de mot</strong> : c'est le même terme, mais pas la même unité.</span>
 </div>
 
 ---
@@ -338,7 +370,7 @@ La négation a disparu. Le sens est inversé.
 
 ### **Stemming ou lemmatisation ?**
 
-| Mot | Stemming (radical) | Lemmatisation |
+| Mot | Stemming (stem produit) | Lemmatisation |
 |---|---|---|
 | mangeons | `mang` | `manger` |
 | mangera | `mang` | `manger` |
@@ -356,9 +388,46 @@ Un stem n'est pas un radical linguistique : c'est la forme produite par l'algori
 <div style="flex:1;">
 
 **Lemmatisation** — analyse morphologique et étiquette grammaticale.<br/>
-Plus lent ; `meilleur → bon` dépend de l'analyseur.
+Plus lente ; `meilleur → bon` dépend de l'analyseur.
 
 </div>
+</div>
+
+
+---
+
+### **Étiqueter la grammaire : le POS tagging**
+
+<p style="font-size:.84em; color:#4b5563; margin:2px 0 6px 0;">
+Chaque token reçoit une étiquette grammaticale (Universal POS). Exemple :
+</p>
+
+<div style="display:flex; gap:16px; font-size:.86em;">
+<div style="flex:1.1;">
+
+| token | étiquette |
+|---|---|
+| Le | `DET` |
+| président | `NOUN` |
+| parle | `VERB` |
+| de | `ADP` |
+| la | `DET` |
+| banque | `NOUN` |
+
+</div>
+<div style="flex:1;">
+
+**À quoi ça sert**
+
+- **lever une ambiguïté** : `la fermeture` (nom) vs `fermer` (verbe)
+- **lemmatiser juste** : `suis` → `être` ou `suivre` selon le contexte
+- **préparer l'extraction d'entités** (séance 6)
+
+</div>
+</div>
+
+<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
+C'est un <strong>outil de pipeline</strong>, pas un concept de ce cours : on l'utilise, on ne l'implémente pas.
 </div>
 
 ---
@@ -367,7 +436,7 @@ Plus lent ; `meilleur → bon` dépend de l'analyseur.
 
 <div style="font-size:.88em;">
 
-**1 · Les sous-mots (BPE, WordPiece)** — ici « token » ne veut plus dire « mot » : c'est un morceau de mot, et ce sera le sens du terme en séance 6.
+**1 · Les sous-mots (BPE, WordPiece)** — avec les sous-mots, « token » ne veut plus dire « mot » : c'est un morceau de mot, et ce sera le sens du terme en séance 6.
 
 `incroyable` → `in` + `croy` + `able` (segmentation illustrative) : un mot inconnu devient une suite de morceaux connus.
 C'est la réponse au problème des mots hors vocabulaire. Le principe est repris par tous les Transformers — BPE, WordPiece ou Unigram selon le modèle (séance 6).
@@ -592,7 +661,7 @@ Un document devient un **sac** : on garde *quels* mots et *combien* de fois, on 
 
 **Le vocabulaire**
 
-Sur nos 4 documents : **18 termes**.
+Sur nos 4 documents : **18 termes** — autant de types distincts.
 C'est l'ensemble des colonnes de la matrice.
 
 </div>
@@ -800,7 +869,7 @@ Deux scènes opposées, un score parfait.
 
 **La parade classique : les bigrammes**
 
-`le chien`, `chien mord`, `mord homme`… On réintroduit un **ordre local entre mots adjacents**, au prix d'un espace de bigrammes théoriquement $V\times V$.
+`le chien`, `chien mord`, `mord l'homme`… On réintroduit un **ordre local entre mots adjacents**, au prix d'un espace de bigrammes théoriquement $V\times V$.
 
 </div>
 
@@ -854,13 +923,13 @@ C'est pourtant le cas le plus fréquent en production : vocabulaire métier, fau
 
 <div style="margin-top:10px; font-size:.88em;">
 
-`le` est présent dans 3 documents sur 4 : il ne sépare au mieux que D3 des trois autres.
+`le` est présent dans 3 documents sur 4 : il ne peut, au mieux, que distinguer D3 des trois autres.
 `félin` n'apparaît que dans **un seul** document : il isole exactement la bonne réponse.
 
 </div>
 
 <div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.9em;">
-Il faut donc <strong>pondérer</strong> les termes : c'est tout l'objet de TF-IDF.
+Il faut donc <strong>pondérer</strong> les termes — et la bonne mesure de « rare » n'est pas la fréquence dans le document, mais le <strong>nombre de documents qui contiennent le mot</strong>. C'est tout l'objet de TF-IDF.
 </div>
 
 ---
@@ -911,9 +980,11 @@ Un terme est important s'il est :
 </div>
 </div>
 
-<div style="margin-top:14px; padding:12px 16px; background:#f4f7ff; border-left:4px solid #3d65f6; border-radius:6px; font-size:.88em;">
+<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-left:4px solid #3d65f6; border-radius:6px; font-size:.84em;">
 Intuition : un mot qui apparaît dans <em>tous</em> les documents ne peut pas servir à en choisir un.
 </div>
+
+![width:520px](./images/idf-rarete.svg)
 
 <p style="font-size:.68em; color:#9aa4b8; margin-top:8px;">Salton &amp; Buckley (1988), <em>Term-weighting approaches in automatic text retrieval</em>.</p>
 
@@ -944,7 +1015,7 @@ w_{t,d}=\text{tf}(t,d)\times\text{idf}(t)
 $$
 
 <div style="font-size:.82em; color:#4b5563; margin-top:6px;">
-<em>N</em> = nombre de documents · <em>df(t)</em> = nombre de documents contenant <em>t</em> · le <em>+1</em> évite une division par zéro et empêche un IDF nul.<br/>
+<em>N</em> = nombre de documents · <em>df(t)</em> = nombre de documents contenant <em>t</em> · les <em>+1</em> lissent le rapport : l'IDF ne peut jamais être nul ni négatif.<br/>
 Le vecteur obtenu est ensuite <strong>normalisé en L2</strong>. La variante « classique » divise <em>tf</em> par la longueur du document — un facteur <strong>par document</strong>. Après normalisation L2, les deux conventions donnent des cosinus <strong>identiques</strong>.
 </div>
 
@@ -972,7 +1043,7 @@ Aucun terme n'est jamais annulé : <code>le</code>, présent dans 3 documents su
 
 ### **Requête « le chat », cette fois en TF-IDF**
 
-| Document | Comptages | TF-IDF |
+| Document | Cosinus (comptages) | Cosinus (TF-IDF) |
 |---|---|---|
 | D1 | **0,671** | **0,641** |
 | D2 | 0,447 | 0,288 |
@@ -1182,11 +1253,11 @@ Chaque mot possède une ligne dans la <strong>matrice d'entrée W</strong> (tail
 
 $$
 h=\frac{1}{|C|}\sum_{w\in C} \mathbf{e}_w
-\qquad\text{avec } C=\text{contexte}\setminus\{w_t\},\ |C|\leq 2k
+\qquad\text{avec } C=\text{contexte}(w_t),\ w_t\notin C,\ |C|\leq 2k
 $$
 
 <div style="font-size:.78em; color:#4b5563; margin-top:2px;">
-<em>e<sub>w</sub></em> = le vecteur du mot <em>w</em> (une ligne de W) · <em>h</em> = le vecteur agrégé du contexte ·
+<em>e<sub>w</sub></em> = le vecteur du mot <em>w</em> (une ligne de W) · <em>w<sub>t</sub></em> = le mot central, la cible · <em>h</em> = le vecteur agrégé du contexte ·
 |C| ≤ 2k parce qu'au premier mot de la phrase, la fenêtre ne contient que k voisins.
 </div>
 
@@ -1213,7 +1284,7 @@ $$
 10 000 mots × 100 dimensions → **2 × 10⁶ poids**
 
 <div style="margin-top:8px; font-size:.92em; color:#4b5563;">
-La <strong>ligne de la matrice d'entrée</strong> associée à un mot <em>est</em> son embedding : il n'y a pas de couche « cachée » séparée.
+La <strong>ligne de la matrice d'entrée</strong> associée à un mot <em>est</em> son embedding : la couche intermédiaire n'est que la moyenne de ces lignes.
 </div>
 
 </div>
@@ -1222,7 +1293,7 @@ La <strong>ligne de la matrice d'entrée</strong> associée à un mot <em>est</e
 **Ordres de grandeur**
 
 - corpus : millions de mots
-- dimension : 100 à 300 — compromis capacité / coût, au-delà les gains deviennent marginaux
+- dimension : 100 à 300 — compromis capacité / coût ; au-delà, les gains deviennent marginaux
 - vocabulaire : 10⁴ à 10⁶
 
 </div>
@@ -1230,7 +1301,7 @@ La <strong>ligne de la matrice d'entrée</strong> associée à un mot <em>est</e
 
 <div style="margin-top:14px; padding:12px 16px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.86em;">
 Un vocabulaire de 100 000 mots en 300 dimensions = <strong>60 millions</strong> de paramètres, pour deux matrices.
-Et pour chaque paire, il faut calculer <em>|V|</em> scores : c'est ce <strong>coût de calcul</strong> que réduisent le negative sampling et le softmax hiérarchique (cours 6), pas le nombre de paramètres.
+Et pour chaque paire, il faut calculer <em>|V|</em> scores : c'est ce <strong>coût de calcul</strong> que réduisent le negative sampling et le softmax hiérarchique (séance 6), pas le nombre de paramètres.
 </div>
 
 ---
@@ -1286,7 +1357,7 @@ Attention : c'est une similarité <strong>distributionnelle</strong>, pas du « 
 Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et il se réutilise.
 </p>
 
-<p style="font-size:.6em; color:#9aa4b8; margin-top:0;">Figure : @akshay_pachaar (utilisée à titre illustratif).</p>
+<p style="font-size:.6em; color:#9aa4b8; margin-top:0;">Figure : schéma de @akshay_pachaar, repris tel quel avec son crédit d'auteur.</p>
 
 ---
 
@@ -1312,7 +1383,7 @@ Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et 
 - un petit modèle à 100 dimensions amplifie tout ça
 
 <div style="margin-top:6px; font-size:.95em; color:#4b5563;">
-Ces 0,37 ne sont pas une similarité entre mots : c'est le cosinus de deux <em>déplacements</em> (reine − roi et femme − homme), mesuré sur le petit modèle du TP. Les 0,6–0,9 de la slide précédente sont des similarités de <em>position</em>, sur un gros corpus : ni la même grandeur, ni le même modèle.</div>
+Ce 0,37 n'est pas une similarité entre mots : c'est le cosinus de deux <em>déplacements</em> (reine − roi et femme − homme), mesuré sur le petit modèle du TP. Les 0,6–0,9 de la slide « Ce que ça donne » sont des similarités de <em>position</em>, sur un gros corpus : ni la même grandeur, ni le même modèle.</div>
 
 </div>
 </div>
@@ -1328,7 +1399,7 @@ Elle illustre une propriété du corpus, pas une compréhension du monde.
 
 <div style="font-size:.86em;">
 
-Un mot a maintenant un vecteur. Mais un **document**, un **chunk**, une **phrase** en ont-ils un ?
+Un mot a maintenant un vecteur. Mais un **document**, un **chunk** (un passage de document), une **phrase** en ont-ils un ?
 
 </div>
 
@@ -1336,7 +1407,7 @@ Un mot a maintenant un vecteur. Mais un **document**, un **chunk**, une **phrase
 <div style="flex:1; background:#f4f7ff; border-radius:8px; padding:12px 14px;">
 <strong>Pooling</strong><br/>
 Moyenner les vecteurs des mots du document.<br/>
-Simple — mais l'ordre et le contexte disparaissent.
+Simple — mais l'ordre et les relations entre mots disparaissent.
 </div>
 <div style="flex:1; background:#f4f7ff; border-radius:8px; padding:12px 14px;">
 <strong>Encodeur de phrases</strong><br/>
@@ -1352,7 +1423,7 @@ Tant que ce maillon n'est pas vu, le RAG reste une boîte noire.
 
 ---
 
-<!-- header: ⭐️ Limites et RAG -->
+<!-- header: ⭐️ Limites et préparation au RAG -->
 
 ### **Cinq limites, un même mur**
 
@@ -1555,7 +1626,7 @@ Embeddings pré-calculés : voisins, analogie, un échec à expliquer.
 </div>
 
 <p style="font-size:.76em; color:#4b5563; margin-top:8px;">
-Total des blocs : 47 min — les <strong>13 minutes restantes</strong> sont la lecture des consignes, les erreurs d'exécution et les questions.
+Total des blocs : 47 min — les <strong>13 minutes restantes</strong> sont consacrées à la lecture des consignes, aux erreurs d'exécution et aux questions.
 </p>
 
 <div style="margin-top:14px; font-size:.84em;">
