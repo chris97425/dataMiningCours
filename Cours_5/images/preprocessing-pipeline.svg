@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="980" height="360" fill="#ffffff"/>
+<text x="32.0" y="42" font-size="17" font-weight="700" fill="#111827">Du corpus brut au vecteur</text>
+<text x="32.0" y="66" font-size="14" fill="#6b7280">six décisions successives — les deux cases orange sont optionnelles</text>
+<rect x="32.0" y="150" width="112" height="62" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.6"/>
+<text x="88.0" y="178" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">Corpus brut</text>
+<text x="88.0" y="197" font-size="11.5" fill="#6b7280" text-anchor="middle">fichiers, pages web</text>
+<line x1="147.0" y1="181.0" x2="161.0" y2="181.0" stroke="#111827" stroke-width="2"/>
+<polygon points="167.0,181.0 159.0,176.0 159.0,186.0" fill="#111827"/>
+<rect x="166.0" y="150" width="112" height="62" rx="10" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.6"/>
+<text x="222.0" y="178" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">Normaliser</text>
+<text x="222.0" y="197" font-size="11.5" fill="#6b7280" text-anchor="middle">NFC · casse</text>
+<line x1="281.0" y1="181.0" x2="295.0" y2="181.0" stroke="#111827" stroke-width="2"/>
+<polygon points="301.0,181.0 293.0,176.0 293.0,186.0" fill="#111827"/>
+<rect x="300.0" y="150" width="112" height="62" rx="10" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.6"/>
+<text x="356.0" y="178" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">Tokeniser</text>
+<text x="356.0" y="197" font-size="11.5" fill="#6b7280" text-anchor="middle">découper en unités</text>
+<line x1="415.0" y1="181.0" x2="429.0" y2="181.0" stroke="#111827" stroke-width="2"/>
+<polygon points="435.0,181.0 427.0,176.0 427.0,186.0" fill="#111827"/>
+<rect x="434.0" y="150" width="112" height="62" rx="10" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.6"/>
+<text x="490.0" y="178" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">Filtrer</text>
+<text x="490.0" y="197" font-size="11.5" fill="#6b7280" text-anchor="middle">ponctuation, bruit</text>
+<line x1="549.0" y1="181.0" x2="563.0" y2="181.0" stroke="#111827" stroke-width="2"/>
+<polygon points="569.0,181.0 561.0,176.0 561.0,186.0" fill="#111827"/>
+<rect x="568.0" y="150" width="112" height="62" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.6"/>
+<text x="624.0" y="178" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">Stop words</text>
+<text x="624.0" y="197" font-size="11.5" fill="#6b7280" text-anchor="middle">mots outils</text>
+<line x1="683.0" y1="181.0" x2="697.0" y2="181.0" stroke="#111827" stroke-width="2"/>
+<polygon points="703.0,181.0 695.0,176.0 695.0,186.0" fill="#111827"/>
+<rect x="702.0" y="150" width="112" height="62" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.6"/>
+<text x="758.0" y="178" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">Lemmatiser</text>
+<text x="758.0" y="197" font-size="11.5" fill="#6b7280" text-anchor="middle">retour au lemme</text>
+<line x1="817.0" y1="181.0" x2="831.0" y2="181.0" stroke="#111827" stroke-width="2"/>
+<polygon points="837.0,181.0 829.0,176.0 829.0,186.0" fill="#111827"/>
+<rect x="836.0" y="150" width="112" height="62" rx="10" fill="#dcfce7" stroke="#15803d" stroke-width="1.6"/>
+<text x="892.0" y="178" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">Représenter</text>
+<text x="892.0" y="197" font-size="11.5" fill="#6b7280" text-anchor="middle">BoW · TF-IDF</text>
+<rect x="712.0" y="88" width="92" height="38" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="758.0" y="112" font-size="13" font-weight="700" fill="#d97706" text-anchor="middle">POS tagging</text>
+<line x1="758.0" y1="126" x2="758.0" y2="146" stroke="#d97706" stroke-width="2"/>
+<polygon points="758.0,150 753.0,141 763.0,141" fill="#d97706"/>
+<line x1="32.0" y1="246" x2="948.0" y2="246" stroke="#e5e7eb" stroke-width="1"/>
+<text x="88.0" y="268" font-size="12" fill="#6b7280" text-anchor="middle">perd : bruit, doublons</text>
+<text x="222.0" y="268" font-size="12" fill="#6b7280" text-anchor="middle">perd : accents, casse</text>
+<text x="356.0" y="268" font-size="12" fill="#6b7280" text-anchor="middle">perd : élisions, URLs</text>
+<text x="490.0" y="268" font-size="12" fill="#6b7280" text-anchor="middle">perd : ponctuation</text>
+<text x="624.0" y="268" font-size="12" fill="#6b7280" text-anchor="middle">perd : négation</text>
+<text x="758.0" y="268" font-size="12" fill="#6b7280" text-anchor="middle">perd : nuances de forme</text>
+<text x="892.0" y="268" font-size="12" fill="#6b7280" text-anchor="middle">perd : ordre des mots</text>
+<text x="32.0" y="308" font-size="13.5" fill="#111827">Chaque étape est un choix : on ne « nettoie » pas, on <tspan font-weight="700">décide ce qu’on perd</tspan>.</text>
+</svg>

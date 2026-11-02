@@ -452,6 +452,30 @@ On sait maintenant produire des tokens propres.<br/>
 Question suivante : comment dire que <strong>deux textes se ressemblent</strong> ?
 </div>
 
+
+---
+
+### **Le pipeline de prétraitement, de bout en bout**
+
+![width:840px](./images/preprocessing-pipeline.svg)
+
+<div style="display:flex; gap:16px; font-size:.8em; margin-top:2px;">
+<div style="flex:1;">
+
+**Les deux étapes optionnelles** (orange) ne le sont pas pour les mêmes raisons : les stop words allègent le vecteur, la lemmatisation rapproche les formes d'un même mot.
+
+</div>
+<div style="flex:1;">
+
+**Le POS tagging** n'est pas une étape de filtrage : il fournit l'étiquette dont la lemmatisation a besoin (`suis` → `être` ou `suivre`).
+
+</div>
+</div>
+
+<p style="font-size:.78em; color:#4b5563; margin-top:4px;">
+Ordre non négociable : on ne filtre pas avant d'avoir tokenisé, et on ne lemmatise pas sans étiquette grammaticale.
+</p>
+
 ---
 
 <!-- header: ⭐️ Distance d'édition -->
