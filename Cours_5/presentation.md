@@ -1133,10 +1133,6 @@ $$
 
 </div>
 
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-La <strong>ligne de W</strong> associée à un mot <em>est</em> son embedding. Il n'y a pas de couche « cachée » séparée : la représentation est la matrice elle-même. La matrice de sortie, de même taille, sert à calculer les scores.
-</div>
-
 ---
 
 ### **Combien ça coûte ?**
@@ -1150,6 +1146,10 @@ La <strong>ligne de W</strong> associée à un mot <em>est</em> son embedding. I
 - sortie : <em>|V| × d</em>
 
 10 000 mots × 100 dimensions → **2 × 10⁶ poids**
+
+<div style="margin-top:8px; font-size:.92em; color:#4b5563;">
+La <strong>ligne de la matrice d'entrée</strong> associée à un mot <em>est</em> son embedding : il n'y a pas de couche « cachée » séparée.
+</div>
 
 </div>
 <div style="flex:1;">
