@@ -14,7 +14,7 @@
 | Bloc 1 (S0–S1, 6 slides) | Codex | **À CORRIGER** | 5 corrections appliquées (comptage 13/10, surlignage, schéma RAG, etc.) |
 | Blocs 2–3 (S2–S3, 15 slides) | Codex | **À CORRIGER** | 27 corrections appliquées (matrices, récurrence, stop words, stemming, POS, regex, limites) |
 | Bloc 4 (S4, 10 slides) | Codex | **À CORRIGER** | 11 corrections (normes L2, calcul de 0,671, bigrammes, vecteur nul, fréquence documentaire) |
-| Blocs 5–8 (S5–S8, 23 slides) | Codex **indisponible** (quota atteint à 12:35, réinitialisation 17:04) → revue indépendante par sous-agent + script de vérification `notes/verif_slides32_54.py` | Valeurs numériques **reproduites à l'identique** | Vérification manuelle complémentaire des formules et du schéma RAG |
+| Blocs 5–8 (S5–S8, 23 slides) | Codex **indisponible** (quota atteint à 12:35, réinitialisation 17:04) → revue indépendante par sous-agent + script de vérification `notes/verif_slides32_54.py` | **À CORRIGER** sur S5, S6, S7 — S8 validé. 100 % des valeurs numériques reproduites ; 6 erreurs de fond relevées, toutes corrigées | Corrections appliquées : voir §2 bis |
 
 **Transparence** : les blocs 5 à 8 n'ont **pas** été relus par Codex. Ils ont été vérifiés par (a) un sous-agent indépendant qui a recalculé toutes les valeurs avec scikit-learn, (b) une relecture ciblée des formules et du schéma RAG. C'est une revue plus faible que les précédentes et cela doit être dit.
 
@@ -39,6 +39,22 @@
 | 13 | Pipeline RAG « 6 boîtes » incomplet (requête non encodée, pas de génération) | Deux phases, 10 éléments, encodage de la requête et réponse sourcée inclus |
 | 14 | TP irréaliste (6 exercices, 60 min pile, Word2Vec non interprétable sur 2 000 mots) | 3 blocs (15 + 20 + 12 min) + 13 min de marge, embeddings pré-calculés |
 | 15 | `SequenceMatcher` présenté comme Levenshtein | Mention explicite : Ratcliff/Obershelp, algorithme différent |
+
+---
+
+## 2 bis. Corrections issues de la revue indépendante (blocs 5–8)
+
+| # | Problème | Correction |
+|---|---|---|
+| 1 | Slide 47 : « mots inconnus → vecteur nul » confondait mot hors vocabulaire (qui n'a **aucun** vecteur) et expression multi-mots (sens non compositionnel) | Tableau scindé en 5 lignes ; « Word2Vec a réglé » → « **atténue** » |
+| 2 | Slide 43 : « 60 M de paramètres, c'est pour cela que l'échantillonnage… » — causalité fausse | Le coût réduit par le negative sampling est le **calcul des |V| scores**, pas le nombre de paramètres |
+| 3 | Slide 42 : `|C| = 2k` faux près des bornes (contredit la slide 40) | `|C| ≤ 2k` ; matrice d'entrée vs matrice de sortie explicitée |
+| 4 | Slide 33 : « facteur global » faux — le facteur est **par document**, et les cosinus sont **identiques** après L2 | Reformulé |
+| 5 | Slide 34 : « deux fois moins » alors que 1,916 / 1,223 = **1,57** | Corrigé |
+| 6 | Slide 37 : « aucune stabilité » trop absolu | « très instable (forte variance) » |
+| 7 | Slide 40 : paires orientées façon Skip-gram avant que CBOW ne soit introduit | Associations mot ↔ contexte, sans direction |
+| 8 | Aucune référence bibliographique | Salton & Buckley (1988), Mikolov et al. (2013), Lewis et al. (2020) ajoutées en pied de section |
+| 9 | Slide 43 : dimension 100–300 non justifiée | Ajouté : compromis capacité / coût |
 
 ---
 

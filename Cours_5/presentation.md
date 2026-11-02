@@ -855,6 +855,8 @@ Un terme est important s'il est :
 Intuition : un mot qui apparaît dans <em>tous</em> les documents ne peut pas servir à en choisir un.
 </div>
 
+<p style="font-size:.68em; color:#9aa4b8; margin-top:8px;">Salton &amp; Buckley (1988), <em>Term-weighting approaches in automatic text retrieval</em>.</p>
+
 ---
 
 ### **Les deux facteurs**
@@ -883,7 +885,7 @@ $$
 
 <div style="font-size:.82em; color:#4b5563; margin-top:6px;">
 <em>N</em> = nombre de documents · <em>df(t)</em> = nombre de documents contenant <em>t</em> · le <em>+1</em> évite une division par zéro et empêche un IDF nul.<br/>
-Le vecteur obtenu est ensuite <strong>normalisé en L2</strong>. La variante « classique » divise <em>tf</em> par la longueur du document : les deux diffèrent d'un facteur global, sans changer l'ordre des similarités.
+Le vecteur obtenu est ensuite <strong>normalisé en L2</strong>. La variante « classique » divise <em>tf</em> par la longueur du document — un facteur <strong>par document</strong>. Après normalisation L2, les deux conventions donnent des cosinus <strong>identiques</strong>.
 </div>
 
 ---
@@ -903,7 +905,7 @@ N = 4 documents. Valeurs calculées avec la formule lissée ci-dessus.
 | `félin` | 1 | ln(5/2) + 1 = **1,916** |
 
 <div style="margin-top:8px; font-size:.82em; color:#4b5563;">
-Aucun terme n'est jamais annulé : <code>le</code>, présent dans 3 documents sur 4, garde un IDF de 1,22 — deux fois moins qu'un mot unique, mais pas zéro.
+Aucun terme n'est jamais annulé : <code>le</code>, présent dans 3 documents sur 4, garde un IDF de 1,22, soit <strong>1,57 fois moins</strong> qu'un mot unique — mais jamais zéro.
 </div>
 
 ---
@@ -968,7 +970,7 @@ Requête : <code>félin salon</code>
 **Ce qu'il faut savoir en plus**
 
 - l'IDF dépend du **corpus** : changer de corpus change les poids
-- un IDF calculé sur 4 documents n'a aucune stabilité
+- un IDF calculé sur 4 documents est très instable (forte variance)
 - il faut **figer** le vectoriseur avec le modèle, comme le vocabulaire
 
 </div>
@@ -1029,6 +1031,8 @@ Deux mots qui apparaissent **dans les mêmes contextes** ont un sens proche.
 
 C'est tout le programme de Word2Vec : apprendre des vecteurs **à partir des voisinages**, sans dictionnaire.
 
+<p style="font-size:.68em; color:#9aa4b8; margin-top:6px;">Mikolov et al. (2013), <em>Efficient Estimation of Word Representations in Vector Space</em>.</p>
+
 </div>
 </div>
 
@@ -1049,8 +1053,8 @@ Contexte = mots à une distance ≤ 2 :
 
 `le` (0) · `chat` (1) · `sur` (3) · `canapé` (4)
 
-→ 4 paires d'apprentissage :<br/>
-`dort → le`, `dort → chat`, `dort → sur`, `dort → canapé`
+→ 4 associations mot ↔ contexte :<br/>
+(`dort`, `le`), (`dort`, `chat`), (`dort`, `sur`), (`dort`, `canapé`)
 
 </div>
 <div style="flex:1; background:#f4f7ff; border-radius:8px; padding:12px 14px;">
@@ -1112,13 +1116,13 @@ Les deux produisent la même chose : une matrice de vecteurs. Seul le sens des p
 
 <div style="font-size:.86em;">
 
-Chaque mot possède une ligne dans une matrice <strong>W</strong> de taille <em>|V| × d</em> :
+Chaque mot possède une ligne dans la <strong>matrice d'entrée W</strong> (taille <em>|V| × d</em>) : c'est elle qui contient les embeddings.
 
 </div>
 
 $$
 h=\frac{1}{|C|}\sum_{w\in C} \mathbf{e}_w
-\qquad\text{avec } C=\text{contexte}\setminus\{w_t\},\ |C|=2k \text{ hors bords}
+\qquad\text{avec } C=\text{contexte}\setminus\{w_t\},\ |C|\leq 2k
 $$
 
 <div style="font-size:.84em; margin-top:6px;">
@@ -1130,8 +1134,7 @@ $$
 </div>
 
 <div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-La <strong>ligne de W</strong> associée à un mot <em>est</em> son embedding. Il n'y a pas de couche « cachée » séparée :
-la représentation est la matrice elle-même.
+La <strong>ligne de W</strong> associée à un mot <em>est</em> son embedding. Il n'y a pas de couche « cachée » séparée : la représentation est la matrice elle-même. La matrice de sortie, de même taille, sert à calculer les scores.
 </div>
 
 ---
@@ -1154,7 +1157,7 @@ la représentation est la matrice elle-même.
 **Ordres de grandeur**
 
 - corpus : millions de mots
-- dimension : 100 à 300
+- dimension : 100 à 300 — compromis capacité / coût, au-delà les gains deviennent marginaux
 - vocabulaire : 10⁴ à 10⁶
 
 </div>
@@ -1162,7 +1165,7 @@ la représentation est la matrice elle-même.
 
 <div style="margin-top:14px; padding:12px 16px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.86em;">
 Un vocabulaire de 100 000 mots en 300 dimensions = <strong>60 millions</strong> de paramètres, pour deux matrices.
-C'est pour cela que les implémentations réelles utilisent des astuces d'échantillonnage (cours 6).
+Et pour chaque paire, il faut calculer <em>|V|</em> scores : c'est ce <strong>coût de calcul</strong> que réduisent le negative sampling et le softmax hiérarchique (cours 6), pas le nombre de paramètres.
 </div>
 
 ---
@@ -1252,17 +1255,18 @@ Tant que ce maillon n'est pas vu, le RAG reste une boîte noire.
 
 <!-- header: ⭐️ Limites et RAG -->
 
-### **Quatre limites, un même mur**
+### **Cinq limites, un même mur**
 
 | Limite | Symptôme | Ce qu'il faudrait |
 |---|---|---|
 | **Lexical** | `voiture` / `automobile` → cosinus 0 | des vecteurs appris |
 | **Polysémie** | `avocat` = fruit **et** métier, un seul vecteur | un vecteur **par contexte** |
 | **Ordre** | `le chien mord l'homme` ≈ `l'homme mord le chien` | modéliser la séquence |
-| **Mots inconnus** | `animal de compagnie` → vecteur nul | des sous-mots, un vrai encodeur |
+| **Hors vocabulaire** | un mot absent n'a <em>aucun</em> vecteur | des sous-mots (fastText), un vrai encodeur |
+| **Expression** | `animal de compagnie` : le sens n'est pas la somme des mots | un encodeur de phrases |
 
 <div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-Word2Vec a réglé la première ligne. Les trois autres demandent de regarder <strong>la phrase entière</strong>, pas le mot isolé.
+Word2Vec <strong>atténue</strong> la première ligne, sans la supprimer. Les suivantes demandent de regarder <strong>la phrase entière</strong>, pas le mot isolé.
 </div>
 
 ---
@@ -1318,9 +1322,11 @@ On prépare les documents <strong>une fois</strong>, avant toute question.
 </div>
 </div>
 
-<div style="margin-top:14px; font-size:.82em;">
+<div style="margin-top:10px; font-size:.82em;">
 Ce que le cours 5 a construit : le <strong>vecteur</strong> (S6) et la <strong>similarité</strong> (S4). Ce que la séance 7 ajoutera : le <strong>chunking</strong> et l'<strong>index</strong>.
 </div>
+
+<p style="font-size:.68em; color:#9aa4b8; margin-top:6px;">Lewis et al. (2020), <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>.</p>
 
 ---
 
@@ -1388,7 +1394,7 @@ Rien dans la suite ne sera magique : chaque brique aura été construite à la m
 <div style="color:#3d65f6;">→</div>
 <div style="flex:1; background:#f4f7ff; border-radius:8px; padding:10px 4px;"><strong>Représentation</strong><br/><span style="color:#4b5563;">BoW, TF-IDF, Word2Vec</span></div>
 <div style="color:#3d65f6;">→</div>
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:10px 4px;"><strong>Similarité</strong><br/><span style="color:#4b5563;">Levenshtein, cosinus</span></div>
+<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:10px 4px;"><strong>Similarité</strong><br/><span style="color:#4b5563;">cosinus (vecteurs) · Levenshtein (chaînes)</span></div>
 <div style="color:#3d65f6;">→</div>
 <div style="flex:1; background:#eef2ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 4px;"><strong>Contexte</strong><br/><span style="color:#4b5563;">séance 6</span></div>
 </div>
