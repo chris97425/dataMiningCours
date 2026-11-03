@@ -157,7 +157,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 
 **Budget** : **122 minutes de contenu + 28 minutes explicitement réservées** aux questions, aux deux démonstrations live, aux transitions et aux incidents techniques = 150 minutes. Ces 28 minutes ne sont pas « la marge » : elles sont réparties mentalement sur chaque séquence et doivent être consommées par l'interaction. (Les deux slides ajoutées en S4 ont pris 2 minutes sur cette réserve.)
 
-**Volume cible** : 60 slides. **La partie RAG a été retirée** (décision du 2026-11-02) : elle sera traitée dans une séance ultérieure. Les 3 slides RAG ont été remplacées par 3 slides de compréhension (comparaison des représentations, exercice, gestes à savoir refaire).
+**Volume cible** : 62 slides. **La partie RAG a été retirée** (décision du 2026-11-02) : elle sera traitée dans une séance ultérieure. Les 3 slides RAG ont été remplacées par 3 slides de compréhension (comparaison des représentations, exercice, gestes à savoir refaire).
 
 ### S0 — Ouverture (3 min, 3 slides)
 
@@ -177,7 +177,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 - **Transition** : pour traiter tout ça, il faut d'abord découper.
 - **Acquis** : citer 4 causes de difficulté, 1 exemple chacune, et ne pas les confondre avec les niveaux d'analyse.
 
-### S2 — Du texte aux tokens (21 min, 9 slides)
+### S2 — Du texte aux tokens (24 min, 11 slides)
 
 - **Objectif** : construire une chaîne de prétraitement **minimale et justifiée**, en sachant à chaque étape ce qu'on perd.
 - **Notions** : type / token / identifiant / vocabulaire ; normalisation Unicode ; tokenisation ; stop words ; stemming vs lemmatisation ; mention de POS et de sous-mots.
@@ -326,14 +326,14 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 |---|---|---|
 | S0 Ouverture | 3 min | 3 |
 | S1 Difficulté du langage | 7 min | 4 |
-| S2 Texte → tokens | 21 min | 9 |
+| S2 Texte → tokens | 24 min | 11 |
 | S3 Distance d'édition | 15 min | 8 |
 | S4 BoW + cosinus | 24 min | 12 |
 | S5 TF-IDF | 15 min | 7 |
 | S6 Word2Vec | 22 min | 9 |
 | S7 Limites + RAG | 11 min | 5 |
 | S8 Synthèse | 8 min | 3 |
-| **Contenu** | **126 min** | **60** |
+| **Contenu** | **129 min** | **62** |
 | Interactions, démos, transitions, imprévus | 24 min | — |
 | **Total** | **150 min = 2 h 30** | **58** |
 

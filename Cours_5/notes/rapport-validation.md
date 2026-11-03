@@ -1,7 +1,7 @@
 # Rapport de validation — Cours 5
 
 **Projet** : `dataMiningCours/Cours_5` · **Date** : 2026-11-02 · **Auteur** : Christopher de Boisvilliers
-**Périmètre** : plan pédagogique, 60 slides MARP, TP d'une heure. **Partie RAG retirée** le 2026-11-02 à la demande de l'auteur.
+**Périmètre** : plan pédagogique, 62 slides MARP, TP d'une heure. **Partie RAG retirée** le 2026-11-02 à la demande de l'auteur.
 
 ---
 
@@ -110,8 +110,8 @@ Le corrigé du TP a été **exécuté intégralement** (11 cellules, sorties ré
 | Livrable | Fichier | État |
 |---|---|---|
 | Plan pédagogique | `Cours_5/PLAN_PEDAGOGIQUE.md` | ✅ v2.2, alignée sur le cours réellement produit |
-| Cours 5 (60 slides) | `Cours_5/presentation.md` | ✅ |
-| Export PDF | `Cours_5/presentation.pdf` | ✅ 60 pages |
+| Cours 5 (62 slides) | `Cours_5/presentation.md` | ✅ |
+| Export PDF | `Cours_5/presentation.pdf` | ✅ 62 pages |
 | Thème | `Cours_5/themes/neobeam.css` | ✅ identique au cours 4 |
 | Illustrations | `Cours_5/images/` | ✅ 5 SVG + 2 bitmaps |
 | Énoncé TP | `tp/tp5_enonce.md` | ✅ |

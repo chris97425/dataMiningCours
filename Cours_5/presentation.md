@@ -430,6 +430,49 @@ Ordre à respecter : on ne filtre pas avant d'avoir tokenisé, et on ne lemmatis
 
 ---
 
+### **Un exemple, étape par étape**
+
+<p style="font-size:.86em; margin:2px 0 8px 0;">Phrase de départ : <code>Les chats d'Emily dorment sur le canapé du salon.</code></p>
+
+<table style="border-collapse:collapse; width:100%; font-size:.8em;">
+<tr>
+<th style="width:26%; text-align:left; padding:7px 10px; background:#3d65f6; color:#fff; white-space:nowrap;">Étape</th>
+<th style="text-align:left; padding:7px 10px; background:#3d65f6; color:#fff;">Résultat</th>
+</tr>
+<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>1. Normaliser</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>les chats d'emily dorment sur le canape du salon</code></td></tr>
+<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>2. Tokeniser</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>["les", "chats", "emily", "dorment",<br/>&nbsp;&nbsp;"sur", "le", "canape", "du", "salon"]</code></td></tr>
+<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><strong>3. Filtrer</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;">rien à retirer ici (pas de ponctuation, pas de chiffre)</td></tr>
+<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>4. Stop words</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>["chats","emily","dorment","canape","salon"]</code></td></tr>
+<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>5. Étiqueter (POS)</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>chats/NOUN · dorment/VERB · canape/NOUN · salon/NOUN</code></td></tr>
+<tr><td style="padding:7px 10px;"><strong>6. Lemmatiser</strong></td><td style="padding:7px 10px;"><code>["chat","emily","dormir","canape","salon"]</code></td></tr>
+</table>
+
+<p style="font-size:.78em; color:#4b5563; margin-top:8px;">C'est la liste finale qui entre dans le dataset — pas la phrase d'origine.</p>
+
+---
+
+### **Ce qu'on garde dans le dataset**
+
+<table style="border-collapse:collapse; width:100%; font-size:.76em;">
+<tr>
+<th style="text-align:left; padding:6px 8px; background:#3d65f6; color:#fff;">id</th>
+<th style="text-align:left; padding:6px 8px; background:#3d65f6; color:#fff;">texte brut</th>
+<th style="text-align:left; padding:6px 8px; background:#3d65f6; color:#fff;">tokens</th>
+<th style="text-align:center; padding:6px 8px; background:#3d65f6; color:#fff;">n</th>
+</tr>
+<tr><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">1</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">Les chats d'Emily dorment sur le canapé.</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;"><code>chat emily dormir canape</code></td><td style="text-align:center; padding:6px 8px; border-bottom:1px solid #e5e7eb;">4</td></tr>
+<tr><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">2</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">Le chien aboie dans le jardin.</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;"><code>chien aboyer jardin</code></td><td style="text-align:center; padding:6px 8px; border-bottom:1px solid #e5e7eb;">3</td></tr>
+<tr><td style="padding:6px 8px;">3</td><td style="padding:6px 8px;">Un félin se repose sur le sofa.</td><td style="padding:6px 8px;"><code>felin reposer sofa</code></td><td style="text-align:center; padding:6px 8px;">3</td></tr>
+</table>
+
+- **Toujours garder** la colonne `texte brut` : sans elle, impossible de revenir en arrière si le nettoyage a détruit une information
+- **Une ligne = un document** (une phrase, un paragraphe, un avis…)
+- **Colonnes en plus** selon la tâche : étiquettes, POS, longueur, date
+
+> Le nettoyage se choisit selon la tâche. Pour de la classification d'avis, on garde `ne… pas`. Pour de la recherche par mots-clés, on retire les stop words.
+
+---
+
 <!-- header: ⭐️ Distance d'édition -->
 
 ### **Deux chaînes se ressemblent-elles ?**
