@@ -7,7 +7,7 @@ math: mathjax
 html: true
 header: Cours Esiroi 2026
 footer: Data mining - Christopher de Boisvilliers
-title: Cours 5 - Fondamentaux du NLP et préparation au RAG
+title: Cours 5 - Du texte aux vecteurs
 style: |
   section pre {
     font-size: 19px;
@@ -26,14 +26,13 @@ style: |
     padding: 0;
   }
 ---
-
 <!-- _class: title -->
 
 # Le Data Mining
 
 <br/>
 
-## Cours 5 — Fondamentaux du NLP et préparation au RAG
+## Cours 5 — Du texte aux vecteurs
 
 <br/>
 
@@ -56,7 +55,7 @@ Christopher de Boisvilliers
 4. **Sac de mots et cosinus**
 5. **TF-IDF**
 6. **Des mots aux vecteurs (Word2Vec)**
-7. **Limites et préparation au RAG**
+7. **Limites des méthodes vues**
 
 </div>
 <div style="flex:.88; border-left:2px solid #dbe4f7; padding-left:18px; font-size:.86em;">
@@ -78,40 +77,20 @@ Christopher de Boisvilliers
 
 <div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.86em;">
 Aujourd'hui : <strong>2 h 30 de cours</strong> — puis <strong>1 h de TP</strong>.<br/>
-<span style="color:#4b5563;">RAG = <em>Retrieval-Augmented Generation</em> : répondre à une question en retrouvant d'abord les bons passages d'un corpus, puis en les donnant à un modèle de langage.</span>
+<span style="color:#4b5563;">Objectif : savoir transformer un texte en nombres, et savoir <em>pourquoi</em> chaque transformation change le résultat.</span>
 </div>
 
 ---
 
-<!-- header: ⭐️ Objectifs de la séance -->
-
 ### **Objectifs de la séance**
 
-<p style="font-size:.84em; margin:0 0 6px 0;">
-À la fin de cette séance, vous saurez :
-</p>
+- **Préparer** un texte : normaliser, découper, filtrer
+- **Comparer** deux textes : distance d'édition, cosinus
+- **Construire** des vecteurs : comptages, TF-IDF
+- **Comprendre** le principe de Word2Vec
+- **Choisir** une représentation selon la question posée
 
-<div style="display:flex; flex-direction:column; gap:7px; font-size:.8em;">
-<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
-<strong>1.</strong> <strong>préparer</strong> un texte pour un modèle — normaliser, tokeniser, filtrer — et dire ce que chaque choix coûte. <span style="color:#9aa4b8;">(section 2)</span>
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
-<strong>2.</strong> <strong>mesurer</strong> une ressemblance : d'abord par les caractères (distance d'édition), puis par les mots (cosinus). <span style="color:#9aa4b8;">(sections 3 et 4)</span>
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
-<strong>3.</strong> <strong>pondérer</strong> les termes pour qu'un mot présent partout n'écrase plus un mot discriminant. <span style="color:#9aa4b8;">(section 5)</span>
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
-<strong>4.</strong> <strong>obtenir</strong> des vecteurs denses qui rapprochent <code>voiture</code> et <code>automobile</code>, et <strong>nommer</strong> leurs limites. <span style="color:#9aa4b8;">(sections 6 et 7)</span>
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:8px 14px;">
-<strong>5.</strong> <strong>décrire</strong> les deux phases d'un RAG <span style="color:#9aa4b8;">(section 7)</span> et <strong>choisir</strong> une représentation en assumant son prix.
-</div>
-</div>
-
-<div style="margin-top:12px; padding:10px 14px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.84em;">
-<strong>Prérequis</strong> : cours 1 à 4 (Python, <code>scikit-learn</code>, régression logistique). <strong>Aucune</strong> connaissance en linguistique n'est supposée : tout est introduit à partir d'exemples chiffrés.
-</div>
+> Aucune connaissance en linguistique n'est nécessaire : tout part d'exemples chiffrés.
 
 ---
 
@@ -135,48 +114,24 @@ Aujourd'hui : <strong>2 h 30 de cours</strong> — puis <strong>1 h de TP</stron
 
 <div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.95em;">
 Pour un humain, c'est la même scène.<br/>
-Pour une méthode lexicale, la similarité est faible et ne repose que sur <strong>deux mots outils</strong>.
+Pour une méthode qui compte les mots, la similarité est faible et ne repose que sur <strong>deux mots outils</strong>.
 </div>
 
 <p style="text-align:center; margin-top:14px; font-size:.95em;">
-C'est ce gouffre que ce cours comble — et qui prépare le RAG.
+C'est ce gouffre que ce cours comble, une brique à la fois.
 </p>
 
 ---
 
 ### **Pourquoi est-ce si difficile ?**
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px; font-size:.85em;">
+- **Plusieurs sens** : `avocat` = un fruit ou un métier
+- **Mots nouveaux** : `googliser`, `chanmé`
+- **Écritures différentes** : `été`, `ÉTÉ`, `ete`
+- **Synonymes** : `voiture` et `automobile` ne se ressemblent pas
+- **Contexte** : le sens de `banque` dépend de la phrase
 
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 16px;">
-<strong>1 · Ambiguïté</strong><br/>
-« avocat » : le fruit ou le métier ?<br/>
-« J'ai vu l'homme avec le télescope. »
-</div>
-
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 16px;">
-<strong>2 · Productivité</strong><br/>
-On invente des mots et des phrases jamais vus :<br/>
-« chanmé », « googliser », « je me suis fait gruger ».
-</div>
-
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 16px;">
-<strong>3 · Variabilité de surface</strong><br/>
-<code>ÉTÉ</code> · <code>été</code> · <code>ete</code> (sans accent) · <code>etté</code> (faute)<br/>
-Une même idée, quatre graphies.
-</div>
-
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 16px;">
-<strong>4 · Dépendance au contexte</strong><br/>
-« La banque était fermée. »<br/>
-Laquelle ? Sans contexte, indécidable.
-</div>
-
-</div>
-
-<div style="margin-top:12px; text-align:center; font-size:.82em; color:#4b5563;">
-Quatre causes distinctes — et quatre raisons pour lesquelles un simple <code>if</code> ne suffira jamais.
-</div>
+> Un même mot ne portant pas toujours le même sens, aucun comptage ne suffit.
 
 ---
 
@@ -291,7 +246,7 @@ Il n'existe pas de « bonne » normalisation : il existe des <strong>choix</stro
 
 <p style="margin-top:10px; font-size:.85em; color:#4b5563;">
 Un tokenizer préentraîné (BERT, GPT…) applique déjà sa propre normalisation : la refaire peut la contredire.<br/>
-<strong>Règle d'arbitrage :</strong> comparer deux chaînes → les normaliser <em>toutes les deux</em> dans la même forme (NFC par défaut, NFKC si ligatures ou compatibilité) ; passer du texte à un tokenizer préentraîné → ne rien normaliser soi-même.
+<strong>Règle simple :</strong> comparer deux chaînes → les normaliser <em>toutes les deux</em> dans la même forme (NFC par défaut, NFKC si ligatures ou compatibilité) ; passer du texte à un tokenizer préentraîné → ne rien normaliser soi-même.
 </p>
 
 ---
@@ -362,7 +317,6 @@ La négation a disparu. Le sens est inversé.
 
 - Souvent retirés pour **BoW / TF-IDF** — mais c'est un **hyperparamètre** : sur des avis clients, `ne… pas` porte le signal.
 - Un tokenizer de Transformer découpe avant tout filtrage : on ne supprime rien avant lui.
-- Dans un **RAG**, le filtre s'applique — ou non — à l'index et à la requête, jamais au modèle.
 
 </div>
 
@@ -392,7 +346,6 @@ Plus lente ; `meilleur → bon` dépend de l'analyseur.
 
 </div>
 </div>
-
 
 ---
 
@@ -452,7 +405,6 @@ On sait maintenant produire des tokens propres.<br/>
 Question suivante : comment dire que <strong>deux textes se ressemblent</strong> ?
 </div>
 
-
 ---
 
 ### **Le pipeline de prétraitement, de bout en bout**
@@ -473,7 +425,7 @@ Question suivante : comment dire que <strong>deux textes se ressemblent</strong>
 </div>
 
 <p style="font-size:.78em; color:#4b5563; margin-top:4px;">
-Ordre non négociable : on ne filtre pas avant d'avoir tokenisé, et on ne lemmatise pas sans étiquette grammaticale.
+Ordre à respecter : on ne filtre pas avant d'avoir tokenisé, et on ne lemmatise pas sans étiquette grammaticale.
 </p>
 
 ---
@@ -698,7 +650,6 @@ Deux sacs étant donnés, comment dire qu'ils se ressemblent — avec un **nombr
 </div>
 </div>
 
-
 ---
 
 ### **Le sac, mécaniquement**
@@ -712,12 +663,11 @@ Deux sacs étant donnés, comment dire qu'ils se ressemblent — avec un **nombr
 
 </div>
 <div style="flex:1; font-size:.84em; color:#4b5563;">
-Deux phrases qui disent la même chose dans un autre ordre donnent <strong>le même vecteur</strong> : c'est le prix de la méthode — et sa force, car le comptage devient comparable.
+Deux phrases qui disent la même chose dans un autre ordre donnent <strong>le même vecteur</strong> : on perd l'ordre, on gagne un comptage comparable.
 <br/><span style="font-size:.94em;">Le vecteur a <strong>une case par terme du vocabulaire</strong> : ici 5 termes, sur les 18 du corpus — les autres cases valent 0. La dimension est fixe, même si la phrase est courte.</span>
 <br/><span style="font-size:.78em; color:#9aa4b8;">Le sac, au sens littéral : on y jette des morceaux, on perd leur disposition. Photo : Meritxell.canela, Wikimedia Commons, domaine public.</span>
 </div>
 </div>
-
 
 ---
 
@@ -743,7 +693,7 @@ Le modèle sait que les mots sont là — pas combien de fois.
 
 <table style="border-collapse:collapse;margin:6px auto;"><tr><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>le</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>chat</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>dort</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>encore</th></tr><tr><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td></tr></table>
 
-La répétition est conservée : c'est cette version que TF-IDF pondérera.
+La répétition est conservée : c'est cette version que TF-IDF utilisera.
 
 </div>
 </div>
@@ -953,33 +903,25 @@ C'est pourtant le cas le plus fréquent en production : vocabulaire métier, fau
 </div>
 
 <div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.9em;">
-Il faut donc <strong>pondérer</strong> les termes — et la bonne mesure de « rare » n'est pas la fréquence dans le document, mais le <strong>nombre de documents qui contiennent le mot</strong>. C'est tout l'objet de TF-IDF.
+Il faut donc <strong>donner un poids</strong> aux termes — et la bonne mesure de « rare » n'est pas la fréquence dans le document, mais le <strong>nombre de documents qui contiennent le mot</strong>. C'est tout l'objet de TF-IDF.
 </div>
 
 ---
 
-### **Récapitulatif**
+### **Le sac de mots : résumé**
 
-<div style="font-size:.86em;">
+- **Vecteur** : une case par mot du vocabulaire
+- **Valeur** : présence (0/1) ou nombre d'occurrences
+- **Cosinus** : compare la direction de deux vecteurs
+- **Limites** : ordre perdu, synonymes séparés, mots inconnus ignorés
 
-1. Un texte devient un **vecteur de comptages** dans un vocabulaire figé.
-2. `fit` puis `transform` : le vocabulaire fait partie du modèle.
-3. Le **cosinus** compare des directions, pas des longueurs.
-4. Trois limites déjà visibles : **ordre perdu**, **mots inconnus**, **mots outils survalorisés**.
-
-</div>
-
-<div style="margin-top:16px; padding:14px 18px; background:#f4f7ff; border-radius:10px; font-size:.95em;">
-<strong>Question</strong> — La requête <code>animal de compagnie</code> obtient 0 partout.
-<br/>Que faudrait-il changer pour qu'elle obtienne un score non nul, <em>sans</em> toucher au corpus ?
-<br/><span style="font-size:.85em; color:#4b5563;">(Indice : TF-IDF ne changera rien à ce cas précis.)</span>
-</div>
+> Une requête sans aucun mot connu donne un vecteur nul — et un cosinus qui ne veut rien dire.
 
 ---
 
 <!-- header: ⭐️ TF-IDF -->
 
-### **L'idée : pondérer ce qui distingue**
+### **L'idée : donner plus de poids à ce qui distingue**
 
 <div style="display:flex; gap:20px; font-size:.86em; margin-top:4px;">
 <div style="flex:1;">
@@ -1109,31 +1051,13 @@ Requête : <code>félin salon</code>
 
 ### **Les limites de TF-IDF**
 
-<div style="display:flex; gap:20px; font-size:.84em;">
-<div style="flex:1;">
+- **Synonymes** : `voiture` et `automobile` restent à distance
+- **Plusieurs sens** : les deux sens d'`avocat` partagent une seule case
+- **Ordre** : il n'est pas conservé
+- **Mots inconnus** : ils sont ignorés
+- **Corpus** : changer les documents change tous les poids
 
-**Ce qu'il ne règle pas**
-
-- **synonymes** : `voiture` / `automobile` → cosinus 0
-- **polysémie** : `avocat` (fruit / métier) → même colonne
-- **ordre** : toujours perdu
-- **mots inconnus** : toujours invisibles
-
-</div>
-<div style="flex:1;">
-
-**Ce qu'il faut savoir en plus**
-
-- l'IDF dépend du **corpus** : changer de corpus change les poids
-- un IDF calculé sur 4 documents est très instable (forte variance)
-- il faut **figer** le vectoriseur avec le modèle, comme le vocabulaire
-
-</div>
-</div>
-
-<div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.88em;">
-Reste un mur : deux mots qui veulent dire la même chose n'ont <strong>aucune colonne commune</strong>.
-</div>
+> TF-IDF donne un poids aux mots, il ne comprend pas leur sens.
 
 ---
 
@@ -1143,8 +1067,8 @@ Reste un mur : deux mots qui veulent dire la même chose n'ont <strong>aucune co
 
 1. **TF** mesure la présence dans le document, **IDF** la rareté dans le corpus.
 2. La convention scikit-learn est **lissée** : un mot présent partout garde un IDF de 1 — un **plancher**, pas un poids fort.
-3. TF-IDF **accentue les écarts** ; il ne change l'ordre que quand un mot banal écrase un mot discriminant.
-4. Il reste **lexical** : synonymes, polysémie et mots inconnus lui échappent.
+3. TF-IDF **accentue les écarts** ; il ne change l'ordre que quand un mot banal écrase un mot qui distingue.
+4. Il reste **basé sur les mots** : synonymes, plusieurs sens et mots inconnus lui échappent.
 
 </div>
 
@@ -1178,7 +1102,7 @@ Aucune information : tous les mots sont équidistants.
 </div>
 <div style="flex:1;">
 
-**L'hypothèse distributionnelle** (Firth, 1957)
+**L'idée de base** (Firth, 1957)
 
 > « You shall know a word by the company it keeps. »
 
@@ -1348,7 +1272,7 @@ Les thèmes se regroupent **sans qu'on les ait jamais nommés**.
 </div>
 
 <div style="margin-top:10px; padding:10px 14px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.84em;">
-Attention : c'est une similarité <strong>distributionnelle</strong>, pas du « sens ».
+Attention : c'est une similarité <strong>de contextes</strong>, pas du « sens ».
 <code>chaud</code> et <code>froid</code> sont proches (mêmes contextes) ; <code>canapé</code> et <code>sofa</code> aussi.
 </div>
 
@@ -1387,35 +1311,12 @@ Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et 
 
 ### **Ce que ça vaut vraiment**
 
-<div style="display:flex; gap:18px; font-size:.82em;">
-<div style="flex:1;">
+- **Ce qui marche** : `reine` sort en tête pour `roi − homme + femme`
+- **Ce qui échoue** : `paris − france + italie` peut donner `espagne`
+- **Le chiffre** : cos(`reine−roi`, `femme−homme`) = **0,37** sur notre modèle
+- **Pourquoi** : un petit corpus donne des vecteurs moins fiables
 
-**Sur notre modèle de TP**
-
-- $\cos(\vec{\text{reine}}-\vec{\text{roi}},\ \vec{\text{femme}}-\vec{\text{homme}}) = \mathbf{0{,}37}$
-- l'analogie place bien `reine` en tête (hors variante `roy`)
-- mais `paris − france + italie` donne **`espagne`**
-
-</div>
-<div style="flex:1;">
-
-**Pourquoi ce n'est pas une loi**
-
-- dépend du corpus et de sa taille
-- dépend des fréquences (mots rares mal estimés)
-- transporte les **biais** du corpus
-- un petit modèle à 100 dimensions amplifie tout ça
-
-<div style="margin-top:6px; font-size:.95em; color:#4b5563;">
-Ce 0,37 n'est pas une similarité entre mots : c'est le cosinus de deux <em>déplacements</em> (reine − roi et femme − homme), mesuré sur le petit modèle du TP. Les 0,6–0,9 de la slide « Ce que ça donne » sont des similarités de <em>position</em>, sur un gros corpus : ni la même grandeur, ni le même modèle.</div>
-
-</div>
-</div>
-
-<div style="margin-top:12px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.86em;">
-L'analogie n'est pas une preuve d'intelligence : c'est une <strong>régularité statistique</strong> qui marche souvent, pas toujours.
-Elle illustre une propriété du corpus, pas une compréhension du monde.
-</div>
+> Une analogie réussie ne prouve pas que le modèle a compris.
 
 ---
 
@@ -1423,7 +1324,7 @@ Elle illustre une propriété du corpus, pas une compréhension du monde.
 
 <div style="font-size:.86em;">
 
-Un mot a maintenant un vecteur. Mais un **document**, un **chunk** (un passage de document), une **phrase** en ont-ils un ?
+Un mot a maintenant un vecteur. Mais une **phrase**, un **paragraphe**, un **document** en ont-ils un ?
 
 </div>
 
@@ -1441,13 +1342,13 @@ C'est ce que fait <code>sentence-transformers</code> (séance 6).
 </div>
 
 <div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.88em;">
-C'est <strong>ce</strong> vecteur-là qu'un RAG indexe — pas des vecteurs de mots isolés.<br/>
-Tant que ce maillon n'est pas vu, le RAG reste une boîte noire.
+C'est <strong>ce</strong> vecteur-là qui servira à comparer des phrases entières — pas les vecteurs de mots isolés.<br/>
+Tant que ce maillon n'est pas vu, la comparaison de documents reste une boîte noire.
 </div>
 
 ---
 
-<!-- header: ⭐️ Limites et préparation au RAG -->
+<!-- header: ⭐️ Limites -->
 
 ### **Cinq limites, un même mur**
 
@@ -1467,144 +1368,97 @@ Word2Vec <strong>atténue</strong> la première ligne, sans la supprimer. Les su
 
 ### **Un vecteur par contexte**
 
-<div style="font-size:.86em;">
+- **Fruit** : « L'avocat mûr tombe de l'arbre. »
+- **Métier** : « L'avocat plaide au tribunal. »
+- **Word2Vec** : un seul vecteur pour `avocat`, les deux sens mélangés
+- **BERT** : un vecteur différent dans chaque phrase
 
-Le mot `avocat` n'a pas un sens : il a **des** sens. Un vecteur unique force à les moyenner.
+> Le contexte sert à choisir le bon sens — c'est l'objet de la séance 6.
+
+---
+
+### **Les trois façons de représenter un texte**
+
+| | Ce qu'elle garde | Ce qu'elle perd | Coût |
+|---|---|---|---|
+| **Comptages (BoW)** | quels mots, combien de fois | l'ordre, les synonymes | très faible |
+| **TF-IDF** | les mots qui distinguent | l'ordre, les synonymes | faible |
+| **Word2Vec** | le sens approximatif | l'ordre, la précision | moyen |
+
+<div style="margin-top:12px; font-size:.86em;">
+
+**À retenir** : on ne remplace pas une méthode par une autre — on choisit celle qui correspond à la question posée.
 
 </div>
 
-<div style="display:flex; flex-direction:column; gap:10px; margin-top:8px; font-size:.82em;">
-<div style="background:#f4f7ff; border-left:4px solid #3d65f6; border-radius:8px; padding:10px 14px;">
-« L'<strong>avocat</strong> mûr tombe de l'arbre. » → un vecteur calculé <em>pour cette occurrence</em> (fruit)
-</div>
-<div style="background:#f4f7ff; border-left:4px solid #d97706; border-radius:8px; padding:10px 14px;">
-« L'<strong>avocat</strong> plaide au tribunal. » → un autre vecteur, recalculé (métier)
-</div>
-<p style="font-size:.8em; color:#4b5563; margin-top:6px;">Ce ne sont pas deux entrées d'un dictionnaire : le vecteur est <strong>calculé à chaque contexte</strong>, pour chaque token. Le même mot dans la même phrase redonne le même vecteur — ce n'est pas aléatoire, c'est conditionnel.</p>
-</div>
-
-<div style="margin-top:12px; font-size:.84em;">
-
-Les modèles **contextuels** (BERT et ses successeurs) produisent un vecteur qui dépend de toute la phrase : les deux `avocat` ci-dessus n'ont plus le même vecteur.
-
-C'est l'objet de la **séance 6**. Ici, il suffit de retenir <em>pourquoi</em> c'est nécessaire.
-
+<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
+Une recherche par mots-clés exacts ? BoW ou TF-IDF suffit.
+Une recherche où l'utilisateur écrit autrement que le document ? Il faut Word2Vec.
 </div>
 
 ---
 
-### **RAG — phase 1 : l'indexation (hors ligne)**
+### **Exercice : trois phrases, trois vecteurs**
 
-<div style="font-size:.8em; color:#4b5563;">
-On prépare les documents <strong>une fois</strong>, avant toute question.
-</div>
+<p style="font-size:.84em; color:#4b5563; margin:2px 0 6px 0;">Corpus de trois phrases :</p>
 
-<div style="display:flex; align-items:stretch; gap:6px; margin-top:10px; font-size:.72em; text-align:center;">
-<div style="flex:1; background:#f4f7ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 6px;">
-<strong>Documents</strong><br/><span style="color:#4b5563;">PDF, wiki, tickets…</span>
-</div>
-<div style="align-self:center; color:#3d65f6; font-size:1.6em;">→</div>
-<div style="flex:1; background:#f4f7ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 6px;">
-<strong>Chunks</strong><br/><span style="color:#4b5563;">découpage en passages</span>
-</div>
-<div style="align-self:center; color:#3d65f6; font-size:1.6em;">→</div>
-<div style="flex:1; background:#f4f7ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 6px;">
-<strong>Encodeur</strong><br/><span style="color:#4b5563;">1 vecteur par chunk</span><br/><span style="color:#9aa4b8; font-size:.85em;">il ne chiffre rien : il projette dans un espace dense</span>
-</div>
-<div style="align-self:center; color:#3d65f6; font-size:1.6em;">→</div>
-<div style="flex:1; background:#f4f7ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 6px;">
-<strong>Index vectoriel</strong><br/><span style="color:#4b5563;">recherche rapide</span>
-</div>
+<div style="font-size:.84em; line-height:1.5;">
+<code>D1</code> le chat dort sur le canapé<br/>
+<code>D2</code> le chien dort sur le tapis<br/>
+<code>D3</code> un félin se repose sur le sofa
 </div>
 
-<div style="margin-top:10px; font-size:.82em;">
-Ce que ce cours a construit : le <strong>vecteur</strong> (séance 5, section 6) et la <strong>similarité</strong> (section 4). Ce que la séance 7 ajoutera : le <strong>chunking</strong> et l'<strong>index</strong>.
-</div>
+<div style="display:flex; gap:16px; font-size:.82em; margin-top:10px;">
+<div style="flex:1;">
 
-<p style="font-size:.68em; color:#9aa4b8; margin-top:6px;">Lewis et al. (2020), <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>.</p>
+**1.** Vectoriser en comptages.
 
----
+**2.** Calculer le cosinus entre D1 et D2, puis entre D1 et D3.
 
-### **RAG — phase 2 : l'interrogation (en ligne)**
+</div>
+<div style="flex:1;">
 
-<div style="display:flex; align-items:stretch; gap:5px; margin-top:8px; font-size:.66em; text-align:center;">
-<div style="flex:1; background:#fff; border:1.5px solid #3d65f6; border-radius:8px; padding:8px 4px;">
-<strong>Question</strong>
-</div>
-<div style="align-self:center; color:#3d65f6;">→</div>
-<div style="flex:1; background:#fff; border:1.5px solid #3d65f6; border-radius:8px; padding:8px 4px;">
-<strong>Même encodeur</strong><br/><span style="color:#4b5563;">vecteur requête</span>
-</div>
-<div style="align-self:center; color:#3d65f6;">→</div>
-<div style="flex:1; background:#fff; border:1.5px solid #3d65f6; border-radius:8px; padding:8px 4px;">
-<strong>Top-k</strong><br/><span style="color:#4b5563;">cosinus</span>
-</div>
-<div style="align-self:center; color:#3d65f6;">→</div>
-<div style="flex:1; background:#fff; border:1.5px solid #3d65f6; border-radius:8px; padding:8px 4px;">
-<strong>Prompt</strong><br/><span style="color:#4b5563;">question + passages</span>
-</div>
-<div style="align-self:center; color:#3d65f6;">→</div>
-<div style="flex:1; background:#fff; border:1.5px solid #3d65f6; border-radius:8px; padding:8px 4px;">
-<strong>LLM</strong><br/><span style="color:#4b5563;">génère</span>
-</div>
-<div style="align-self:center; color:#3d65f6;">→</div>
-<div style="flex:1; background:#eef2ff; border:1.5px solid #3d65f6; border-radius:8px; padding:8px 4px;">
-<strong>Réponse</strong><br/><span style="color:#4b5563;">+ sources</span>
+**3.** Refaire le calcul en TF-IDF.
+
+**4.** Expliquer pourquoi D3 change de place.
+
 </div>
 </div>
 
-<div style="margin-top:12px; font-size:.8em;">
-
-- Le <strong>retriever</strong> ne répond pas : il **sélectionne**. Le **LLM** ne cherche pas : il **rédige** à partir des passages fournis.
-- La même fonction d'encodage doit servir aux chunks **et** à la question, sinon les vecteurs vivent dans deux espaces différents.
-- Les <strong>sources</strong> ne sont pas un ornement : c'est ce qui rend la réponse vérifiable.
-
+<div style="margin-top:10px; padding:10px 14px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.84em;">
+Attendu : D1 et D2 se ressemblent (mêmes mots outils, <code>dort</code> en commun). D3 parle de la même chose sans partager un seul mot de contenu — les comptages ne peuvent pas le voir.
 </div>
 
 ---
 
-### **Qui traite quoi**
+### **Ce qu'il faut savoir refaire à la main**
 
-| Séance | Ce qu'elle ajoute | Ce qu'elle reprend ici |
-|---|---|---|
-| **6** — Embeddings et Transformers | attention, BERT, `sentence-transformers`, pooling | section 6 (projection), section 7 (polysémie) |
-| **7** — Recherche vectorielle | chunking, index HNSW, `rappel@k` | section 4 (cosinus), section 5 (TF-IDF comme baseline) |
-| **8** — RAG avec LangChain | loaders, splitters, retriever, chaîne complète | le schéma en deux phases ci-dessus |
-| **9** — Évaluer et industrialiser | fidélité, coûts, latence, garde-fous | les limites des sections 3 à 7 |
+<div style="font-size:.86em; line-height:1.6;">
 
-<div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-Rien dans la suite ne sera magique : chaque brique aura été construite à la main avant d'être appelée par une bibliothèque.
+- **1.** Compter les occurrences et construire la matrice documents × termes.
+- **2.** Calculer un IDF : `log(N / df)` — et dire pourquoi il monte quand le mot est rare.
+- **3.** Calculer un cosinus entre deux vecteurs, y compris le cas du vecteur nul.
+- **4.** Remplir une matrice de Levenshtein sur 4 × 4 cases.
+- **5.** Trouver les voisins d'un mot dans un fichier de vecteurs.
+
+</div>
+
+<div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.86em;">
+Si ces cinq gestes sont acquis, la suite (phrase, document, recherche) n'est plus qu'une combinaison de ce que vous savez déjà.
 </div>
 
 ---
-
-<!-- header: ⭐️ Synthèse -->
 
 ### **La carte du cours**
 
-<div style="display:flex; gap:6px; align-items:center; font-size:.62em; text-align:center; margin-top:6px;">
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:10px 4px;"><strong>Texte brut</strong><br/><span style="color:#4b5563;">Unicode</span></div>
-<div style="color:#3d65f6;">→</div>
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:10px 4px;"><strong>Tokens</strong><br/><span style="color:#4b5563;">normalisation, stop words</span></div>
-<div style="color:#3d65f6;">→</div>
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:10px 4px;"><strong>Représentation</strong><br/><span style="color:#4b5563;">BoW, TF-IDF, Word2Vec</span></div>
-<div style="color:#3d65f6;">→</div>
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:10px 4px;"><strong>Similarité</strong><br/><span style="color:#4b5563;">cosinus (vecteurs) · Levenshtein (chaînes)</span></div>
-<div style="color:#3d65f6;">→</div>
-<div style="flex:1; background:#eef2ff; border:1.5px solid #3d65f6; border-radius:8px; padding:10px 4px;"><strong>Contexte</strong><br/><span style="color:#4b5563;">séance 6</span></div>
-</div>
+![width:820px](./images/pipeline-cours5.svg)
 
-<div style="margin-top:16px; font-size:.86em;">
+- **Levenshtein** : compare les caractères, sans dictionnaire
+- **BoW / TF-IDF** : comptent les mots et donnent un poids aux mots rares
+- **Word2Vec** : rapproche les mots employés dans les mêmes contextes
+- **Toutes** perdent quelque chose : ordre, synonymes ou mots inconnus
 
-- Chaque étape **jette** de l'information : ordre, casse, accents, sens figuré.
-- Chaque étape **ajoute** une capacité : comparer, classer, généraliser.
-- Savoir ce qui a été jeté, c'est savoir quand la méthode va échouer.
-
-</div>
-
-<div style="margin-top:12px; padding:10px 14px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.86em;">
-Il n'existe pas de « meilleure représentation » : il existe une représentation adaptée à une tâche, avec un prix connu.
-</div>
+> Il n'existe pas de « meilleure représentation » : il existe une représentation adaptée à une question, avec un prix connu.
 
 ---
 
@@ -1659,7 +1513,7 @@ Total des blocs : 47 min — les <strong>13 minutes restantes</strong> sont cons
 
 - expliquer pourquoi <code>voiture</code> et <code>automobile</code> ont un cosinus de 0 en TF-IDF
 - dire ce qu'un `fit` fige, et ce qu'un `transform` ignore
-- choisir entre lexical et dense pour une tâche donnée, en assumant le prix
+- choisir entre comptage et vecteurs denses pour une tâche donnée
 
 </div>
 

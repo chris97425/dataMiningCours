@@ -157,7 +157,7 @@ Test effectué avec `@marp-team/marp-cli v4.5.1` (marp-core 4.4.0) et le thème 
 
 **Budget** : **122 minutes de contenu + 28 minutes explicitement réservées** aux questions, aux deux démonstrations live, aux transitions et aux incidents techniques = 150 minutes. Ces 28 minutes ne sont pas « la marge » : elles sont réparties mentalement sur chaque séquence et doivent être consommées par l'interaction. (Les deux slides ajoutées en S4 ont pris 2 minutes sur cette réserve.)
 
-**Volume cible** : 60 slides (mécanique du sac de mots, POS tagging, pipeline de prétraitement).
+**Volume cible** : 60 slides. **La partie RAG a été retirée** (décision du 2026-11-02) : elle sera traitée dans une séance ultérieure. Les 3 slides RAG ont été remplacées par 3 slides de compréhension (comparaison des représentations, exercice, gestes à savoir refaire).
 
 ### S0 — Ouverture (3 min, 3 slides)
 

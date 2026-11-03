@@ -1,7 +1,7 @@
 # Rapport de validation — Cours 5
 
 **Projet** : `dataMiningCours/Cours_5` · **Date** : 2026-11-02 · **Auteur** : Christopher de Boisvilliers
-**Périmètre** : plan pédagogique, 60 slides MARP, TP d'une heure.
+**Périmètre** : plan pédagogique, 60 slides MARP, TP d'une heure. **Partie RAG retirée** le 2026-11-02 à la demande de l'auteur.
 
 ---
 
