@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="242" viewBox="0 0 840 242" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="840" height="242" fill="#ffffff"/>
+<rect x="10" y="8" width="400" height="226" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.6"/>
+<rect x="430" y="8" width="400" height="226" rx="10" fill="#f4f7ff" stroke="#3d65f6" stroke-width="1.6"/>
+<text x="28" y="36" font-size="16" fill="#92400e" font-weight="700" text-anchor="start">Word2Vec : un vecteur par mot</text>
+<text x="28" y="57" font-size="13" fill="#4b5563" text-anchor="start">les deux sens d'« avocat » sont mélangés</text>
+<line x1="80" y1="112" x2="330" y2="188" stroke="#9ca3af" stroke-width="1.6" stroke-dasharray="4 4"/>
+<circle cx="70" cy="104" r="6" fill="#059669"/>
+<text x="82" y="109" font-size="13.5" fill="#059669" text-anchor="start">fruit</text>
+<circle cx="106" cy="128" r="6" fill="#059669"/>
+<text x="118" y="133" font-size="13.5" fill="#059669" text-anchor="start">mangue</text>
+<circle cx="304" cy="192" r="6" fill="#3d65f6"/>
+<text x="294" y="197" font-size="13.5" fill="#3d65f6" text-anchor="end">juge</text>
+<circle cx="346" cy="172" r="6" fill="#3d65f6"/>
+<text x="336" y="177" font-size="13.5" fill="#3d65f6" text-anchor="end">procureur</text>
+<circle cx="262" cy="167" r="9" fill="#d97706"/>
+<text x="262" y="150" font-size="15" fill="#92400e" font-weight="700" text-anchor="middle">avocat</text>
+<text x="28" y="222" font-size="12.5" fill="#92400e" text-anchor="start">sur le modèle du TP, ses voisins sont tous des métiers</text>
+<text x="448" y="36" font-size="16" fill="#1e3a8a" font-weight="700" text-anchor="start">BERT : un vecteur à chaque occurrence</text>
+<text x="448" y="57" font-size="13" fill="#4b5563" text-anchor="start">le vecteur dépend de toute la phrase</text>
+<rect x="448" y="84" width="256" height="42" rx="6" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.4"/>
+<text x="460" y="111" font-size="14.5" fill="#111827">« L'<tspan font-weight="700" fill="#059669">avocat</tspan> est bien mûr. »</text>
+<line x1="708" y1="105" x2="742" y2="105" stroke="#059669" stroke-width="2.2"/>
+<circle cx="754" cy="105" r="8" fill="#059669"/>
+<text x="768" y="110" font-size="14" fill="#059669" font-weight="700" text-anchor="start">fruit</text>
+<rect x="448" y="150" width="256" height="42" rx="6" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.4"/>
+<text x="460" y="177" font-size="14.5" fill="#111827">« L'<tspan font-weight="700" fill="#3d65f6">avocat</tspan> plaide au tribunal. »</text>
+<line x1="708" y1="171" x2="742" y2="171" stroke="#3d65f6" stroke-width="2.2"/>
+<circle cx="754" cy="171" r="8" fill="#3d65f6"/>
+<text x="768" y="176" font-size="14" fill="#3d65f6" font-weight="700" text-anchor="start">métier</text>
+<text x="448" y="222" font-size="12.5" fill="#1e3a8a" text-anchor="start">même mot, deux vecteurs différents</text>
+</svg>

@@ -9,23 +9,42 @@ header: Cours Esiroi 2026
 footer: Data mining - Christopher de Boisvilliers
 title: Cours 5 - Du texte aux vecteurs
 style: |
-  section pre {
-    font-size: 19px;
-    max-width: 100%;
-    width: auto;
-    background: #f4f7ff;
-    border-left: 4px solid #3d65f6;
-    border-radius: 8px;
-    padding: 12px 16px;
-    line-height: 1.45;
-  }
-  section pre code {
-    font-size: 19px;
-    color: #111827;
-    background: none;
-    padding: 0;
-  }
+  section { font-size: 24px; line-height: 1.35; }
+  section h3 { font-size: 1.25em; }
+  section ul, section ol { line-height: 1.4; }
+  section li + li { margin-top: .15em; }
+  section p + p { margin-top: .5em; }
+  section pre { font-size: 18px; max-width: 100%; width: auto; background: #f4f7ff; border-left: 4px solid #3d65f6; border-radius: 8px; padding: 10px 16px; line-height: 1.45; }
+  section pre code { font-size: 18px; color: #111827; background: none; padding: 0; }
+  .cols pre, .cols pre code { font-size: 15px; }
+  section > p:has(> img[alt*="center"]) { align-self: center; }
+  .cols { display: flex; gap: 22px; width: 100%; align-items: flex-start; }
+  .cols > div { flex: 1; }
+  .cols.mid { align-items: center; }
+  .card { background: #f4f7ff; border-radius: 10px; padding: 10px 16px; }
+  .note, .warn, .ask { width: 100%; border-radius: 8px; padding: 9px 16px; margin-top: 10px; font-size: .9em; }
+  .note { background: #f4f7ff; border-left: 4px solid #3d65f6; }
+  .warn { background: #fff7ed; border-left: 4px solid #d97706; }
+  .ask { border: 1.5px dashed #3d65f6; }
+  .why { width: 100%; border-radius: 8px; padding: 9px 16px; margin-top: 10px; font-size: .9em; background: #ecfdf5; border-left: 4px solid #059669; }
+  .why > p:first-child::before { content: "💡 Pourquoi ? "; font-weight: 700; color: #047857; }
+  .search { display: inline-block; border: 2px solid #cbd5e1; border-radius: 999px; padding: 0 14px; background: #ffffff; font-family: "Roboto Mono", monospace; font-size: .9em; color: #111827; white-space: nowrap; }
+  .search::before { content: "🔍 "; }
+  .small { font-size: .82em; color: #4b5563; }
+  .src { font-size: .65em; color: #9aa4b8; margin-top: 6px; }
+  .tight { width: 100%; font-size: .86em; }
+  .tight table { max-width: 100%; }
+  table.lev { border-collapse: collapse; margin: 8px auto; min-width: 0; max-width: none; border: none; border-radius: 0; background: none; }
+  table.lev tr { background: none !important; }
+  table.lev th, table.lev td { width: 56px; height: 40px; padding: 0; text-align: center; border: 1px solid #dbe4f7; border-radius: 0; font-family: "Roboto Mono", monospace; font-size: 19px; color: #111827; }
+  table.lev tr:last-child td { border-bottom: 1px solid #dbe4f7; }
+  table.lev th { background: #eef2ff; font-weight: 700; }
+  table.lev td.vide { color: #c7cedb; background: #fafbfe; }
+  table.lev td.voisin { background: #e0e7ff; font-weight: 700; }
+  table.lev td.calcul { background: #fff4e5; outline: 2px solid #d97706; outline-offset: -2px; font-weight: 700; }
+  table.lev td.chemin { background: #c7d4f7; font-weight: 700; }
 ---
+
 <!-- _class: title -->
 
 # Le Data Mining
@@ -46,23 +65,23 @@ Christopher de Boisvilliers
 
 ### **Plan de la séance**
 
-<div style="display:flex; gap:26px; margin-top:6px;">
-<div style="flex:1.12; font-size:.92em;">
+<div class="cols">
+<div style="flex:1.2;">
 
-1. **Pourquoi le langage résiste**
-2. **Du texte aux tokens**
-3. **Distance d'édition**
-4. **Sac de mots et cosinus**
-5. **TF-IDF**
-6. **Des mots aux vecteurs (Word2Vec)**
-7. **Limites des méthodes vues**
+1. Pourquoi le texte pose problème
+2. Du texte aux tokens
+3. La distance d'édition
+4. Sac de mots et cosinus
+5. TF-IDF
+6. Des mots aux vecteurs : Word2Vec
+7. Limites et synthèse
 
 </div>
-<div style="flex:.88; border-left:2px solid #dbe4f7; padding-left:18px; font-size:.86em;">
+<div class="small" style="border-left:2px solid #dbe4f7; padding-left:18px;">
 
-**Les 5 séances**
+**La suite du module**
 
-<span style="color:#3d65f6; font-weight:700;">5 · NLP : du texte aux vecteurs</span>
+<span style="color:#3d65f6; font-weight:700;">5 · Du texte aux vecteurs</span>
 
 6 · Embeddings et Transformers
 
@@ -75,248 +94,304 @@ Christopher de Boisvilliers
 </div>
 </div>
 
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.86em;">
-Aujourd'hui : <strong>2 h 30 de cours</strong> — puis <strong>1 h de TP</strong>.<br/>
-<span style="color:#4b5563;">Objectif : savoir transformer un texte en nombres, et savoir <em>pourquoi</em> chaque transformation change le résultat.</span>
+<div class="note">
+
+Aujourd'hui : **2 h 30 de cours**, puis **1 h de TP**. Fil rouge : construire la barre de recherche d'un petit site.
+
 </div>
 
 ---
 
 ### **Objectifs de la séance**
 
-- **Préparer** un texte : normaliser, découper, filtrer
-- **Comparer** deux textes : distance d'édition, cosinus
-- **Construire** des vecteurs : comptages, TF-IDF
-- **Comprendre** le principe de Word2Vec
-- **Choisir** une représentation selon la question posée
+<div class="cols mid">
+<div style="flex:1.3;">
 
-> Aucune connaissance en linguistique n'est nécessaire : tout part d'exemples chiffrés.
+À la fin de la séance, vous saurez :
+
+- **préparer** un texte : normaliser, découper, retirer les stop words ;
+- **comparer** des mots/textes : distance d'édition, cosinus ;
+- **construire** des vecteurs : comptages, TF-IDF ;
+- **expliquer** le principe de Word2Vec ;
+- **choisir** une représentation selon la question posée.
+
+</div>
+<div>
+
+![width:320px](./images/texte-vers-vecteurs.jpg)
+
+</div>
+</div>
+
+
 
 ---
 
-<!-- header: ⭐️ Pourquoi le langage résiste -->
+<!-- header: ⭐️ Pourquoi le texte pose problème -->
 
 ### **Deux phrases, une même scène**
 
-<div style="display:flex; flex-direction:column; gap:12px; margin:14px 0 12px 0;">
-<div style="background:#f4f7ff; border-left:5px solid #3d65f6; border-radius:8px; padding:12px 18px; font-size:1.1em;">
-« <mark>Le</mark> chat dort <mark>sur</mark> <mark>le</mark> canapé. »
-</div>
-<div style="background:#f4f7ff; border-left:5px solid #3d65f6; border-radius:8px; padding:12px 18px; font-size:1.1em;">
-« Un félin se repose <mark>sur</mark> <mark>le</mark> sofa. »
-</div>
-</div>
+![center width:690px](./images/comparaison-phrases.svg)
 
-<div style="text-align:center; font-size:.78em; color:#4b5563; white-space:nowrap;">
-13 occurrences · 10 formes · <strong>2 formes communes</strong> (<code>le</code>, <code>sur</code>) · <strong>0 mot de contenu commun</strong>
-<div style="font-size:.86em; margin-top:2px; color:#4b5563;">« mot de contenu » = un mot qui porte du sens (nom, verbe, adjectif), par opposition aux mots outils.</div>
-</div>
+Pour nous, A et B décrivent la même scène. Un programme qui compare les mots n'y trouve que deux points communs, `le` et `sur` : des **mots outils**, qui structurent la phrase sans rien dire de la scène. Les **mots de contenu** (`chat`, `dort`, `canapé`…) n'ont aucune forme en commun.
 
-<div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.95em;">
-Pour un humain, c'est la même scène.<br/>
-Pour une méthode qui compte les mots, la similarité est faible et ne repose que sur <strong>deux mots outils</strong>.
-</div>
+<div class="ask">
 
-<p style="text-align:center; margin-top:14px; font-size:.95em;">
-C'est ce gouffre que ce cours comble, une brique à la fois.
-</p>
+Comment un programme peut-il mesurer la ressemblance entre ces deux phrases ?
+
+</div>
 
 ---
 
 ### **Pourquoi est-ce si difficile ?**
 
-- **Plusieurs sens** : `avocat` = un fruit ou un métier
-- **Mots nouveaux** : `googliser`, `chanmé`
-- **Écritures différentes** : `été`, `ÉTÉ`, `ete`
-- **Synonymes** : `voiture` et `automobile` ne se ressemblent pas
-- **Contexte** : le sens de `banque` dépend de la phrase
+| Difficulté | Exemple |
+|---|---|
+| Un mot, plusieurs sens | `avocat` : le fruit ou le métier |
+| Une idée, plusieurs mots | `voiture`, `auto`, `bagnole` |
+| Des mots nouveaux | `googliser`, `chanmé` |
+| Plusieurs écritures | `été`, `ÉTÉ`, `ete` |
+| Une phrase ambiguë | « J'ai vu l'homme avec le télescope. » |
 
-> Un même mot ne portant pas toujours le même sens, aucun comptage ne suffit.
+Dans la dernière phrase, qui tient le télescope ? Les mots seuls ne permettent pas de trancher.
+
+Aucune de ces difficultés ne se règle en comptant des mots. Nous allons pourtant commencer par là : c'est simple, et cela marche souvent très bien.
 
 ---
 
 ### **Quatre niveaux d'analyse**
 
-<p style="font-size:.85em; color:#4b5563; margin-bottom:6px;">
-À ne pas confondre avec les quatre difficultés : ici on regarde <em>où</em> se situe le problème, sur <strong>quatre niveaux retenus dans ce cours</strong>.
-</p>
+Les linguistes décrivent une phrase à plusieurs niveaux, du plus local au plus global.
 
-![width:820px](./images/niveaux-analyse.svg)
+![center width:640px](./images/niveaux-analyse.svg)
 
-<p style="font-size:.85em; color:#4b5563; margin-top:8px;">
-Le NLP classique les traite séparément. La suite du parcours montrera des modèles qui les traitent ensemble.
-</p>
+Les méthodes de ce cours restent au niveau des mots : leur forme, leur fréquence, leurs voisins. Les niveaux syntaxique et discursif demandent de lire la phrase entière, ce que feront les Transformers en séance 6.
 
 ---
 
-### **La chaîne que nous allons construire**
+### **Le chemin de la séance**
 
-![width:840px](./images/pipeline-cours5.svg)
+![center width:840px](./images/pipeline-cours5.svg)
 
-<div style="margin-top:18px; display:flex; gap:12px; font-size:.85em;">
-<div style="flex:1; border-left:4px solid #3d65f6; padding-left:12px;">
-<strong>Aujourd'hui</strong><br/>
-Texte → tokens → vecteurs
-</div>
-<div style="flex:1; border-left:4px solid #93a7f9; padding-left:12px;">
-<strong>Séances 6 à 9</strong><br/>
-Contexte → index → génération
-</div>
+On avance de gauche à droite. Chaque étape est d'abord faite à la main sur un petit exemple, puis avec scikit-learn.
+
+<div class="note">
+
+Le sens d'un mot selon sa phrase (le contexte) n'apparaît pas encore dans cette chaîne. Ce sera le sujet de la séance 6.
+
 </div>
 
-<p style="margin-top:14px; font-size:.85em; color:#4b5563;">
-Chaque brique sera construite à la main avant d'être appelée via une bibliothèque.
-</p>
+---
+
+### **Le fil rouge : une barre de recherche**
+
+Toute la séance, on construit la recherche d'un petit site qui contient quatre documents :
+
+<div class="small" style="width:100%;">
+
+`D1` le chat dort sur le canapé du salon · `D2` le chien dort sur le tapis du salon
+
+`D3` un félin se repose sur un sofa · `D4` le salon est grand et le salon est clair
+
+</div>
+
+<div class="tight" style="font-size:.8em;">
+
+| L'utilisateur tape | Ce qui coince | L'outil qui règle le problème |
+|---|---|---|
+| <span class="search">Chats</span> | D1 contient `chat`, au singulier et en minuscules | prétraitement (section 2) |
+| <span class="search">salom</span> | une faute de frappe : aucun mot identique | distance d'édition (section 3) |
+| <span class="search">le chat</span> | `le` fait remonter D2 et D4, qui ne parlent pas de chat | stop words, cosinus (sections 2 et 4) |
+| <span class="search">félin salon</span> | D4 passe en tête parce qu'il répète `salon` | TF-IDF (section 5) |
+| <span class="search">félin</span> | D1 parle d'un chat, sans aucun mot commun | Word2Vec (section 6) |
+
+</div>
 
 ---
 
 <!-- header: ⭐️ Du texte aux tokens -->
 
-### **De la chaîne de caractères aux tokens**
+### **Quelques mots de vocabulaire**
 
-<div style="display:flex; gap:22px; margin-top:4px;">
-<div style="flex:1; font-size:.78em;">
+Pour compter des mots, il faut d'abord décider de ce qu'est un mot. Prenons la phrase `le chat et le chien`.
 
-**Le vocabulaire de base**
+- Elle contient **5 tokens** : chaque mot compte, même répété.
+- Elle contient **4 types** : `le` n'est compté qu'une fois.
+- Le **vocabulaire** est l'ensemble des types : {`le`, `chat`, `et`, `chien`}.
+- Chaque type reçoit un **identifiant** : `le` → 0, `chat` → 1, `et` → 2, `chien` → 3.
 
-| Terme | Définition |
-|---|---|
-| **Type** | forme distincte |
-| **Occurrence** | apparition d'un type dans le texte |
-| **Token** | unité produite par le tokenizer (ici : un mot) |
-| **Vocabulaire $V$** | ensemble des types |
-| **Identifiant** | entier associé à un type |
+<div class="note">
+
+Un modèle ne lit jamais de texte : il reçoit des identifiants. Toute la question du cours est de savoir quels nombres associer ensuite à ces identifiants.
 
 </div>
-<div style="flex:1; font-size:.84em;">
 
-`le chat et le chien`
-
-- **5 tokens** (occurrences)
-- **4 types** (`le` apparaît 2 fois)
-- $V$ = {`le`, `chat`, `et`, `chien`}
-- identifiants : `le`→0, `chat`→1, `et`→2, `chien`→3
-
-</div>
-</div>
-
-<div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.85em;">
-Un modèle ne voit jamais de texte : il voit des <strong>identifiants</strong>. Toute la question est de savoir ce qu'on met <em>derrière</em> ces identifiants.<br/>
-<span style="color:#4b5563;">Dans tout ce cours, <strong>token = un mot</strong>. En séance 6, le token deviendra un <strong>morceau de mot</strong> : c'est le même terme, mais pas la même unité.</span>
-</div>
+<p class="small">Dans ce cours, un token est un mot. À partir de la séance 6, un token sera souvent un morceau de mot.</p>
 
 ---
 
-### **Un caractère n'est pas toujours un caractère**
+### **Deux « é » qui ne sont pas égaux**
+
+![center width:680px](./images/unicode-nfc-nfd.svg)
 
 ```python
->>> len("é")                               # forme composée (NFC)
-1
->>> len(unicodedata.normalize("NFD", "é")) # e + accent combinant
-2
+>>> import unicodedata
+>>> a = "é"
+>>> b = unicodedata.normalize("NFD", a)   # e + accent séparé
+>>> a == b, len(a), len(b)
+(False, 1, 2)
 ```
 
-<div style="margin-top:10px; font-size:.9em;">
-
-- `len()` compte des **points de code**, pas des caractères perçus (une lettre accentuée peut en occuper deux).
-- Conséquence : deux textes visuellement identiques ne sont pas forcément égaux caractère par caractère.
-- D'où, souvent, une **normalisation avant de comparer** — mais un tokenizer préentraîné peut imposer la sienne.
-
-</div>
-
-<div style="margin-top:12px; padding:10px 14px; border-left:4px solid #3d65f6; background:#f4f7ff; border-radius:6px; font-size:.85em;">
-Règle pratique : <code>unicodedata.normalize("NFC", texte)</code> avant de comparer deux chaînes — sinon, suivre la normalisation du tokenizer utilisé.
-</div>
+Un texte copié d'un PDF peut utiliser la forme décomposée : une recherche sur `été` le raterait, alors que les deux s'affichent pareil. On ramène donc les deux chaînes à la même forme : `unicodedata.normalize("NFC", texte)`.
 
 ---
 
-### **Normaliser, c'est décider ce qu'on perd**
+### **Normaliser, c'est choisir ce qu'on perd**
 
-| Décision | Quand la prendre | Ce qu'on perd |
+<div class="why">
+
+Sans normalisation, `Chat`, `chat` et `CHAT` sont comptés comme trois mots différents. On les ramène à une seule écriture pour les compter ensemble.
+
+</div>
+
+<div class="tight">
+
+| Opération | Utile pour | Ce qu'on perd |
 |---|---|---|
-| minuscules | presque toujours | la casse (`Apple` ≠ `apple`) |
-| supprimer les accents | recherche tolérante | `cote` / `côté` / `coté` |
-| retirer la ponctuation | sac de mots | le point d'interrogation, l'emphase |
-| retirer les chiffres | textes littéraires | `30 %`, `COVID-19` |
-| espaces multiples | texte continu | l'indentation d'un code |
+| minuscules | presque tout | `Orange` l'opérateur devient `orange` le fruit |
+| retirer les accents | chercher malgré les fautes | `côte`, `cote` et `côté` se confondent |
+| retirer la ponctuation | le sac de mots | le `?` d'une question |
+| retirer les chiffres | des textes littéraires | `30 %`, `COVID-19` |
 
-<div style="margin-top:14px; padding:10px 14px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.86em;">
-Il n'existe pas de « bonne » normalisation : il existe des <strong>choix</strong>, et chacun se paie quelque part.
 </div>
 
-<p style="margin-top:10px; font-size:.85em; color:#4b5563;">
-Un tokenizer préentraîné (BERT, GPT…) applique déjà sa propre normalisation : la refaire peut la contredire.<br/>
-<strong>Règle simple :</strong> comparer deux chaînes → les normaliser <em>toutes les deux</em> dans la même forme (NFC par défaut, NFKC si ligatures ou compatibilité) ; passer du texte à un tokenizer préentraîné → ne rien normaliser soi-même.
-</p>
+<div class="warn">
+
+Avec un modèle préentraîné (BERT, GPT…), ne normalisez rien vous-même : son tokenizer s'en charge déjà.
+
+</div>
 
 ---
 
-### **Tokeniser : aucun découpage naïf ne suffit**
+### **Découper en tokens**
 
-<div style="display:flex; gap:18px; font-size:.78em;">
-<div style="flex:1;">
+<div class="cols">
+<div>
 
-**Découper sur les espaces**
+**Couper sur les espaces**
 
-```
+```text
 "l'ordinateur"  → ["l'ordinateur"]
 "aujourd'hui"   → ["aujourd'hui"]
 "porte-monnaie" → ["porte-monnaie"]
 ```
 
-1 token chacune :<br/>
-l'apostrophe et le trait d'union ne sont pas vus comme des frontières.
+L'apostrophe et le trait d'union restent collés au mot : `l'ordinateur` et `ordinateur` deviennent deux types différents.
 
 </div>
-<div style="flex:1;">
+<div>
 
-**Découper avec `\w+`**
+**Garder les suites de lettres** (`\w+`)
 
+```text
+re.findall(r"\w+", "l'ordinateur")
+→ ['l', 'ordinateur']
+re.findall(r"\w+", "aujourd'hui")
+→ ['aujourd', 'hui']
 ```
-re.findall(r"\w+", "cœur été l'ordinateur")
-→ ['cœur', 'été', 'l', 'ordinateur']
-```
 
-Les accents et `œ` passent.<br/>
-Mais `l'ordinateur` est coupé en deux, et `\w` inclut chiffres et `_`.
+Les accents passent, mais `aujourd'hui` est coupé en deux.
 
 </div>
 </div>
 
-<div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.86em;">
-Aucune règle naïve n'est correcte pour toutes les tâches : le bon découpage dépend de l'<strong>unité</strong> qu'on veut manipuler.
+<div class="why">
+
+Un algorithme ne travaille pas sur une phrase d'un bloc : il a besoin d'une liste de mots. Le découpage décide de ce qui compte comme un mot.
+
 </div>
 
 ---
 
-### **Les stop words : un gain, un piège**
+### **Pourquoi retirer les stop words ?**
 
-<div style="display:flex; gap:20px; margin-top:4px;">
-<div style="flex:1; font-size:.85em;">
+Les **stop words** sont les mots outils très fréquents : `le`, `la`, `de`, `et`, `ne`, `pas`… Voici les mots les plus fréquents du corpus du TP :
 
-**Le gain**
+![center width:680px](./images/stopwords-frequences.png)
 
-- moins de dimensions donc des calculs plus rapides
-- moins de bruit : les mots outils n'occupent plus l'essentiel des comptages
+<div class="why">
 
-</div>
-<div style="flex:1; font-size:.85em;">
-
-**Le piège**
-
-`je ne veux pas payer`
-
-→ après retrait : `veux payer`
-
-La négation a disparu. Le sens est inversé.
+Des mots comme `le`, `la` ou `de` sont dans toutes les phrases : ils prennent toute la place sans dire de quoi parle le texte. On retire ce qui est trop commun pour ne garder que ce qui a de la valeur : `chat`, `chien`, `jardin`.
 
 </div>
+
+---
+
+### **Stop words : ce qu'on gagne, ce qu'on risque**
+
+<div class="cols">
+<div class="card">
+
+**Ce qu'on y gagne**
+
+- un vocabulaire plus petit ;
+- des comptages moins dominés par `le` et `de`.
+
+</div>
+<div class="card">
+
+**Ce qu'on risque**
+
+`je ne veux pas payer` devient `veux payer` : la négation a disparu, le sens s'est inversé.
+
+</div>
 </div>
 
-<div style="margin-top:14px; font-size:.88em;">
+<div class="warn">
 
-- Souvent retirés pour **BoW / TF-IDF** — mais c'est un **hyperparamètre** : sur des avis clients, `ne… pas` porte le signal.
-- Un tokenizer de Transformer découpe avant tout filtrage : on ne supprime rien avant lui.
+Avis clients : gardez `ne` et `pas`. Recherche par mots-clés : retirez-les. Modèle préentraîné : ne retirez rien, il a besoin de la phrase entière.
+
+</div>
+
+---
+
+### **Retirer les stop words en pratique**
+
+On compare chaque token à une liste fixée à l'avance :
+
+```python
+stop = {"le", "la", "les", "un", "une", "de", "du", "sur", "et"}
+tokens = ["le", "chat", "dort", "sur", "le", "canapé"]
+[t for t in tokens if t not in stop]
+# ['chat', 'dort', 'canapé']
+```
+
+- Il n'existe pas de liste officielle : spaCy, NLTK ou un fichier maison (celui du TP compte 164 mots) donnent des listes différentes.
+- Avec scikit-learn : `CountVectorizer(stop_words=ma_liste)`. La seule liste intégrée, `stop_words="english"`, est en anglais : pour le français, il faut fournir la sienne.
+
+<div class="ask">
+
+La liste du TP contient `ne` et `pas`. Est-ce un bon choix pour analyser des avis clients ?
+
+</div>
+
+---
+
+### **Pourquoi regrouper les formes d'un mot ?**
+
+L'utilisateur tape <span class="search">dormir</span>, mais D1 contient `dort` : pour l'ordinateur, ce sont deux mots sans rapport.
+
+<div class="card" style="width:100%;">
+
+`mange` `manges` `mangeons` `mangez` `mangent` `mangeais` `mangeait` `mangions` `mangeaient` `mangeai` `mangea` `mangèrent` `mangerai` `mangera` `mangerons` `mangeront` `mangerais` `mangerait` `mangeant` `mangé` `mangée` …
+
+</div>
+
+Le verbe `manger` a une quarantaine de formes différentes. Sans regroupement, cela fait une quarantaine de colonnes pour une seule idée, et une requête n'en trouve qu'une.
+
+<div class="why">
+
+Ramener `dort`, `dorment` et `dormait` à `dormir` évite de disperser les comptes d'un même mot sur plusieurs colonnes.
 
 </div>
 
@@ -324,294 +399,277 @@ La négation a disparu. Le sens est inversé.
 
 ### **Stemming ou lemmatisation ?**
 
-| Mot | Stemming (stem produit) | Lemmatisation |
-|---|---|---|
-| mangeons | `mang` | `manger` |
-| mangera | `mang` | `manger` |
-| mangé | `mang` | `manger` |
-| mangeais | `mang` | `manger` |
-| meilleur | `meilleur` | `bon` |
+![center width:820px](./images/stemming-vs-lemme.svg)
 
-<div style="display:flex; gap:20px; margin-top:12px; font-size:.84em;">
-<div style="flex:1;">
+- Le **stemming** coupe les terminaisons avec des règles fixes. C'est rapide, mais le résultat n'est pas toujours un mot, et certaines formes passent à travers.
+- La **lemmatisation** cherche la forme du dictionnaire. Elle a besoin de la nature du mot : `suis` donne `être` dans « je suis malade », et `suivre` dans « je suis le guide ».
 
-**Stemming** — règles de troncature (Snowball), sans dictionnaire.<br/>
-Un stem n'est pas un radical linguistique : c'est la forme produite par l'algorithme.
-
-</div>
-<div style="flex:1;">
-
-**Lemmatisation** — analyse morphologique et étiquette grammaticale.<br/>
-Plus lente ; `meilleur → bon` dépend de l'analyseur.
-
-</div>
-</div>
+<p class="src">Stems obtenus avec le stemmer Snowball français (bibliothèque snowballstemmer).</p>
 
 ---
 
 ### **Étiqueter la grammaire : le POS tagging**
 
-<p style="font-size:.84em; color:#4b5563; margin:2px 0 6px 0;">
-Chaque token reçoit une étiquette grammaticale (Universal POS). Exemple :
-</p>
-
-<div style="display:flex; gap:16px; font-size:.86em;">
-<div style="flex:1.1;">
+<div class="cols">
+<div style="flex:.75;">
 
 | token | étiquette |
 |---|---|
 | Le | `DET` |
-| président | `NOUN` |
-| parle | `VERB` |
-| de | `ADP` |
-| la | `DET` |
-| banque | `NOUN` |
+| chat | `NOUN` |
+| dort | `VERB` |
+| sur | `ADP` |
+| le | `DET` |
+| canapé | `NOUN` |
 
 </div>
-<div style="flex:1;">
+<div>
 
-**À quoi ça sert**
+Chaque token reçoit sa **catégorie grammaticale** (*part of speech*), ici avec les étiquettes Universal POS.
 
-- **lever une ambiguïté** : `la fermeture` (nom) vs `fermer` (verbe)
-- **lemmatiser juste** : `suis` → `être` ou `suivre` selon le contexte
-- **préparer l'extraction d'entités** (séance 6)
+**À quoi ça sert ?**
+
+- choisir le bon lemme : `suis` → `être` ou `suivre` ;
+- distinguer `ferme` le nom de `ferme` le verbe ;
+- repérer les noms propres (séance 6).
+
+<p class="small">On ne l'implémente pas : spaCy étiquette une phrase en une ligne de code.</p>
 
 </div>
-</div>
-
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-C'est un <strong>outil de pipeline</strong>, pas un concept de ce cours : on l'utilise, on ne l'implémente pas.
 </div>
 
 ---
 
-### **Ce qu'on garde pour la suite**
+### **Et les mots que le vocabulaire ne connaît pas ?**
 
-<div style="font-size:.88em;">
+![center width:800px](./images/subwords-bpe.svg)
 
-**1 · Les sous-mots (BPE, WordPiece)** — avec les sous-mots, « token » ne veut plus dire « mot » : c'est un morceau de mot, et ce sera le sens du terme en séance 6.
+Les modèles récents ne découpent plus en mots, mais en **sous-mots** (algorithmes BPE ou WordPiece). Un mot rare devient une suite de morceaux fréquents : plus aucun mot n'est totalement inconnu.
 
-`incroyable` → `in` + `croy` + `able` (segmentation illustrative) : un mot inconnu devient une suite de morceaux connus.
-C'est la réponse au problème des mots hors vocabulaire. Le principe est repris par tous les Transformers — BPE, WordPiece ou Unigram selon le modèle (séance 6).
+<div class="why">
 
-**2 · Le POS tagging, en trois lignes**
-
-Chaque token reçoit une étiquette (`DET`, `NOUN`, `VERB`… en Universal POS). Utile pour lever une ambiguïté et pour lemmatiser correctement. C'est un **outil de pipeline**, pas un concept de ce cours.
+Un mot nouveau est découpé en morceaux déjà connus du modèle : il peut être traité au lieu d'être ignoré.
 
 </div>
 
-<div style="margin-top:16px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.9em;">
-On sait maintenant produire des tokens propres.<br/>
-Question suivante : comment dire que <strong>deux textes se ressemblent</strong> ?
-</div>
+<p class="small">Nous y reviendrons en séance 6. À partir de là, « token » voudra dire « morceau de mot ».</p>
 
 ---
 
-### **Le pipeline de prétraitement, de bout en bout**
+### **La chaîne complète**
 
-![width:840px](./images/preprocessing-pipeline.svg)
+![center width:860px](./images/preprocessing-pipeline.svg)
 
-<div style="display:flex; gap:16px; font-size:.8em; margin-top:2px;">
-<div style="flex:1;">
-
-**Les deux étapes optionnelles** (orange) ne le sont pas pour les mêmes raisons : les stop words allègent le vecteur, la lemmatisation rapproche les formes d'un même mot.
-
-</div>
-<div style="flex:1;">
-
-**Le POS tagging** n'est pas une étape de filtrage : il fournit l'étiquette dont la lemmatisation a besoin (`suis` → `être` ou `suivre`).
-
-</div>
-</div>
-
-<p style="font-size:.78em; color:#4b5563; margin-top:4px;">
-Ordre à respecter : on ne filtre pas avant d'avoir tokenisé, et on ne lemmatise pas sans étiquette grammaticale.
-</p>
+- Les étapes bleues sont presque toujours appliquées. Les orange dépendent de la tâche.
+- Le POS tagging ne retire rien : il fournit l'étiquette dont la lemmatisation a besoin.
+- L'ordre compte : on tokenise avant de filtrer, et on étiquette avant de lemmatiser.
 
 ---
 
 ### **Un exemple, étape par étape**
 
-<p style="font-size:.86em; margin:2px 0 8px 0;">Phrase de départ : <code>Les chats d'Emily dorment sur le canapé du salon.</code></p>
+<div class="tight" style="font-size:.8em;">
 
-<table style="border-collapse:collapse; width:100%; font-size:.8em;">
-<tr>
-<th style="width:26%; text-align:left; padding:7px 10px; background:#3d65f6; color:#fff; white-space:nowrap;">Étape</th>
-<th style="text-align:left; padding:7px 10px; background:#3d65f6; color:#fff;">Résultat</th>
-</tr>
-<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>1. Normaliser</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>les chats d'emily dorment sur le canape du salon</code></td></tr>
-<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>2. Tokeniser</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>["les", "chats", "emily", "dorment",<br/>&nbsp;&nbsp;"sur", "le", "canape", "du", "salon"]</code></td></tr>
-<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><strong>3. Filtrer</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;">rien à retirer ici (pas de ponctuation, pas de chiffre)</td></tr>
-<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>4. Stop words</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>["chats","emily","dorment","canape","salon"]</code></td></tr>
-<tr><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb; white-space:nowrap;"><strong>5. Étiqueter (POS)</strong></td><td style="padding:7px 10px; border-bottom:1px solid #e5e7eb;"><code>chats/NOUN · dorment/VERB · canape/NOUN · salon/NOUN</code></td></tr>
-<tr><td style="padding:7px 10px;"><strong>6. Lemmatiser</strong></td><td style="padding:7px 10px;"><code>["chat","emily","dormir","canape","salon"]</code></td></tr>
+| Étape | Résultat |
+|---|---|
+| Texte de départ | `Les chats d'Emily dorment sur le canapé du salon.` |
+| 1. Normaliser | `les chats d'emily dorment sur le canape du salon.` |
+| 2. Tokeniser (`\w+`) | `[les, chats, d, emily, dorment, sur, le, canape, du, salon]` |
+| 3. Filtrer | le `d` isolé disparaît |
+| 4. Retirer les stop words | `[chats, emily, dorment, canape, salon]` |
+| 5. Étiqueter (POS) | `chats/NOUN emily/PROPN dorment/VERB canape/NOUN salon/NOUN` |
+| 6. Lemmatiser | `[chat, emily, dormir, canape, salon]` |
+
+</div>
+
+C'est cette dernière liste qui entre dans le dataset, et non la phrase d'origine.
+
+---
+
+### **Ce qu'on range dans le dataset**
+
+<div class="tight">
+
+| id | texte brut | tokens | n |
+|---|---|---|---|
+| 1 | Les chats d'Emily dorment sur le canapé. | `chat emily dormir canape` | 4 |
+| 2 | Le chien aboie dans le jardin. | `chien aboyer jardin` | 3 |
+| 3 | Un félin se repose sur le sofa. | `felin reposer sofa` | 3 |
+
+</div>
+
+- Gardez toujours le texte brut : si le nettoyage a détruit une information, c'est le seul moyen de revenir en arrière.
+- Une ligne correspond à un document : une phrase, un avis, un paragraphe.
+- Ajoutez les colonnes utiles à la tâche : étiquette, date, longueur…
+
+<div class="ask">
+
+Nous avons maintenant des tokens propres. Comment dire que deux textes se ressemblent ?
+
+</div>
+
+---
+
+<!-- header: ⭐️ La distance d'édition -->
+
+### **Deux mots se ressemblent-ils ?**
+
+<div class="cols">
+<div class="card">
+
+**Une faute de frappe**
+
+`ordinateur` / `ordinatuer`
+
+</div>
+<div class="card">
+
+**Un pluriel**
+
+`carton` / `cartons`
+
+</div>
+<div class="card">
+
+**Un synonyme**
+
+`voiture` / `automobile`
+
+</div>
+</div>
+
+Retour au fil rouge : l'utilisateur tape <span class="search">salom</span>. Aucun document ne contient ce mot, et la recherche ne renvoie rien. Pourtant, tout le monde comprend `salon`.
+
+<div class="why">
+
+Comparer mot à mot échoue à la moindre faute de frappe. Compter les lettres à corriger permet de retrouver le mot voulu.
+
+</div>
+
+---
+
+### **Trois opérations autorisées**
+
+<div class="cols" style="text-align:center;">
+<div class="card">
+
+**Insérer**
+
+`chat` → `chats`
+
+on ajoute un `s`
+
+</div>
+<div class="card">
+
+**Supprimer**
+
+`chats` → `chat`
+
+on retire le `s`
+
+</div>
+<div class="card">
+
+**Remplacer**
+
+`chat` → `chot`
+
+on remplace `a` par `o`
+
+</div>
+</div>
+
+<div class="note">
+
+La **distance de Levenshtein** entre deux mots est le plus petit nombre d'opérations qui transforme l'un en l'autre. Chaque opération coûte 1.
+
+</div>
+
+Par exemple, il faut 8 opérations pour passer de `voiture` à `automobile`.
+
+---
+
+### **Calculer la distance avec un tableau**
+
+La case $(i, j)$ contient la distance entre les $i$ premières lettres du premier mot et les $j$ premières lettres du second.
+
+![center width:640px](./images/levenshtein-recurrence.svg)
+
+$$\text{lev}(i,j)=\min\big(\text{lev}(i-1,j)+1,\ \text{lev}(i,j-1)+1,\ \text{lev}(i-1,j-1)+[a_i\neq b_j]\big)$$
+
+<p class="small">[a<sub>i</sub> ≠ b<sub>j</sub>] vaut 0 si les deux lettres sont égales, 1 sinon.</p>
+
+<div class="why">
+
+On calcule la distance lettre par lettre en réutilisant les cases précédentes, au lieu de tester toutes les transformations possibles.
+
+</div>
+
+---
+
+### **Le tableau : on pose les bords**
+
+On compare `chat` (en lignes) et `chats` (en colonnes). Le symbole ε désigne le mot vide.
+
+<table class="lev">
+<tr><th></th><th>ε</th><th>c</th><th>h</th><th>a</th><th>t</th><th>s</th></tr>
+<tr><th>ε</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+<tr><th>c</th><td>1</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td></tr>
+<tr><th>h</th><td>2</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td></tr>
+<tr><th>a</th><td>3</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td></tr>
+<tr><th>t</th><td>4</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td></tr>
 </table>
 
-<p style="font-size:.78em; color:#4b5563; margin-top:8px;">C'est la liste finale qui entre dans le dataset — pas la phrase d'origine.</p>
+Première ligne : passer du mot vide à `c`, `ch`, `cha`… coûte 1, 2, 3… insertions. Première colonne : revenir de `c`, `ch`, `cha`… au mot vide coûte autant de suppressions.
 
 ---
 
-### **Ce qu'on garde dans le dataset**
+### **Le tableau : on remplit case par case**
 
-<table style="border-collapse:collapse; width:100%; font-size:.76em;">
-<tr>
-<th style="text-align:left; padding:6px 8px; background:#3d65f6; color:#fff;">id</th>
-<th style="text-align:left; padding:6px 8px; background:#3d65f6; color:#fff;">texte brut</th>
-<th style="text-align:left; padding:6px 8px; background:#3d65f6; color:#fff;">tokens</th>
-<th style="text-align:center; padding:6px 8px; background:#3d65f6; color:#fff;">n</th>
-</tr>
-<tr><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">1</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">Les chats d'Emily dorment sur le canapé.</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;"><code>chat emily dormir canape</code></td><td style="text-align:center; padding:6px 8px; border-bottom:1px solid #e5e7eb;">4</td></tr>
-<tr><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">2</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;">Le chien aboie dans le jardin.</td><td style="padding:6px 8px; border-bottom:1px solid #e5e7eb;"><code>chien aboyer jardin</code></td><td style="text-align:center; padding:6px 8px; border-bottom:1px solid #e5e7eb;">3</td></tr>
-<tr><td style="padding:6px 8px;">3</td><td style="padding:6px 8px;">Un félin se repose sur le sofa.</td><td style="padding:6px 8px;"><code>felin reposer sofa</code></td><td style="text-align:center; padding:6px 8px;">3</td></tr>
+Chaque case regarde ses trois voisines déjà calculées. Prenons la case ligne `a`, colonne `a`.
+
+<table class="lev">
+<tr><th></th><th>ε</th><th>c</th><th>h</th><th>a</th><th>t</th><th>s</th></tr>
+<tr><th>ε</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+<tr><th>c</th><td>1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+<tr><th>h</th><td>2</td><td>1</td><td class="voisin">0</td><td class="voisin">1</td><td>2</td><td>3</td></tr>
+<tr><th>a</th><td>3</td><td>2</td><td class="voisin">1</td><td class="calcul">0</td><td class="vide">·</td><td class="vide">·</td></tr>
+<tr><th>t</th><td>4</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td><td class="vide">·</td></tr>
 </table>
 
-- **Toujours garder** la colonne `texte brut` : sans elle, impossible de revenir en arrière si le nettoyage a détruit une information
-- **Une ligne = un document** (une phrase, un paragraphe, un avis…)
-- **Colonnes en plus** selon la tâche : étiquettes, POS, longueur, date
+<div class="note">
 
-> Le nettoyage se choisit selon la tâche. Pour de la classification d'avis, on garde `ne… pas`. Pour de la recherche par mots-clés, on retire les stop words.
-
----
-
-<!-- header: ⭐️ Distance d'édition -->
-
-### **Deux chaînes se ressemblent-elles ?**
-
-<div style="display:flex; flex-direction:column; gap:10px; margin-top:6px; font-size:.86em;">
-<div style="background:#f4f7ff; border-radius:8px; padding:12px 16px;">
-<strong>Une faute de frappe</strong> — <code>ordinateur</code> / <code>ordinatuer</code><br/>
-L'utilisateur a tapé trop vite.
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:12px 16px;">
-<strong>Une flexion</strong> — <code>carton</code> / <code>cartons</code><br/>
-Le même objet, deux formes.
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:12px 16px;">
-<strong>Un synonyme</strong> — <code>voiture</code> / <code>automobile</code><br/>
-Le même objet, et pourtant une distance de <strong>8</strong>.
-</div>
-</div>
-
-<p style="margin-top:12px; font-size:.9em;">
-Peut-on mesurer la ressemblance <em>sans</em> passer par des vecteurs ? Commençons par le plus simple : les caractères.
-</p>
-
----
-
-### **Trois opérations, un coût de 1**
-
-<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:10px; font-size:.8em; text-align:center;">
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 10px;">
-<strong>Insertion</strong><br/><br/>
-<code>chat</code> → <code>chats</code><br/><br/>
-<span style="color:#4b5563;">ajouter <code>s</code></span>
-</div>
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 10px;">
-<strong>Suppression</strong><br/><br/>
-<code>chats</code> → <code>chat</code><br/><br/>
-<span style="color:#4b5563;">ôter <code>s</code></span>
-</div>
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 10px;">
-<strong>Substitution</strong><br/><br/>
-<code>chat</code> → <code>chot</code><br/><br/>
-<span style="color:#4b5563;">remplacer <code>a</code> par <code>o</code></span>
-</div>
-</div>
-
-<div style="margin-top:16px; padding:12px 16px; border-left:4px solid #3d65f6; background:#f4f7ff; border-radius:6px; font-size:.9em;">
-<strong>Distance de Levenshtein</strong> = coût minimal de la suite d'opérations qui transforme une chaîne en l'autre.
-</div>
-
----
-
-### **La récurrence**
-
-<div style="font-size:.78em;">
-
-$$\text{lev}(i,j)=\min\begin{cases}\text{lev}(i-1,j)+1 & \text{supprimer } a_i\\[2pt] \text{lev}(i,j-1)+1 & \text{ajouter } b_j\\[2pt] \text{lev}(i-1,j-1)+[a_i\neq b_j] & \text{substituer, ou conserver si } a_i=b_j\end{cases}$$
-
-$$\text{conditions initiales :}\quad \text{lev}(i,0)=i \qquad \text{lev}(0,j)=j$$
-
-</div>
-
-<div style="font-size:.86em; margin-top:4px;">
-
-- $\text{lev}(i,j)$ = distance entre les **$i$ premiers caractères** de $a$ et les **$j$ premiers** de $b$.
-- $[a_i \neq b_j]$ vaut **0 si les caractères sont égaux, 1 sinon**.
-- On lit le résultat dans la **dernière case** de la matrice.
-- Les conditions initiales ne sont pas décoratives : sans elles, la récurrence ne démarre pas.
+Haut : 1 + 1 = 2. Gauche : 1 + 1 = 2. Diagonale : 0 + 0 = 0, car les deux lettres sont identiques. On garde le minimum : **0**.
 
 </div>
 
 ---
 
-### **La matrice : initialisation**
+### **Le tableau : le résultat**
 
-<p style="font-size:.82em; color:#4b5563; margin:2px 0 0 0;">
-<em>a</em> = <code>chat</code> (lignes) · <em>b</em> = <code>chats</code> (colonnes) · la première ligne et la première colonne sont les conditions initiales.
-</p>
-<table style="border-collapse:collapse;margin:10px auto;">
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'></th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>ε</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>c</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>h</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>a</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>t</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>s</th></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>ε</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>4</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>5</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>c</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>h</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>a</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>t</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td></tr>
+<table class="lev">
+<tr><th></th><th>ε</th><th>c</th><th>h</th><th>a</th><th>t</th><th>s</th></tr>
+<tr><th>ε</th><td class="chemin">0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+<tr><th>c</th><td>1</td><td class="chemin">0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+<tr><th>h</th><td>2</td><td>1</td><td class="chemin">0</td><td>1</td><td>2</td><td>3</td></tr>
+<tr><th>a</th><td>3</td><td>2</td><td>1</td><td class="chemin">0</td><td>1</td><td>2</td></tr>
+<tr><th>t</th><td>4</td><td>3</td><td>2</td><td>1</td><td class="chemin">0</td><td class="chemin">1</td></tr>
 </table>
-<p style="font-size:.82em; text-align:center; color:#4b5563; margin-top:2px;">
-Transformer 0 caractère en <em>j</em> caractères coûte <em>j</em> insertions — et inversement.
-</p>
 
----
+<div class="note">
 
-### **La matrice : on remplit case par case**
+La distance se lit dans la dernière case : **1**. Le chemin surligné indique les opérations : on garde `c`, `h`, `a`, `t`, puis on insère `s`.
 
-<p style="font-size:.82em; color:#4b5563; margin:2px 0 0 0;">
-Chaque case regarde ses <strong>trois voisines</strong> (haut, gauche, diagonale) et prend le minimum. Ici le calcul de la case ligne <code>a</code>, colonne <code>a</code>.
-</p>
-<table style="border-collapse:collapse;margin:10px auto;">
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'></th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>ε</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>c</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>h</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>a</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>t</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>s</th></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>ε</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>4</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>5</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>c</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>4</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>h</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>a</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#fff4e5;border:2px solid #d97706;font-weight:700;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>t</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;color:#c7cedb;background:#fafbfe;'>·</td></tr>
-</table>
-<div style="font-size:.82em; margin-top:2px;">
-haut = 1+1 = 2 · gauche = 1+1 = 2 · diagonale = 0+0 = <strong>0</strong> (mêmes caractères) → <strong>0</strong>
 </div>
 
 ---
 
-### **La matrice : le résultat**
+### **Une distance de 1, c'est beaucoup ?**
 
-<p style="font-size:.82em; color:#4b5563; margin:2px 0 0 0;">
-La dernière case donne la distance : <strong>1</strong>. Le chemin surligné montre l'opération retenue.
-</p>
-<table style="border-collapse:collapse;margin:10px auto;">
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'></th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>ε</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>c</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>h</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>a</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>t</th><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>s</th></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>ε</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#c7d4f7;font-weight:700;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>4</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>5</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>c</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#c7d4f7;font-weight:700;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>4</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>h</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#c7d4f7;font-weight:700;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>a</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#c7d4f7;font-weight:700;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td></tr>
-<tr><th style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#eef2ff;font-weight:700;color:#111827;'>t</th><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>4</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>3</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>2</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;'>1</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#c7d4f7;font-weight:700;'>0</td><td style='width:56px;height:40px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:19px;background:#c7d4f7;font-weight:700;'>1</td></tr>
-</table>
-<div style="margin-top:6px; padding:10px 14px; background:#f4f7ff; border-left:4px solid #3d65f6; border-radius:6px; font-size:.86em;">
-<code>chat</code> → <code>chats</code> : on conserve <code>c</code>, <code>h</code>, <code>a</code>, <code>t</code>, puis on <strong>insère</strong> <code>s</code>. Coût total : <strong>1</strong>.
-</div>
+Une faute dans `chat` touche un quart du mot, dans `ordinateur` un dixième. On divise donc par la longueur du plus long :
 
----
-
-### **Normaliser la distance, et les autres cas**
-
-<div style="font-size:.9em; text-align:center;">
-<p style="margin:0 0 2px 0;">Similarité normalisée :</p>
-
-$$
-1-\frac{\mathrm{lev}(a,b)}{\max(|a|,|b|)}
-$$
-
-</div>
+$$\text{similarité}(a,b)=1-\frac{\text{lev}(a,b)}{\max(|a|,\,|b|)}$$
 
 | Paire | Distance | Similarité |
 |---|---|---|
@@ -621,232 +679,240 @@ $$
 | `ordinateur` / `ordinatuer` | 2 | 0,80 |
 | `voiture` / `automobile` | 8 | 0,20 |
 
-<div style="margin-top:10px; font-size:.82em; color:#4b5563;">
-La formule de normalisation ci-dessus est une <strong>convention</strong> parmi d'autres (on divise aussi parfois par la somme des longueurs).
-En <strong>Damerau-Levenshtein</strong>, une transposition compte pour 1 : <code>ordinatuer</code> revient alors à une distance de 1.<br/>
-Par convention, la similarité de deux chaînes vides vaut 1.
-</div>
+<p class="small">Variante de Damerau-Levenshtein : l'inversion de deux lettres voisines compte pour une seule opération, et <code>ordinatuer</code> passe à distance 1.</p>
 
 ---
 
 ### **Où ça marche, où ça casse**
 
-<div style="display:flex; gap:20px; margin-top:4px;">
-<div style="flex:1; font-size:.84em;">
+<div class="cols">
+<div class="card">
 
-**Ça marche**
+**Utile pour**
 
-- correction orthographique
-- dédoublonnage de fichiers ou de contacts
-- recherche approximative (fuzzy)
-- alignement de séquences (avec des coûts adaptés)
-
-</div>
-<div style="flex:1; font-size:.84em;">
-
-**Ça casse**
-
-- `voiture` / `automobile` : distance 8 sur 10, sens identique
-- aucune notion de mot ni de sens
-- coût $O(nm)$ sur de longs textes
-- comparer des documents est possible, mais coûteux et rarement pertinent
+- corriger les fautes de frappe ;
+- repérer des doublons (`Dupont` / `Dupond`) ;
+- chercher un mot malgré une faute ;
+- comparer des séquences d'ADN.
 
 </div>
+<div class="card">
+
+**Limité pour**
+
+- les synonymes : `voiture` / `automobile` sont à distance 8 ;
+- tout ce qui touche au sens ;
+- les longs textes : il faut remplir $n \times m$ cases.
+
+</div>
 </div>
 
-<div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.9em;">
-On a mesuré des <strong>caractères</strong>. Pour comparer des <strong>textes</strong>, il faut changer d'unité : les mots.
+<div class="ask">
+
+Nous avons comparé des lettres. Pour comparer des textes entiers, changeons d'unité : comptons des mots.
+
 </div>
 
 ---
 
 <!-- header: ⭐️ Sac de mots et cosinus -->
 
+### **Pourquoi transformer un texte en vecteur ?**
+
+Un algorithme ne sait travailler que sur un tableau de nombres : une ligne par observation, les mêmes colonnes pour toutes. Chaque ligne est un **vecteur** (une liste ordonnée de nombres).
+
+<div class="cols">
+<div>
+
+**Données classiques : des maisons**
+
+| Maison | Surface (m²) | Chambres |
+|:-:|:-:|:-:|
+| 1 | 85 | 2 |
+| 2 | 120 | 3 |
+
+</div>
+<div>
+
+**Notre objectif : des textes**
+
+| Document | chat | chien | salon |
+|:-:|:-:|:-:|:-:|
+| D1 | 1 | 0 | 1 |
+| D2 | 0 | 1 | 1 |
+
+</div>
+</div>
+
+<div class="why">
+
+Un modèle ne sait calculer que sur des nombres. Transformer chaque texte en une ligne de nombres permet de les comparer, de les classer ou de les regrouper automatiquement.
+
+</div>
+
+---
+
 ### **L'idée du sac de mots**
 
-<div style="font-size:.9em;">
+On oublie l'ordre des mots et on ne garde que leurs comptes : « le chat dort sur le canapé du salon » devient `le` ×2, et `chat`, `dort`, `sur`, `canapé`, `du`, `salon` ×1.
 
-Un document devient un **sac** : on garde *quels* mots et *combien* de fois, on jette l'ordre.
+Pour toute la suite, nous utiliserons ces quatre documents :
+
+| | Document |
+|---|---|
+| D1 | le chat dort sur le canapé du salon |
+| D2 | le chien dort sur le tapis du salon |
+| D3 | un félin se repose sur un sofa |
+| D4 | le salon est grand et le salon est clair |
+
+Ils contiennent 18 mots différents : notre vocabulaire a 18 termes.
+
+---
+
+### **Ce que le sac garde, ce qu'il jette**
+
+![center width:560px](./images/bow-mecanique.svg)
+
+<div class="cols mid">
+<div style="flex:0 0 210px;">
+
+![width:210px](./images/bow-sac.jpg)
 
 </div>
+<div class="small">
 
-<div style="margin:10px 0; padding:12px 16px; background:#f4f7ff; border-left:4px solid #3d65f6; border-radius:6px; font-size:.9em;">
-« le chat dort sur le canapé du salon »
-→ <code>chat</code>×1 · <code>dort</code>×1 · <code>canapé</code>×1 · <code>salon</code>×1 · <code>le</code>×2 · <code>sur</code>×1 · <code>du</code>×1
-</div>
+Les deux phrases donnent exactement le même vecteur. Il a une case par terme du vocabulaire : ici 5 cases remplies, et 13 cases à zéro pour les autres termes du corpus.
 
-<div style="display:flex; gap:20px; font-size:.86em;">
-<div style="flex:1;">
+La photo résume l'idée : un portrait découpé et jeté dans un sac. Tous les morceaux sont là, mais on ne sait plus où ils allaient.
 
-**Le vocabulaire**
-
-Sur nos 4 documents : **18 termes** — autant de types distincts.
-C'est l'ensemble des colonnes de la matrice.
-
-</div>
-<div style="flex:1;">
-
-**La question**
-
-Deux sacs étant donnés, comment dire qu'ils se ressemblent — avec un **nombre**, pas une intuition ?
+<span class="src">Photo : Meritxell.canela, Wikimedia Commons, domaine public.</span>
 
 </div>
 </div>
 
 ---
 
-### **Le sac, mécaniquement**
+### **Que mettre dans chaque case ?**
 
-![width:700px](./images/bow-mecanique.svg)
+Une seule phrase : `le chat dort, le chat dort encore`.
 
-<div style="display:flex; gap:14px; align-items:center; margin-top:6px;">
-<div style="flex:0 0 auto;">
+<div class="cols">
+<div>
 
-![width:96px](./images/bow-sac.jpg)
+**Présence (0 ou 1)**
 
-</div>
-<div style="flex:1; font-size:.84em; color:#4b5563;">
-Deux phrases qui disent la même chose dans un autre ordre donnent <strong>le même vecteur</strong> : on perd l'ordre, on gagne un comptage comparable.
-<br/><span style="font-size:.94em;">Le vecteur a <strong>une case par terme du vocabulaire</strong> : ici 5 termes, sur les 18 du corpus — les autres cases valent 0. La dimension est fixe, même si la phrase est courte.</span>
-<br/><span style="font-size:.78em; color:#9aa4b8;">Le sac, au sens littéral : on y jette des morceaux, on perd leur disposition. Photo : Meritxell.canela, Wikimedia Commons, domaine public.</span>
-</div>
-</div>
+| le | chat | dort | encore |
+|:-:|:-:|:-:|:-:|
+| 1 | 1 | 1 | 1 |
 
----
-
-### **Remplir les cases : présence ou comptage ?**
-
-<p style="font-size:.84em; color:#4b5563; margin:2px 0 6px 0;">
-Une seule phrase : <code>le chat dort, le chat dort encore</code> — vocabulaire de 4 termes.
-</p>
-
-<div style="display:flex; gap:20px; font-size:.86em;">
-<div style="flex:1;">
-
-**Présence (0 / 1)**
-
-<table style="border-collapse:collapse;margin:6px auto;"><tr><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>le</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>chat</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>dort</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>encore</th></tr><tr><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td></tr></table>
-
-Le modèle sait que les mots sont là — pas combien de fois.
+On sait quels mots sont là, pas combien de fois.
 
 </div>
-<div style="flex:1;">
+<div>
 
 **Comptage**
 
-<table style="border-collapse:collapse;margin:6px auto;"><tr><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>le</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>chat</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>dort</th><th style='width:56px;height:30px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:15px;background:#3d65f6;color:#ffffff;font-weight:700;'>encore</th></tr><tr><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>2</td><td style='width:56px;height:34px;text-align:center;border:1px solid #dbe4f7;padding:0;font-family:Roboto Mono,monospace;font-size:17px;'>1</td></tr></table>
+| le | chat | dort | encore |
+|:-:|:-:|:-:|:-:|
+| 2 | 2 | 2 | 1 |
 
-La répétition est conservée : c'est cette version que TF-IDF utilisera.
+La répétition est conservée. C'est cette version que TF-IDF utilisera.
 
 </div>
 </div>
 
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-Même phrase, même vocabulaire, <strong>deux vecteurs différents</strong> : le choix du score fait partie du modèle, pas du texte.
+<div class="why">
+
+La présence dit si un mot apparaît dans le texte ; le comptage dit s'il y revient souvent. Dans scikit-learn, `binary=True` donne la présence.
+
 </div>
 
-<p style="font-size:.66em; color:#9aa4b8; margin-top:4px;">D'après J. Brownlee, <em>A Gentle Introduction to the Bag-of-Words Model</em>, Machine Learning Mastery, 2019.</p>
+<p class="src">D'après J. Brownlee, <em>A Gentle Introduction to the Bag-of-Words Model</em>, Machine Learning Mastery, 2019.</p>
 
 ---
 
 ### **La matrice documents × termes**
 
-<p style="font-size:.82em; color:#4b5563; margin:2px 0 0 0;">
-Lignes = documents · colonnes = termes du vocabulaire · valeur = nombre d'occurrences. 10 colonnes montrées sur 18.
-</p>
-<table style="border-collapse:collapse;margin:8px auto;">
-<tr><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>document</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>chat</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>chien</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>dort</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>canapé</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>tapis</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>félin</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>sofa</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>salon</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>le</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>est</th><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>…</th></tr>
-<tr><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>D1</th><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#b9c9f2;'>2</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;color:#9aa4b8;'>…</td></tr>
-<tr><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>D2</th><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#b9c9f2;'>2</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;color:#9aa4b8;'>…</td></tr>
-<tr><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>D3</th><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#dbe4f7;'>1</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;color:#9aa4b8;'>…</td></tr>
-<tr><th style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#eef2ff;font-weight:700;color:#111827;'>D4</th><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;'>0</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#b9c9f2;'>2</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#b9c9f2;'>2</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#b9c9f2;'>2</td><td style='width:58px;height:38px;text-align:center;border:1px solid #dbe4f7;padding:0;font-size:16px;font-family:Roboto Mono,monospace;background:#fafbfe;color:#9aa4b8;'>…</td></tr>
-</table>
-<p style="font-size:.82em; color:#4b5563; margin-top:2px;">
-Chaque ligne est un <strong>vecteur de 18 nombres</strong>. La plupart valent zéro.
-</p>
+Une ligne par document, une colonne par terme, rangées par ordre alphabétique comme le fait scikit-learn.
 
----
+![center width:800px](./images/matrice-docs-termes.png)
 
-### **Un vecteur très creux**
+Chaque document devient un vecteur de 18 nombres. D1 et D2 se ressemblent ; D3 n'a presque rien en commun avec eux.
 
-<div style="display:flex; gap:22px; font-size:.86em; margin-top:6px;">
-<div style="flex:1;">
+<div class="ask">
 
-**Ici**
+Où voit-on, dans ce tableau, que D3 parle pourtant de la même scène que D1 ?
 
-- 18 dimensions
-- **6 ou 7** valeurs non nulles par document
-- densité moyenne **36 %** (26 cases sur 72) — parce que le corpus est minuscule
-
-</div>
-<div style="flex:1;">
-
-**En réel**
-
-- $10^4$ à $10^6$ dimensions
-- quelques dizaines de mots par document
-- densité **< 1 %**
-
-</div>
-</div>
-
-<div style="margin-top:14px; padding:12px 16px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.88em;">
-Sur un vrai corpus, un vecteur de 50 000 dimensions contient souvent moins de 100 valeurs non nulles.
-C'est ce qu'on appelle un vecteur <strong>creux</strong> (<em>sparse</em>).
 </div>
 
 ---
 
-### **`fit` puis `transform` : la règle d'or**
+### **Une matrice pleine de zéros**
+
+Notre exemple est trompeur : 26 cases sur 72 sont remplies (36 %), parce que le corpus est minuscule. Voici la matrice du corpus du TP :
+
+![center width:760px](./images/matrice-creuse.png)
+
+30 documents, 151 termes, 168 cases non nulles : 3,7 %. On parle de matrice **creuse** (*sparse*).
+
+<div class="why">
+
+Un document n'utilise qu'une toute petite partie du vocabulaire. Ne stocker que les valeurs non nulles évite de remplir la mémoire de zéros.
+
+</div>
+
+---
+
+### **`fit` puis `transform`**
 
 ```python
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(corpus)   # apprend le vocabulaire ET transforme
-x = vectorizer.transform([requete])    # projette DANS ce vocabulaire
+vec = CountVectorizer()
+X = vec.fit_transform(corpus)   # apprend le vocabulaire et compte
+x = vec.transform([requete])    # compte avec ce même vocabulaire
 ```
 
-<div style="font-size:.86em; margin-top:8px;">
+- `fit` apprend le vocabulaire sur le corpus et fixe l'ordre des colonnes.
+- `transform` compte les mots d'un nouveau texte dans ces mêmes colonnes, et ignore les mots inconnus.
+- Une requête peut donc donner un vecteur rempli de zéros.
 
-- `fit` **fige** la liste des colonnes — jusqu'au prochain `fit`, qui crée un autre modèle.
-- `transform` ignore silencieusement les mots absents du vocabulaire.
-- Conséquence : une requête peut très bien ne produire **aucun** signal.
+<div class="why">
 
-</div>
+Tous les textes doivent utiliser exactement les mêmes colonnes : la colonne 0 doit désigner le même mot pour le corpus et pour la requête.
 
-<div style="margin-top:12px; padding:10px 14px; border-left:4px solid #3d65f6; background:#f4f7ff; border-radius:6px; font-size:.86em;">
-Le vocabulaire fait partie du <strong>modèle</strong>. Recharger un modèle sans son vocabulaire, c'est comparer deux espaces différents.
 </div>
 
 ---
 
-### **Similarité cosinus**
+### **Mesurer un angle plutôt qu'une distance**
 
-<div style="display:flex; gap:18px; align-items:center;">
-<div style="flex:1.1;">
+<div class="cols mid">
+<div style="flex:1.2;">
 
-![width:400px](./images/cosinus.svg)
+![width:430px](./images/cosinus-vs-euclidienne.png)
 
 </div>
-<div style="flex:1; font-size:.92em;">
+<div>
 
-$$
-\cos(\theta)=\frac{\mathbf a\cdot\mathbf b}{\|\mathbf a\|\,\|\mathbf b\|}
-$$
+$$\cos(\theta)=\frac{\mathbf a\cdot\mathbf b}{\|\mathbf a\|\,\|\mathbf b\|}$$
 
-- $\cos=1$ : même direction
-- $\cos=0$ : vecteurs orthogonaux — aucun mot partagé
-- ici jamais négatif : les comptages sont **non négatifs**
+- $\mathbf a\cdot\mathbf b = \sum_i a_i b_i$ : produit case à case
+- $\|\mathbf a\|=\sqrt{\sum_i a_i^2}$ : longueur du vecteur
+- 1 = même direction, 0 = aucun mot commun
 
 </div>
 </div>
 
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-Pourquoi pas la distance euclidienne ? Elle est sensible à la <strong>norme</strong> : $q$ et $2q$ désignent la même direction, mais sont à distance non nulle. Le cosinus ne regarde que l'<strong>angle</strong>.<br/><br/>La norme utilisée est la norme L2 : $\|\mathbf a\|=\sqrt{\sum_i a_i^2}$.<br/>Si l'un des deux vecteurs est nul, le cosinus est <strong>indéfini</strong> (0/0).
+D2 et D3 sont tous les deux à 2,24 de D1, alors que D2 n'est que D1 recopié deux fois. Le cosinus les distingue : 1 pour D2, 0,71 pour D3.
+
+<div class="why">
+
+Un texte deux fois plus long a des comptages deux fois plus grands, même s'il dit la même chose. Le cosinus ignore la longueur et ne compare que les proportions de mots.
+
 </div>
 
 ---
 
-### **Exemple : requête « le chat »**
+### **Classer les documents pour la requête « le chat »**
 
 | Document | Contenu | Cosinus |
 |---|---|---|
@@ -855,202 +921,165 @@ Pourquoi pas la distance euclidienne ? Elle est sensible à la <strong>norme</st
 | D3 | un félin se repose sur un sofa | 0,000 |
 | D4 | le salon est grand et le salon est clair | 0,365 |
 
-<div style="font-size:.84em; margin-top:6px;">
+- D1 : $q\cdot D1 = 1\times2 + 1\times1 = 3$, $\|q\|=\sqrt{2}$ et $\|D1\|=\sqrt{10}$, d'où $3/\sqrt{20}=0{,}671$.
+- D2 et D4 ne partagent que `le` (deux fois) : même produit scalaire, mais D4 est plus long, donc moins similaire.
+- D3 obtient 0 : il ne contient ni `le` ni `chat`. Il parle pourtant d'un chat.
 
-- D1 gagne : $q\cdot D1 = 1\times2 + 1\times1 = 3$, $\|q\|=\sqrt{2}$, $\|D1\|=\sqrt{10}$ → $3/\sqrt{20}=0{,}671$.
-- D2 et D4 ont le **même produit scalaire** ($q\cdot D = 2$) : c'est la norme qui tranche, $\sqrt{10}$ contre $\sqrt{15}$ → 0,447 contre 0,365.
-- D3 tombe à **0** : aucun mot commun. Premier signal d'alarme.
+---
+
+### **Même requête, sans les stop words**
+
+On retire `le`, `du`, `sur`, `un`, `se`, `est` et `et` des documents et de la requête : on passe de 32 à 15 tokens, et de 18 à 11 termes.
+
+| Document | Avec stop words | Sans stop words |
+|---|---|---|
+| D1 | 0,671 | **0,500** |
+| D2 | 0,447 | 0 |
+| D3 | 0 | 0 |
+| D4 | 0,365 | 0 |
+
+D2 et D4 ne remontaient qu'à cause de `le`. Une fois ces mots très communs retirés, seul D1, qui parle vraiment d'un chat, garde un score supérieur à 0.
+
+<div class="note">
+
+C'est le gain annoncé à la section 2. Mais la liste tranche sans nuance : un mot est gardé ou supprimé. TF-IDF proposera un réglage plus fin.
 
 </div>
 
 ---
 
-### **Le sac perd l'ordre — et le sens**
+### **Le sac perd l'ordre des mots**
 
-<div style="display:flex; gap:18px; font-size:.84em; margin-top:4px;">
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:12px 14px;">
+<div class="cols mid">
+<div class="card">
 
-`le chien mord l'homme`<br/>
+`le chien mord l'homme`
+
 `l'homme mord le chien`
 
 </div>
-<div style="flex:1;">
+<div>
 
-Mêmes comptages, <strong>cosinus = 1</strong>.<br/>
-Deux scènes opposées, un score parfait.
-
-</div>
-</div>
-
-<div style="font-size:.86em; margin-top:12px;">
-
-**La parade classique : les bigrammes**
-
-`le chien`, `chien mord`, `mord l'homme`… On réintroduit un **ordre local entre mots adjacents**, au prix d'un espace de bigrammes théoriquement $V\times V$.
-
-</div>
-
-<div style="margin-top:10px; padding:10px 14px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.86em;">
-Les bigrammes ajoutent de l'ordre local. Ils ne règlent <strong>ni</strong> les synonymes (<code>voiture</code> / <code>automobile</code> : cosinus 0) <strong>ni</strong> les mots inconnus.
-</div>
-
----
-
-### **Et si aucun mot n'est connu ?**
-
-<div style="display:flex; gap:20px; font-size:.86em;">
-<div style="flex:1;">
-
-**Requête**<br/>
-`animal de compagnie`
-
-</div>
-<div style="flex:1;">
-
-**Vocabulaire du corpus**<br/>
-`chat`, `chien`, `dort`, `canapé`, `tapis`, `félin`, `sofa`, `salon`…
+Mêmes mots, mêmes comptes : le cosinus vaut **1**. Les deux phrases racontent pourtant des histoires opposées.
 
 </div>
 </div>
 
-<div style="margin-top:14px; padding:12px 16px; background:#fef2f2; border-left:4px solid #dc2626; border-radius:6px; font-size:.9em;">
-Aucun terme commun → <strong>vecteur nul</strong> → cosinus <strong>indéfini</strong> (0/0), que scikit-learn affiche à 0 par convention.
-</div>
+**Une solution simple : les bigrammes.** On compte aussi les paires de mots voisins : `le chien`, `chien mord`, `mord l'homme`… Les deux phrases n'ont plus les mêmes colonnes, mais leur nombre explose : jusqu'à $|V|^2$ en théorie.
 
-<div style="font-size:.86em; margin-top:12px;">
+<div class="warn">
 
-Ce n'est pas un bug : un mot absent du vocabulaire n'a aucune colonne où s'écrire.
-C'est pourtant le cas le plus fréquent en production : vocabulaire métier, fautes, abréviations, autre langue.
+Les bigrammes rendent un peu d'ordre, mais ils ne règlent pas les synonymes : `voiture` et `automobile` n'ont toujours aucune colonne commune.
 
 </div>
 
 ---
 
-### **Le comptage brut a un défaut**
+### **Et si aucun mot de la requête n'est connu ?**
 
-<div style="font-size:.88em;">
+Requête : <span class="search">animal de compagnie</span>. Aucun de ces trois mots n'apparaît dans les quatre documents.
 
-| Mot | Occurrences | Documents concernés |
+<div class="warn">
+
+Le vecteur de la requête ne contient que des zéros. Le cosinus vaut alors 0/0 : il n'est pas défini, et scikit-learn renvoie 0 par convention. Les quatre documents sont à égalité, alors que trois d'entre eux parlent d'un animal de compagnie.
+
+</div>
+
+C'est le cas le plus fréquent en production : vocabulaire métier, fautes de frappe, abréviations, autre langue. Un mot inconnu n'a tout simplement aucune colonne où s'inscrire.
+
+---
+
+### **Tous les mots ne se valent pas**
+
+| Mot | Occurrences | Documents qui le contiennent |
 |---|---|---|
 | `le` | 6 | 3 sur 4 |
 | `salon` | 4 | 3 sur 4 |
 | `félin` | 1 | 1 sur 4 |
 
-</div>
+`le` apparaît dans presque tous les documents : il ne permet pas de les distinguer. `félin` n'apparaît que dans D3 : s'il est dans la requête, il désigne exactement le bon document.
 
-<div style="margin-top:10px; font-size:.88em;">
+<div class="ask">
 
-`le` est présent dans 3 documents sur 4 : il ne peut, au mieux, que distinguer D3 des trois autres.
-`félin` n'apparaît que dans **un seul** document : il isole exactement la bonne réponse.
+Comment donner plus de poids à `félin` qu'à `le`, sans écrire la liste des mots importants à la main ?
 
-</div>
-
-<div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.9em;">
-Il faut donc <strong>donner un poids</strong> aux termes — et la bonne mesure de « rare » n'est pas la fréquence dans le document, mais le <strong>nombre de documents qui contiennent le mot</strong>. C'est tout l'objet de TF-IDF.
 </div>
 
 ---
 
-### **Le sac de mots : résumé**
+### **Le sac de mots en résumé**
 
-- **Vecteur** : une case par mot du vocabulaire
-- **Valeur** : présence (0/1) ou nombre d'occurrences
-- **Cosinus** : compare la direction de deux vecteurs
-- **Limites** : ordre perdu, synonymes séparés, mots inconnus ignorés
-
-> Une requête sans aucun mot connu donne un vecteur nul — et un cosinus qui ne veut rien dire.
+- Un document devient un vecteur, avec une case par terme du vocabulaire.
+- Chaque case contient une présence (0 ou 1) ou un nombre d'occurrences.
+- Le cosinus compare deux vecteurs en ne regardant que leur direction.
+- Trois limites : l'ordre est perdu, les synonymes restent séparés, les mots inconnus sont ignorés.
 
 ---
 
 <!-- header: ⭐️ TF-IDF -->
 
-### **L'idée : donner plus de poids à ce qui distingue**
+### **Donner du poids aux mots qui distinguent**
 
-<div style="display:flex; gap:20px; font-size:.86em; margin-top:4px;">
-<div style="flex:1;">
+Un mot est important pour un document s'il est :
 
-**Le problème**
+- **fréquent dans ce document** : c'est le TF (*term frequency*) ;
+- **rare dans le reste du corpus** : c'est l'IDF (*inverse document frequency*).
 
-`le` est partout, donc il ne sépare rien.
-`félin` est rare, donc il identifie.
+<div class="cols">
+<div class="card">
 
-Or le comptage brut les traite de la même façon : **1 occurrence = 1**.
+`le` est dans 3 documents sur 4. Il ne permet pas d'en choisir un : son poids doit baisser.
 
 </div>
-<div style="flex:1;">
+<div class="card">
 
-**L'idée**
-
-Un terme est important s'il est :
-
-- **fréquent dans le document** → TF
-- **rare dans le corpus** → IDF
+`félin` n'est que dans D3. C'est un très bon indice : son poids doit monter.
 
 </div>
 </div>
 
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-left:4px solid #3d65f6; border-radius:6px; font-size:.84em;">
-Intuition : un mot qui apparaît dans <em>tous</em> les documents ne peut pas servir à en choisir un.
+<div class="why">
+
+Un mot présent dans presque tous les documents n'aide pas à les départager. TF-IDF baisse le poids des mots très courants et monte celui des mots rares, qui ont plus de valeur.
+
 </div>
 
-![width:520px](./images/idf-rarete.svg)
-
-<p style="font-size:.68em; color:#9aa4b8; margin-top:8px;">Salton &amp; Buckley (1988), <em>Term-weighting approaches in automatic text retrieval</em>.</p>
+<p class="src">Salton et Buckley (1988), <em>Term-weighting approaches in automatic text retrieval</em>.</p>
 
 ---
 
-### **Les deux facteurs**
+### **La formule**
 
-<div style="font-size:.86em;">
+$$w_{t,d}=\text{tf}(t,d)\times\text{idf}(t)$$
 
-**TF** — nombre d'occurrences du terme dans le document (comptage brut dans scikit-learn) :
+- $\text{tf}(t,d)$ : le nombre de fois où le terme $t$ apparaît dans le document $d$.
+- $\text{idf}(t)$ : un poids qui augmente quand le terme est rare. scikit-learn utilise :
+
+$$\text{idf}(t)=\ln\!\left(\frac{1+N}{1+\text{df}(t)}\right)+1$$
+
+avec $N$ le nombre de documents et $\text{df}(t)$ le nombre de documents qui contiennent $t$.
+
+<div class="why">
+
+Sans le logarithme, un mot rare pèserait des milliers de fois plus qu'un mot courant et écraserait tous les autres. Le logarithme garde des poids comparables.
 
 </div>
 
-$$
-\text{tf}(t,d)=n_{t,d}
-$$
-
-<div style="font-size:.86em; margin-top:6px;">
-
-**IDF** — à quel point le terme est rare dans le corpus (convention scikit-learn, lissée) :
-
-</div>
-
-$$
-\text{idf}(t)=\ln\!\left(\frac{1+N}{1+\text{df}(t)}\right)+1
-\qquad
-w_{t,d}=\text{tf}(t,d)\times\text{idf}(t)
-$$
-
-<div style="font-size:.82em; color:#4b5563; margin-top:6px;">
-<em>N</em> = nombre de documents · <em>df(t)</em> = nombre de documents contenant <em>t</em> · les <em>+1</em> lissent le rapport : l'IDF ne peut jamais être nul ni négatif.<br/>
-Le vecteur obtenu est ensuite <strong>normalisé en L2</strong>. La variante « classique » divise <em>tf</em> par la longueur du document — un facteur <strong>par document</strong>. Après normalisation L2, les deux conventions donnent des cosinus <strong>identiques</strong>.
-</div>
+<p class="small">Chaque vecteur est ensuite divisé par sa norme, pour ne pas avantager les longs documents.</p>
 
 ---
 
-### **Calcul sur notre corpus**
+### **L'IDF sur nos quatre documents**
 
-<p style="font-size:.82em; color:#4b5563; margin:0;">
-N = 4 documents. Valeurs calculées avec la formule lissée ci-dessus.
-</p>
+Avec $N = 4$ : $\text{idf}(\text{chat}) = \ln(5/2) + 1 = 1{,}916$ et $\text{idf}(\text{le}) = \ln(5/4) + 1 = 1{,}223$.
 
-| Terme | df | IDF |
-|---|---|---|
-| `le` | 3 | ln(5/4) + 1 = **1,223** |
-| `salon` | 3 | ln(5/4) + 1 = **1,223** |
-| `dort` | 2 | ln(5/3) + 1 = **1,511** |
-| `chat` | 1 | ln(5/2) + 1 = **1,916** |
-| `félin` | 1 | ln(5/2) + 1 = **1,916** |
+![center width:720px](./images/idf-courbe.png)
 
-<div style="margin-top:8px; font-size:.82em; color:#4b5563;">
-Aucun terme n'est jamais annulé : <code>le</code>, présent dans 3 documents sur 4, garde un IDF de 1,22, soit <strong>1,57 fois moins</strong> qu'un mot unique — mais jamais zéro.
-</div>
+À gauche, l'allure générale : l'IDF chute vite dès qu'un mot devient courant. À droite, nos valeurs : `chat` ne pèse que 1,57 fois plus que `le`, car le corpus est minuscule.
 
 ---
 
-### **Requête « le chat », cette fois en TF-IDF**
+### **La requête « le chat », cette fois en TF-IDF**
 
 | Document | Cosinus (comptages) | Cosinus (TF-IDF) |
 |---|---|---|
@@ -1059,507 +1088,444 @@ Aucun terme n'est jamais annulé : <code>le</code>, présent dans 3 documents su
 | D3 | 0,000 | 0,000 |
 | D4 | 0,365 | 0,214 |
 
-<div style="font-size:.84em; margin-top:8px;">
-
-- L'**ordre ne change pas** : D1 reste premier, et c'est normal — D1 contient vraiment `chat`.
-- Ce qui change, c'est l'**écart** : D2 passe de 0,447 à 0,288, D4 de 0,365 à 0,214.
-- TF-IDF ne réécrit pas la vérité : il **accentue les différences**.
-
-</div>
+- Le classement ne change pas : D1 reste en tête, et c'est normal, il contient vraiment `chat`.
+- Les écarts se creusent : D2 et D4, qui ne partagent que `le` avec la requête, perdent beaucoup.
+- D3 reste à 0 : TF-IDF ne crée aucun lien entre `chat` et `félin`.
 
 ---
 
-### **Le cas où le classement bascule**
+### **Quand TF-IDF change le classement**
 
-<p style="font-size:.84em; color:#4b5563; margin:0 0 4px 0;">
-Requête : <code>félin salon</code>
-</p>
+Requête : <span class="search">félin salon</span>
 
-| Document | Cosinus (comptages) | Cosinus (TF-IDF) |
-|---|---|---|
-| D1 le chat dort sur le canapé du salon | 0,224 | 0,144 |
-| D2 le chien dort sur le tapis du salon | 0,224 | 0,144 |
-| D3 un félin se repose sur un sofa | 0,236 | **0,291** |
-| D4 le salon est grand et le salon est clair | **0,365** | 0,214 |
+![center width:700px](./images/bow-vs-tfidf.png)
 
-<div style="font-size:.84em; margin-top:6px;">
-
-- En **comptages**, D4 gagne : il répète `salon` deux fois, alors qu'il ne parle pas d'animaux.
-- En TF-IDF, **D3 gagne** : `salon` est banalisé (3 documents sur 4), `félin` retrouve son poids.
-- C'est exactement le comportement attendu : la pondération corrige un classement trompeur.
-
-</div>
+Avec les comptages, D4 gagne parce qu'il répète `salon`, alors qu'il ne parle d'aucun animal. Avec TF-IDF, `salon` perd du poids (il est dans 3 documents sur 4) et `félin` en gagne : D3 passe en tête.
 
 ---
 
-### **Les limites de TF-IDF**
+### **Ce que TF-IDF ne sait pas faire**
 
-- **Synonymes** : `voiture` et `automobile` restent à distance
-- **Plusieurs sens** : les deux sens d'`avocat` partagent une seule case
-- **Ordre** : il n'est pas conservé
-- **Mots inconnus** : ils sont ignorés
-- **Corpus** : changer les documents change tous les poids
-
-> TF-IDF donne un poids aux mots, il ne comprend pas leur sens.
+- **Les synonymes** : `voiture` et `automobile` n'ont toujours aucune colonne commune.
+- **Les sens multiples** : `avocat` le fruit et `avocat` le métier partagent la même colonne.
+- **L'ordre** : il reste perdu.
+- **Les mots inconnus** : ils sont toujours ignorés.
+- **La stabilité** : ajouter des documents modifie tous les poids.
 
 ---
 
-### **Récapitulatif**
+### **TF-IDF en résumé**
 
-<div style="font-size:.86em;">
+1. Le TF compte un mot dans le document, l'IDF mesure sa rareté dans le corpus.
+2. Avec la formule de scikit-learn, un mot présent partout garde un IDF de 1 : c'est le minimum.
+3. TF-IDF creuse les écarts entre documents. Il ne change le classement que lorsqu'un mot banal écrase un mot plus rare.
+4. Il reste fondé sur les mots écrits : synonymes, sens multiples et mots inconnus lui échappent.
 
-1. **TF** mesure la présence dans le document, **IDF** la rareté dans le corpus.
-2. La convention scikit-learn est **lissée** : un mot présent partout garde un IDF de 1 — un **plancher**, pas un poids fort.
-3. TF-IDF **accentue les écarts** ; il ne change l'ordre que quand un mot banal écrase un mot qui distingue.
-4. Il reste **basé sur les mots** : synonymes, plusieurs sens et mots inconnus lui échappent.
+<div class="ask">
 
-</div>
+Un IDF calculé sur nos 4 documents peut-il servir tel quel pour un corpus de 10 000 documents ? Pourquoi ?
 
-<div style="margin-top:14px; padding:14px 18px; background:#f4f7ff; border-radius:10px; font-size:.92em;">
-<strong>Question</strong> — Pourquoi un IDF calculé sur 4 documents ne doit-il pas être réutilisé tel quel sur un corpus de 10 000 documents ?
 </div>
 
 ---
 
 <!-- header: ⭐️ Des mots aux vecteurs -->
 
-### **Un one-hot ne dit rien**
+### **Pourquoi des vecteurs de mots ?**
 
-<div style="display:flex; gap:18px; font-size:.84em; margin-top:4px;">
-<div style="flex:1;">
+Retour au fil rouge : l'utilisateur tape <span class="search">félin</span>. D1 parle d'un chat, mais n'a aucun mot en commun avec la requête.
 
-**Le one-hot**
+<div class="cols mid">
+<div>
 
-Un vecteur de la taille du vocabulaire, avec un seul 1.
+Dans un sac de mots, chaque mot a sa propre colonne. Pris seul, un mot est un vecteur *one-hot* :
 
+```text
+chat  = [1, 0, 0, …]
+félin = [0, 1, 0, …]
+pneu  = [0, 0, 1, …]
 ```
-chat  = [1,0,0,0,0,...]
-chien = [0,1,0,0,0,...]
-pneu  = [0,0,0,1,0,...]
-```
-
-cos(chat, chien) = **0**<br/>
-cos(chat, pneu) = **0**<br/>
-Aucune information : tous les mots sont équidistants.
 
 </div>
-<div style="flex:1;">
+<div>
 
-**L'idée de base** (Firth, 1957)
+cos(`chat`, `félin`) = 0
 
-> « You shall know a word by the company it keeps. »
+cos(`chat`, `pneu`) = 0
 
-Deux mots qui apparaissent **dans les mêmes contextes** ont un sens proche.
-
-C'est tout le programme de Word2Vec : apprendre des vecteurs **à partir des voisinages**, sans dictionnaire.
-
-<p style="font-size:.68em; color:#9aa4b8; margin-top:6px;">Mikolov et al. (2013), <em>Efficient Estimation of Word Representations in Vector Space</em>.</p>
+Pour ces vecteurs, `félin` est aussi loin de `chat` que `pneu`.
 
 </div>
+</div>
+
+<div class="why">
+
+Avec une colonne par mot, deux synonymes n'ont rien en commun. On veut des vecteurs où deux mots de même sens ont des valeurs proches.
+
 </div>
 
 ---
 
-### **La fenêtre glissante**
+### **L'idée de Word2Vec**
 
-<p style="font-size:.86em; margin:2px 0 6px 0;">
-<code>le(0) chat(1) dort(2) sur(3) canapé(4)</code> — fenêtre <em>k</em> = 2
-</p>
+> « You shall know a word by the company it keeps. » J. R. Firth, 1957
 
-<div style="display:flex; gap:18px; font-size:.84em;">
-<div style="flex:1;">
+Dans « le ___ dort sur le canapé », on peut mettre `chat`, `chien` ou `félin`, mais pas `pneu`. Des mots qui partagent leurs voisins ont souvent un sens proche.
 
-**Cible : `dort` (position 2)**
+Word2Vec lit des millions de phrases et apprend un vecteur par mot, de sorte que les mots aux voisins semblables reçoivent des vecteurs proches. Aucun dictionnaire n'est nécessaire.
 
-Contexte = mots à une distance ≤ 2 :
+<p class="src">Mikolov et al. (2013), <em>Efficient Estimation of Word Representations in Vector Space</em>.</p>
 
-`le` (0) · `chat` (1) · `sur` (3) · `canapé` (4)
+---
 
-→ 4 associations mot ↔ contexte :<br/>
-(`dort`, `le`), (`dort`, `chat`), (`dort`, `sur`), (`dort`, `canapé`)
+### **Les contextes : une fenêtre qui glisse**
 
-</div>
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:12px 14px;">
+![center width:700px](./images/fenetre-glissante.svg)
 
-**Puis on décale**
+On parcourt le corpus mot par mot. Pour chaque mot cible, les voisins situés à $k$ positions ou moins forment son contexte. Chaque couple (cible, voisin) devient un exemple d'entraînement.
 
-Cible `le` (0) : contexte `chat`, `dort` (bornes !)<br/><br/>
-Cible `chat` (1) : contexte `le`, `dort`, `sur`<br/><br/>
-… et ainsi de suite sur tout le corpus.
+<div class="warn">
 
-</div>
-</div>
+La taille de la fenêtre est un réglage. Petite, elle capte la syntaxe (quel mot suit quel autre). Grande, elle capte plutôt le thème du texte.
 
-<div style="margin-top:10px; padding:10px 14px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.84em;">
-La fenêtre est un <strong>hyperparamètre</strong> : petite = relations syntaxiques, grande = thèmes.
 </div>
 
 ---
 
 ### **Deux façons d'apprendre : CBOW et Skip-gram**
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px; font-size:.84em;">
+![center width:700px](./images/cbow-vs-skipgram.svg)
 
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 16px;">
-<strong>CBOW</strong> — prédire le centre depuis le contexte
+- **CBOW** devine le mot central à partir de ses voisins : rapide, bon sur les mots fréquents.
+- **Skip-gram** fait l'inverse : plus lent, mais meilleur sur les mots rares.
 
-```
-contexte : le, chat, sur, canapé
-        ↓
-cible    : dort
-```
+<div class="why">
 
-Rapide, efficace sur les mots fréquents.
+Pour forcer deux mots qui ont les mêmes voisins à recevoir des vecteurs proches, on entraîne le modèle à deviner un mot à partir de ses voisins.
 
-</div>
-
-<div style="background:#f4f7ff; border-radius:10px; padding:14px 16px;">
-<strong>Skip-gram</strong> — prédire le contexte depuis le centre
-
-```
-cible    : dort
-        ↓
-contexte : le, chat, sur, canapé
-```
-
-Plus lent, meilleur sur les **mots rares**.
-
-</div>
-
-</div>
-
-<div style="margin-top:12px; font-size:.84em; color:#4b5563;">
-Les deux produisent la même chose : une matrice de vecteurs. Seul le sens des paires change.
 </div>
 
 ---
 
 ### **Où sont les vecteurs ?**
 
-<div style="font-size:.86em;">
+Les vecteurs sont rangés dans une matrice $W$ de taille $|V| \times d$ : une ligne par mot, $d$ colonnes (souvent 100 à 300).
 
-Chaque mot possède une ligne dans la <strong>matrice d'entrée W</strong> (taille <em>|V| × d</em>) : c'est elle qui contient les embeddings.
+$$h=\frac{1}{|C|}\sum_{w\in C}\mathbf e_w$$
 
-</div>
+<div class="small">
 
-$$
-h=\frac{1}{|C|}\sum_{w\in C} \mathbf{e}_w
-\qquad\text{avec } C=\text{contexte}(w_t),\ w_t\notin C,\ |C|\leq 2k
-$$
-
-<div style="font-size:.78em; color:#4b5563; margin-top:2px;">
-<em>e<sub>w</sub></em> = le vecteur du mot <em>w</em> (une ligne de W) · <em>w<sub>t</sub></em> = le mot central, la cible · <em>h</em> = le vecteur agrégé du contexte ·
-|C| ≤ 2k parce qu'au premier mot de la phrase, la fenêtre ne contient que k voisins.
-</div>
-
-<div style="font-size:.84em; margin-top:6px;">
-
-- **CBOW** : on moyenne les vecteurs du contexte pour former <em>h</em>, puis on calcule un score pour chaque mot du vocabulaire.
-- **Skip-gram** : on part du vecteur du mot central et on calcule un score pour chaque mot du contexte.
-- L'entraînement **ajuste W** : les mots réellement observés doivent obtenir un score élevé.
+$\mathbf e_w$ : la ligne de $W$ du mot $w$. $C$ : les mots du contexte, sans la cible. $|C| \le 2k$, car la fenêtre est tronquée aux bords de la phrase.
 
 </div>
+
+- **CBOW** fait la moyenne $h$ des vecteurs du contexte, puis donne un score à chaque mot du vocabulaire.
+- **Skip-gram** part du vecteur du mot central et donne un score aux mots du contexte.
+- Au départ, $W$ est aléatoire. L'entraînement la corrige pour que les mots réellement observés obtiennent les meilleurs scores.
 
 ---
 
-### **Combien ça coûte ?**
+### **Combien de paramètres ?**
 
-<div style="display:flex; gap:20px; font-size:.86em; margin-top:4px;">
-<div style="flex:1;">
+<div class="cols">
+<div>
 
-**Deux matrices**
+Word2Vec utilise deux matrices de taille $|V| \times d$ : celle d'entrée contient les vecteurs que l'on garde, celle de sortie sert à calculer les scores.
 
-- entrée : <em>|V| × d</em>
-- sortie : <em>|V| × d</em>
-
-10 000 mots × 100 dimensions → **2 × 10⁶ poids**
-
-<div style="margin-top:8px; font-size:.92em; color:#4b5563;">
-La <strong>ligne de la matrice d'entrée</strong> associée à un mot <em>est</em> son embedding : la couche intermédiaire n'est que la moyenne de ces lignes.
-</div>
+Pour 10 000 mots en 100 dimensions : $2 \times 10\,000 \times 100 = 2 \times 10^6$ poids.
 
 </div>
-<div style="flex:1;">
+<div class="card">
 
 **Ordres de grandeur**
 
-- corpus : millions de mots
-- dimension : 100 à 300 — compromis capacité / coût ; au-delà, les gains deviennent marginaux
-- vocabulaire : 10⁴ à 10⁶
+- corpus : des millions de mots
+- vocabulaire : $10^4$ à $10^6$ mots
+- dimension : 100 à 300 ; au-delà, le gain devient faible
 
 </div>
 </div>
 
-<div style="margin-top:14px; padding:12px 16px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.86em;">
-Un vocabulaire de 100 000 mots en 300 dimensions = <strong>60 millions</strong> de paramètres, pour deux matrices.
-Et pour chaque paire, il faut calculer <em>|V|</em> scores : c'est ce <strong>coût de calcul</strong> que réduisent le negative sampling et le softmax hiérarchique (séance 6), pas le nombre de paramètres.
-</div>
+<div class="warn">
 
----
+Avec 100 000 mots en 300 dimensions, on atteint 60 millions de paramètres. Le calcul pose un autre problème : pour chaque exemple, il faudrait un score pour chacun des $|V|$ mots. Le *negative sampling* (séance 6) évite ce calcul.
 
-### **Ce que ça donne**
-
-<div style="display:flex; gap:18px; align-items:center;">
-<div style="flex:1;">
-
-![width:430px](./images/word2vec-plan.svg)
-
-</div>
-<div style="flex:1; font-size:.84em;">
-
-Après entraînement sur un gros corpus, les voisins de `chat` sont `chien`, `matou`, `félin` — avec des cosinus de 0,6 à 0,9.<br/><span style="color:#4b5563;">Même famille sur le modèle du TP : `félin` 0,72 · `chien` 0,62 · `chats` 0,62.</span>
-
-Les thèmes se regroupent **sans qu'on les ait jamais nommés**.
-
-</div>
-</div>
-
-<div style="margin-top:10px; padding:10px 14px; background:#fff4e5; border-left:4px solid #d97706; border-radius:6px; font-size:.84em;">
-Attention : c'est une similarité <strong>de contextes</strong>, pas du « sens ».
-<code>chaud</code> et <code>froid</code> sont proches (mêmes contextes) ; <code>canapé</code> et <code>sofa</code> aussi.
 </div>
 
 ---
 
-### **Lire un espace d'embeddings**
+### **Les vecteurs du TP, vus en 2D**
 
-<div style="display:flex; gap:14px; align-items:flex-start;">
-<div style="flex:1.05;">
+![center width:470px](./images/embeddings-tp-2d.png)
 
-![width:470px](./images/analogie-embedding-space.png)
+20 mots du modèle du TP, ramenés de 100 à 2 dimensions (projection ACP) pour pouvoir les dessiner. Les thèmes se regroupent seuls ; les couleurs, c'est nous qui les avons ajoutées.
 
-</div>
-<div style="flex:1; font-size:.76em;">
+<div class="warn">
 
-**1.** Chaque mot est un **vecteur tracé depuis l'origine** (MAN = `homme`, WOMAN = `femme`, KING = `roi`, QUEEN = `reine`).
+Proche veut dire « employé dans les mêmes contextes » : `chat` a pour voisins `félin` (0,72) et `chien` (0,62), mais `chaud` et `froid` sont aussi à 0,74.
 
-**2.** Les flèches violettes « Gender » sont **identiques** : MAN→WOMAN et KING→QUEEN.
-
-**3.** Les flèches orange « Royalty » sont **identiques** : MAN→KING et WOMAN→QUEEN.
-
-**4.** Les quatre points forment un **parallélogramme** :
-
-<code style="font-size:1.05em;">QUEEN = KING + (WOMAN − MAN)</code>
-
-</div>
-</div>
-
-<p style="text-align:center; font-size:.8em; color:#4b5563; margin-top:4px;">
-Un vecteur différence n'est pas un mot : c'est un <strong>sens</strong> — et il se réutilise.
-</p>
-
-<p style="font-size:.6em; color:#9aa4b8; margin-top:0;">Figure : schéma de @akshay_pachaar, repris tel quel avec son crédit d'auteur.</p>
-
----
-
-### **Ce que ça vaut vraiment**
-
-- **Ce qui marche** : `reine` sort en tête pour `roi − homme + femme`
-- **Ce qui échoue** : `paris − france + italie` peut donner `espagne`
-- **Le chiffre** : cos(`reine−roi`, `femme−homme`) = **0,37** sur notre modèle
-- **Pourquoi** : un petit corpus donne des vecteurs moins fiables
-
-> Une analogie réussie ne prouve pas que le modèle a compris.
-
----
-
-### **D'un mot à un document**
-
-<div style="font-size:.86em;">
-
-Un mot a maintenant un vecteur. Mais une **phrase**, un **paragraphe**, un **document** en ont-ils un ?
-
-</div>
-
-<div style="display:flex; gap:18px; margin-top:8px; font-size:.84em;">
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:12px 14px;">
-<strong>Pooling</strong><br/>
-Moyenner les vecteurs des mots du document.<br/>
-Simple — mais l'ordre et les relations entre mots disparaissent.
-</div>
-<div style="flex:1; background:#f4f7ff; border-radius:8px; padding:12px 14px;">
-<strong>Encodeur de phrases</strong><br/>
-Un modèle entraîné pour produire <em>directement</em> un vecteur de phrase.<br/>
-C'est ce que fait <code>sentence-transformers</code> (séance 6).
-</div>
-</div>
-
-<div style="margin-top:14px; padding:12px 16px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.88em;">
-C'est <strong>ce</strong> vecteur-là qui servira à comparer des phrases entières — pas les vecteurs de mots isolés.<br/>
-Tant que ce maillon n'est pas vu, la comparaison de documents reste une boîte noire.
 </div>
 
 ---
 
-<!-- header: ⭐️ Limites -->
+### **Les analogies : des déplacements qui se répètent**
 
-### **Cinq limites, un même mur**
+![center width:700px](./images/analogie-vecteurs.png)
 
-| Limite | Symptôme | Ce qu'il faudrait |
+Dans un espace idéal, aller de `homme` à `femme` demande le même déplacement qu'aller de `roi` à `reine`. On peut alors calculer :
+
+$$\vec{\text{roi}} - \vec{\text{homme}} + \vec{\text{femme}} \approx \vec{\text{reine}}$$
+
+<p class="small">Schéma simplifié : les vrais vecteurs ont 100 dimensions, et le parallélogramme n'est jamais parfait.</p>
+
+---
+
+### **Sur le modèle du TP, ça marche… à peu près**
+
+![center width:740px](./images/analogies-tp.png)
+
+- `acteur − homme + femme` donne bien `actrice`, nettement en tête.
+- `roi − homme + femme` place `reine` 2e, derrière `roy`, l'ancienne orthographe de `roi`.
+- `paris − france + italie` donne `espagne` ; `rome` n'arrive que 3e.
+
+<div class="note">
+
+Les analogies citées dans les articles sont souvent choisies parmi celles qui marchent. Ici, `femme − homme` et `reine − roi` n'ont qu'un cosinus de 0,37.
+
+</div>
+
+---
+
+### **Et pour une phrase entière ?**
+
+Word2Vec donne un vecteur par mot. Or une requête et un document sont des suites de mots : pour les comparer, il faut un vecteur par texte.
+
+<div class="cols">
+<div class="card">
+
+**La moyenne des mots** (*pooling*)
+
+Simple, mais l'ordre disparaît : `le chien mord l'homme` et `l'homme mord le chien` ont la même moyenne.
+
+</div>
+<div class="card">
+
+**Un encodeur de phrases**
+
+Un modèle entraîné pour produire directement un vecteur par phrase, comme ceux de `sentence-transformers` (séance 6).
+
+</div>
+</div>
+
+<div class="note">
+
+C'est ce vecteur de phrase qui servira à la recherche vectorielle des séances 7 et 8.
+
+</div>
+
+---
+
+<!-- header: ⭐️ Limites et synthèse -->
+
+### **Cinq limites à garder en tête**
+
+<div class="tight">
+
+| Limite | Exemple | Piste |
 |---|---|---|
-| **Lexical** (BoW, TF-IDF) | `voiture` / `automobile` → cosinus 0 | des vecteurs appris |
-| **Polysémie** | `avocat` = fruit **et** métier, un seul vecteur | un vecteur **par contexte** |
-| **Ordre** | `le chien mord l'homme` ≈ `l'homme mord le chien` | modéliser la séquence |
-| **Hors vocabulaire** | un mot absent n'a <em>aucun</em> vecteur | des sous-mots (fastText), un vrai encodeur |
-| **Expression** | `animal de compagnie` : le sens n'est pas la somme des mots | un encodeur de phrases |
+| Synonymes | `voiture` / `automobile` : cosinus 0 | vecteurs appris (Word2Vec) |
+| Sens multiples | `avocat` : un vecteur pour deux sens | un vecteur par contexte |
+| Ordre | qui mord qui ? | modèles de séquence |
+| Mots inconnus | aucun vecteur | sous-mots (fastText, BPE) |
+| Expressions | `animal de compagnie` | encodeur de phrases |
 
-<div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-Word2Vec <strong>atténue</strong> la première ligne, sans la supprimer. Les suivantes demandent de regarder <strong>la phrase entière</strong>, pas le mot isolé.
+</div>
+
+<div class="note">
+
+Word2Vec règle en grande partie la première limite : sur le modèle du TP, les voisins de `voiture` sont `véhicule` (0,74) et `bagnole` (0,71). Les quatre autres demandent de lire la phrase entière.
+
 </div>
 
 ---
 
-### **Un vecteur par contexte**
+### **Un mot, plusieurs sens**
 
-- **Fruit** : « L'avocat mûr tombe de l'arbre. »
-- **Métier** : « L'avocat plaide au tribunal. »
-- **Word2Vec** : un seul vecteur pour `avocat`, les deux sens mélangés
-- **BERT** : un vecteur différent dans chaque phrase
+![center width:800px](./images/word2vec-vs-bert.svg)
 
-> Le contexte sert à choisir le bon sens — c'est l'objet de la séance 6.
+- Word2Vec donne un seul vecteur à `avocat`. Sur le modèle du TP, ses plus proches voisins sont tous des métiers : `légiste`, `avocate`, `procureur`. Le fruit a disparu.
+- Un Transformer comme BERT calcule un vecteur différent pour chaque phrase. C'est le sujet de la séance 6.
 
 ---
 
-### **Les trois façons de représenter un texte**
+### **Retour au fil rouge**
+
+<div class="tight" style="font-size:.8em;">
+
+| Requête | Problème | Ce qui l'a réglé | Réglé ? |
+|---|---|---|---|
+| <span class="search">Chats</span> | majuscule et pluriel | normalisation, lemmatisation | oui |
+| <span class="search">salom</span> | faute de frappe | distance d'édition | oui |
+| <span class="search">le chat</span> | `le` fait remonter D2 et D4 | stop words, TF-IDF | oui |
+| <span class="search">félin salon</span> | D4 répète `salon` | TF-IDF | oui |
+| <span class="search">félin</span> | synonyme de `chat` | Word2Vec | en partie |
+| <span class="search">avocat mûr</span> | un mot, deux sens | un vecteur par contexte | séance 6 |
+
+</div>
+
+<div class="note">
+
+Chaque outil de la séance répond à un problème concret de recherche. Les deux dernières lignes montrent ce qu'il reste à voir en séance 6.
+
+</div>
+
+---
+
+### **Comparer les représentations**
+
+<div class="tight">
 
 | | Ce qu'elle garde | Ce qu'elle perd | Coût |
 |---|---|---|---|
-| **Comptages (BoW)** | quels mots, combien de fois | l'ordre, les synonymes | très faible |
-| **TF-IDF** | les mots qui distinguent | l'ordre, les synonymes | faible |
-| **Word2Vec** | le sens approximatif | l'ordre, la précision | moyen |
-
-<div style="margin-top:12px; font-size:.86em;">
-
-**À retenir** : on ne remplace pas une méthode par une autre — on choisit celle qui correspond à la question posée.
+| Comptages | quels mots, combien de fois | l'ordre, les synonymes | très faible |
+| TF-IDF | les mots qui distinguent | l'ordre, les synonymes | faible |
+| Word2Vec | une proximité de sens | l'ordre, les sens multiples | moyen |
 
 </div>
 
-<div style="margin-top:10px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.84em;">
-Une recherche par mots-clés exacts ? BoW ou TF-IDF suffit.
-Une recherche où l'utilisateur écrit autrement que le document ? Il faut Word2Vec.
+- L'utilisateur emploie les mêmes mots que les documents ? Comptages ou TF-IDF suffisent, et leurs résultats sont faciles à expliquer.
+- Il écrit autrement que les documents ? Il faut des vecteurs denses : Word2Vec, puis les encodeurs de la séance 6.
+
+---
+
+### **Exercice : trois phrases**
+
+<div class="card" style="width:100%;">
+
+`D1` le chat dort sur le canapé
+
+`D2` le chien dort sur le tapis
+
+`D3` un félin se repose sur le sofa
+
+</div>
+
+<div class="cols" style="margin-top:12px;">
+<div>
+
+1. Construisez la matrice de comptage.
+2. Calculez cos(D1, D2), puis cos(D1, D3).
+
+</div>
+<div>
+
+3. Refaites le calcul en TF-IDF, avec la formule de scikit-learn.
+4. Le score de D3 baisse fortement en TF-IDF. Pourquoi ?
+
+</div>
 </div>
 
 ---
 
-### **Exercice : trois phrases, trois vecteurs**
+### **Correction de l'exercice**
 
-<p style="font-size:.84em; color:#4b5563; margin:2px 0 6px 0;">Corpus de trois phrases :</p>
+| | cos(D1, D2) | cos(D1, D3) |
+|---|---|---|
+| Comptages | 0,75 | 0,40 |
+| TF-IDF | 0,54 | 0,21 |
+| Moyenne des vecteurs du TP | 0,97 | 0,84 |
 
-<div style="font-size:.84em; line-height:1.5;">
-<code>D1</code> le chat dort sur le canapé<br/>
-<code>D2</code> le chien dort sur le tapis<br/>
-<code>D3</code> un félin se repose sur le sofa
-</div>
+- En TF-IDF, D3 ne partage avec D1 que `le` et `sur`. Présents dans les trois documents, ces mots tombent à un IDF de 1, contre 1,69 pour les mots rares.
+- Avec les vecteurs Word2Vec, `félin` est proche de `chat` et `sofa` de `canapé` : D3 se rapproche enfin de D1.
 
-<div style="display:flex; gap:16px; font-size:.82em; margin-top:10px;">
-<div style="flex:1;">
-
-**1.** Vectoriser en comptages.
-
-**2.** Calculer le cosinus entre D1 et D2, puis entre D1 et D3.
-
-</div>
-<div style="flex:1;">
-
-**3.** Refaire le calcul en TF-IDF.
-
-**4.** Expliquer pourquoi D3 change de place.
-
-</div>
-</div>
-
-<div style="margin-top:10px; padding:10px 14px; border:1.5px dashed #3d65f6; border-radius:8px; font-size:.84em;">
-Attendu : D1 et D2 se ressemblent (mêmes mots outils, <code>dort</code> en commun). D3 parle de la même chose sans partager un seul mot de contenu — les comptages ne peuvent pas le voir.
-</div>
+<p class="small">Sur ce modèle compressé, canapé et sofa ont même exactement le même vecteur.</p>
 
 ---
 
 ### **Ce qu'il faut savoir refaire à la main**
 
-<div style="font-size:.86em; line-height:1.6;">
+1. Nettoyer une phrase : normaliser, tokeniser, retirer les stop words, et dire ce que chaque étape fait perdre.
+2. Compter les occurrences et construire la matrice documents × termes.
+3. Calculer un IDF avec la formule de scikit-learn, et expliquer pourquoi il augmente quand le mot est rare.
+4. Calculer un cosinus, y compris quand l'un des vecteurs est nul.
+5. Remplir une petite matrice de Levenshtein.
+6. Trouver les voisins d'un mot dans un fichier de vecteurs.
 
-- **1.** Compter les occurrences et construire la matrice documents × termes.
-- **2.** Calculer un IDF : `log(N / df)` — et dire pourquoi il monte quand le mot est rare.
-- **3.** Calculer un cosinus entre deux vecteurs, y compris le cas du vecteur nul.
-- **4.** Remplir une matrice de Levenshtein sur 4 × 4 cases.
-- **5.** Trouver les voisins d'un mot dans un fichier de vecteurs.
+<div class="note">
 
-</div>
+Si vous savez faire ces six opérations à la main, la suite du module (phrases, documents, recherche) consiste surtout à les combiner.
 
-<div style="margin-top:12px; padding:10px 14px; background:#f4f7ff; border-radius:8px; font-size:.86em;">
-Si ces cinq gestes sont acquis, la suite (phrase, document, recherche) n'est plus qu'une combinaison de ce que vous savez déjà.
 </div>
 
 ---
 
-### **La carte du cours**
+### **Ce qu'il faut retenir**
 
-![width:820px](./images/pipeline-cours5.svg)
+![center width:800px](./images/pipeline-cours5.svg)
 
-- **Levenshtein** : compare les caractères, sans dictionnaire
-- **BoW / TF-IDF** : comptent les mots et donnent un poids aux mots rares
-- **Word2Vec** : rapproche les mots employés dans les mêmes contextes
-- **Toutes** perdent quelque chose : ordre, synonymes ou mots inconnus
-
-> Il n'existe pas de « meilleure représentation » : il existe une représentation adaptée à une question, avec un prix connu.
-
----
-
-### **Trois situations, trois choix**
-
-<p style="font-size:.84em; margin:0 0 6px 0;">
-Pour chacune, quelle représentation choisissez-vous — et quelle limite acceptez-vous ?
-</p>
-
-<div style="display:flex; flex-direction:column; gap:9px; font-size:.82em;">
-<div style="background:#f4f7ff; border-radius:8px; padding:10px 14px;">
-<strong>1.</strong> Chercher <code>voiture</code> dans un catalogue qui n'écrit que <code>automobile</code>.
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:10px 14px;">
-<strong>2.</strong> Retrouver les documents où <code>avocat</code> désigne le fruit, pas le métier.
-</div>
-<div style="background:#f4f7ff; border-radius:8px; padding:10px 14px;">
-<strong>3.</strong> Répondre à une question dont <em>aucun</em> mot n'appartient au vocabulaire du corpus.
-</div>
-</div>
-
-<p style="font-size:.8em; color:#4b5563; margin-top:10px;">
-Attendu : une représentation nommée (BoW, TF-IDF, Word2Vec, encodeur de phrase), une justification, et la limite assumée.
-</p>
+- **Le prétraitement** (normalisation, stop words, lemmatisation) est une suite de choix : chacun fait perdre quelque chose et se décide selon la tâche.
+- **Levenshtein** compare des lettres, sans rien savoir du sens.
+- **Comptages et TF-IDF** comparent des mots. TF-IDF donne plus de poids aux mots rares.
+- **Word2Vec** rapproche les mots qui apparaissent dans les mêmes contextes.
+- Chaque méthode perd quelque chose : l'ordre, les synonymes ou les mots inconnus. Le bon choix dépend de la question posée.
 
 ---
 
-### **Le TP : 3 blocs, 1 heure**
+### **À vous : trois situations**
 
-<div style="display:flex; gap:16px; font-size:.82em; margin-top:4px;">
-<div style="flex:1; background:#f4f7ff; border-radius:10px; padding:12px 14px;">
-<strong>Bloc 1 · 15 min</strong><br/>
-Normaliser, tokeniser, filtrer les stop words. Mesurer l'effet de chaque choix.
+Pour chaque cas, quelle représentation choisiriez-vous, et quelle limite acceptez-vous ?
+
+<div class="card" style="width:100%; margin-top:10px;">
+
+**1.** Chercher `voiture` dans un catalogue qui n'emploie que le mot `automobile`.
+
 </div>
-<div style="flex:1; background:#f4f7ff; border-radius:10px; padding:12px 14px;">
-<strong>Bloc 2 · 20 min</strong><br/>
-BoW → TF-IDF → cosinus. Classer une requête, provoquer un vecteur nul.
+<div class="card" style="width:100%; margin-top:10px;">
+
+**2.** Retrouver les documents où `avocat` désigne le fruit, et pas le métier.
+
 </div>
-<div style="flex:1; background:#f4f7ff; border-radius:10px; padding:12px 14px;">
-<strong>Bloc 3 · 12 min</strong><br/>
-Embeddings pré-calculés : voisins, analogie, un échec à expliquer.
-</div>
-</div>
+<div class="card" style="width:100%; margin-top:10px;">
 
-<p style="font-size:.76em; color:#4b5563; margin-top:8px;">
-Total des blocs : 47 min — les <strong>13 minutes restantes</strong> sont consacrées à la lecture des consignes, aux erreurs d'exécution et aux questions.
-</p>
-
-<div style="margin-top:14px; font-size:.84em;">
-
-**À savoir faire en sortant**
-
-- expliquer pourquoi <code>voiture</code> et <code>automobile</code> ont un cosinus de 0 en TF-IDF
-- dire ce qu'un `fit` fige, et ce qu'un `transform` ignore
-- choisir entre comptage et vecteurs denses pour une tâche donnée
+**3.** Répondre à une question dont aucun mot n'apparaît dans le corpus.
 
 </div>
 
-<p style="text-align:center; margin-top:14px; font-size:.9em; color:#3d65f6;">
-<strong>→ Place au TP.</strong>
-</p>
+<p class="small" style="margin-top:12px;">Réponse attendue : une représentation, une justification, et la limite que vous acceptez.</p>
+
+---
+
+### **Le TP : trois blocs, une heure**
+
+<div class="cols">
+<div class="card">
+
+**Bloc 1 · 15 min**
+
+Normaliser, tokeniser, retirer les stop words, puis mesurer l'effet.
+
+</div>
+<div class="card">
+
+**Bloc 2 · 20 min**
+
+Comptages, TF-IDF, cosinus, et un vecteur nul à provoquer.
+
+</div>
+<div class="card">
+
+**Bloc 3 · 12 min**
+
+Embeddings déjà calculés : voisins, analogies, échecs.
+
+</div>
+</div>
+
+<p class="small">Les 13 minutes restantes servent aux consignes, aux erreurs d'exécution et à vos questions.</p>
+
+**En sortant du TP, vous devez savoir :**
+
+- mesurer l'effet des stop words sur le nombre de tokens et de types ;
+- expliquer le cosinus nul entre `voiture` et `automobile` en TF-IDF ;
+- dire ce que fixe `fit` et ce qu'ignore `transform` ;
+- choisir entre comptages et vecteurs denses pour une tâche donnée.

@@ -2,7 +2,7 @@
 
 **Durée : 1 heure.** Notebook : `tp5_etudiant.ipynb`. Données : `data/` (aucun téléchargement pendant la séance).
 
-**Prérequis** : cours 1 à 4 (Python, `scikit-learn`, `fit`/`predict`) et **sections 2 à 5** de ce cours — tokens, BoW, cosinus, TF-IDF. **Environnement** : installer avant la séance en suivant `README.md` (`pip install -r requirements.txt`).
+**Prérequis** : bases de Python et **sections 2 à 5** de ce cours — tokens, BoW, cosinus, TF-IDF. **Environnement** : installer avant la séance en suivant `README.md` (`pip install -r requirements.txt`).
 
 ## Objectifs
 
