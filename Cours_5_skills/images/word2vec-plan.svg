@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="340" viewBox="0 0 520 340" font-family="Roboto, Helvetica, Arial, sans-serif">
+<line x1="26" y1="318" x2="508" y2="318" stroke="#e5e7eb"/>
+<line x1="26" y1="12" x2="26" y2="318" stroke="#e5e7eb"/>
+<circle cx="95" cy="115" r="5" fill="#3d65f6"/>
+<text x="104" y="120" font-size="15" fill="#374151">chat</text>
+<circle cx="155" cy="98" r="5" fill="#3d65f6"/>
+<text x="164" y="103" font-size="15" fill="#374151">chien</text>
+<circle cx="100" cy="158" r="5" fill="#3d65f6"/>
+<text x="109" y="163" font-size="15" fill="#374151">félin</text>
+<circle cx="168" cy="150" r="5" fill="#3d65f6"/>
+<text x="177" y="155" font-size="15" fill="#374151">matou</text>
+<circle cx="300" cy="62" r="5" fill="#d97706"/>
+<text x="309" y="67" font-size="15" fill="#374151">four</text>
+<circle cx="380" cy="54" r="5" fill="#d97706"/>
+<text x="389" y="59" font-size="15" fill="#374151">pizza</text>
+<circle cx="372" cy="102" r="5" fill="#d97706"/>
+<text x="381" y="107" font-size="15" fill="#374151">pâtes</text>
+<circle cx="292" cy="120" r="5" fill="#d97706"/>
+<text x="301" y="125" font-size="15" fill="#374151">cuisson</text>
+<circle cx="215" cy="232" r="5" fill="#059669"/>
+<text x="224" y="237" font-size="15" fill="#374151">serveur</text>
+<circle cx="290" cy="246" r="5" fill="#059669"/>
+<text x="299" y="251" font-size="15" fill="#374151">réseau</text>
+<circle cx="368" cy="236" r="5" fill="#059669"/>
+<text x="377" y="241" font-size="15" fill="#374151">données</text>
+<circle cx="300" cy="285" r="5" fill="#059669"/>
+<text x="309" y="290" font-size="15" fill="#374151">code</text>
+<text x="72" y="196" font-size="13" fill="#3d65f6" font-weight="700">animaux</text>
+<text x="292" y="148" font-size="13" fill="#d97706" font-weight="700">cuisine</text>
+<text x="240" y="318" font-size="13" fill="#059669" font-weight="700">informatique</text>
+</svg>

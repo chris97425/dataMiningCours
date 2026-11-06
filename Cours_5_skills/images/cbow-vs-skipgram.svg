@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="250" viewBox="0 0 840 250" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="840" height="250" fill="#ffffff"/>
+<defs><marker id="mb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3d65f6"/></marker><marker id="mo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d97706"/></marker><marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker></defs>
+<rect x="10" y="8" width="400" height="234" rx="10" fill="#f4f7ff" stroke="#3d65f6" stroke-width="1.6"/>
+<rect x="430" y="8" width="400" height="234" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.6"/>
+<text x="28" y="36" font-size="18" fill="#1e3a8a" font-weight="700" text-anchor="start">CBOW</text>
+<text x="28" y="57" font-size="13" fill="#4b5563" text-anchor="start">deviner le mot central à partir de ses voisins</text>
+<rect x="28" y="74" width="92" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="74" y="94" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">le</text>
+<line x1="122" y1="89" x2="186" y2="139.0" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="28" y="114" width="92" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="74" y="134" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">chat</text>
+<line x1="122" y1="129" x2="186" y2="145.0" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="28" y="154" width="92" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="74" y="174" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">sur</text>
+<line x1="122" y1="169" x2="186" y2="151.0" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="28" y="194" width="92" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="74" y="214" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">canapé</text>
+<line x1="122" y1="209" x2="186" y2="157.0" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="190" y="124" width="78" height="50" rx="8" fill="#ffffff" stroke="#3d65f6" stroke-width="2"/>
+<text x="229" y="146" font-size="13" fill="#1e3a8a" font-weight="700" text-anchor="middle">moyenne</text>
+<text x="229" y="164" font-size="14" fill="#4b5563" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">h</text>
+<line x1="270" y1="149" x2="300" y2="149" stroke="#d97706" stroke-width="2.4" marker-end="url(#mo)"/>
+<rect x="306" y="128" width="88" height="42" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2.2"/>
+<text x="350" y="155" font-size="16" fill="#92400e" font-weight="700" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">dort ?</text>
+<text x="448" y="36" font-size="18" fill="#92400e" font-weight="700" text-anchor="start">Skip-gram</text>
+<text x="448" y="57" font-size="13" fill="#4b5563" text-anchor="start">deviner les voisins à partir du mot central</text>
+<rect x="450" y="128" width="84" height="42" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2.2"/>
+<text x="492" y="155" font-size="16" fill="#92400e" font-weight="700" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">dort</text>
+<line x1="536" y1="149" x2="566" y2="149" stroke="#d97706" stroke-width="2.2" marker-end="url(#mo)"/>
+<rect x="570" y="124" width="78" height="50" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+<text x="609" y="146" font-size="13" fill="#92400e" font-weight="700" text-anchor="middle">vecteur</text>
+<text x="609" y="164" font-size="12.5" fill="#4b5563" text-anchor="middle">de dort</text>
+<line x1="650" y1="140.0" x2="712" y2="89" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="716" y="74" width="98" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="765" y="94" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">le ?</text>
+<line x1="650" y1="146.0" x2="712" y2="129" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="716" y="114" width="98" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="765" y="134" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">chat ?</text>
+<line x1="650" y1="152.0" x2="712" y2="169" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="716" y="154" width="98" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="765" y="174" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">sur ?</text>
+<line x1="650" y1="158.0" x2="712" y2="209" stroke="#3d65f6" stroke-width="1.8" marker-end="url(#mb)"/>
+<rect x="716" y="194" width="98" height="30" rx="6" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.4"/>
+<text x="765" y="214" font-size="14.5" fill="#1e3a8a" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">canapé ?</text>
+</svg>

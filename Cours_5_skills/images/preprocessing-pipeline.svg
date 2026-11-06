@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="954" height="244" viewBox="0 0 954 244" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="954" height="244" fill="#ffffff"/>
+<defs><marker id="mb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3d65f6"/></marker><marker id="mo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d97706"/></marker><marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker></defs>
+<text x="20" y="30" font-size="17" fill="#111827" font-weight="700" text-anchor="start">Du texte brut aux vecteurs</text>
+<rect x="640" y="17" width="18" height="16" rx="3" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.5"/>
+<text x="666" y="30" font-size="13.5" fill="#374151" text-anchor="start">presque toujours</text>
+<rect x="790" y="17" width="18" height="16" rx="3" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+<text x="816" y="30" font-size="13.5" fill="#374151" text-anchor="start">selon la tâche</text>
+<rect x="20" y="112" width="116" height="64" rx="10" fill="#f3f4f6" stroke="#6b7280" stroke-width="1.8"/>
+<text x="78" y="140" font-size="15" fill="#111827" font-weight="700" text-anchor="middle">Texte brut</text>
+<text x="78" y="160" font-size="11.5" fill="#4b5563" text-anchor="middle">avis, pages web</text>
+<line x1="138" y1="144" x2="152" y2="144" stroke="#3d65f6" stroke-width="2" marker-end="url(#mb)"/>
+<rect x="154" y="112" width="116" height="64" rx="10" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.8"/>
+<text x="212" y="140" font-size="15" fill="#1e3a8a" font-weight="700" text-anchor="middle">Normaliser</text>
+<text x="212" y="160" font-size="11.5" fill="#4b5563" text-anchor="middle">casse, Unicode</text>
+<line x1="272" y1="144" x2="286" y2="144" stroke="#3d65f6" stroke-width="2" marker-end="url(#mb)"/>
+<text x="212" y="212" font-size="12" fill="#6b7280" text-anchor="middle">perd :</text>
+<text x="212" y="230" font-size="12.5" fill="#374151" font-weight="700" text-anchor="middle">casse, accents</text>
+<rect x="288" y="112" width="116" height="64" rx="10" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.8"/>
+<text x="346" y="140" font-size="15" fill="#1e3a8a" font-weight="700" text-anchor="middle">Tokeniser</text>
+<text x="346" y="160" font-size="11.5" fill="#4b5563" text-anchor="middle">découper en mots</text>
+<line x1="406" y1="144" x2="420" y2="144" stroke="#3d65f6" stroke-width="2" marker-end="url(#mb)"/>
+<text x="346" y="212" font-size="12" fill="#6b7280" text-anchor="middle">perd :</text>
+<text x="346" y="230" font-size="12.5" fill="#374151" font-weight="700" text-anchor="middle">élisions</text>
+<rect x="422" y="112" width="116" height="64" rx="10" fill="#dbeafe" stroke="#3d65f6" stroke-width="1.8"/>
+<text x="480" y="140" font-size="15" fill="#1e3a8a" font-weight="700" text-anchor="middle">Filtrer</text>
+<text x="480" y="160" font-size="11.5" fill="#4b5563" text-anchor="middle">ponctuation, bruit</text>
+<line x1="540" y1="144" x2="554" y2="144" stroke="#d97706" stroke-width="2" marker-end="url(#mo)"/>
+<text x="480" y="212" font-size="12" fill="#6b7280" text-anchor="middle">perd :</text>
+<text x="480" y="230" font-size="12.5" fill="#374151" font-weight="700" text-anchor="middle">ponctuation</text>
+<rect x="556" y="112" width="116" height="64" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+<text x="614" y="140" font-size="15" fill="#92400e" font-weight="700" text-anchor="middle">Stop words</text>
+<text x="614" y="160" font-size="11.5" fill="#4b5563" text-anchor="middle">mots outils</text>
+<line x1="674" y1="144" x2="688" y2="144" stroke="#d97706" stroke-width="2" marker-end="url(#mo)"/>
+<text x="614" y="212" font-size="12" fill="#6b7280" text-anchor="middle">perd :</text>
+<text x="614" y="230" font-size="12.5" fill="#374151" font-weight="700" text-anchor="middle">négation</text>
+<rect x="690" y="112" width="116" height="64" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+<text x="748" y="140" font-size="15" fill="#92400e" font-weight="700" text-anchor="middle">Lemmatiser</text>
+<text x="748" y="160" font-size="11.5" fill="#4b5563" text-anchor="middle">forme du dictionnaire</text>
+<line x1="808" y1="144" x2="822" y2="144" stroke="#d97706" stroke-width="2" marker-end="url(#mo)"/>
+<text x="748" y="212" font-size="12" fill="#6b7280" text-anchor="middle">perd :</text>
+<text x="748" y="230" font-size="12.5" fill="#374151" font-weight="700" text-anchor="middle">temps, nombre</text>
+<rect x="824" y="112" width="116" height="64" rx="10" fill="#dcfce7" stroke="#15803d" stroke-width="1.8"/>
+<text x="882" y="140" font-size="15" fill="#166534" font-weight="700" text-anchor="middle">Vecteurs</text>
+<text x="882" y="160" font-size="11.5" fill="#4b5563" text-anchor="middle">BoW, TF-IDF</text>
+<text x="882" y="212" font-size="12" fill="#6b7280" text-anchor="middle">perd :</text>
+<text x="882" y="230" font-size="12.5" fill="#374151" font-weight="700" text-anchor="middle">ordre des mots</text>
+<rect x="691" y="52" width="114" height="36" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="748" y="75" font-size="13.5" fill="#d97706" font-weight="700" text-anchor="middle">POS tagging</text>
+<line x1="748" y1="88" x2="748" y2="108" stroke="#d97706" stroke-width="2" marker-end="url(#mo)"/>
+<line x1="20" y1="190" x2="934" y2="190" stroke="#e5e7eb" stroke-width="1.2"/>
+</svg>

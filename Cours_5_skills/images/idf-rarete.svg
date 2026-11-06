@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="250" viewBox="0 0 760 250" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="760" height="250" fill="#ffffff"/>
+<line x1="30" y1="196" x2="740" y2="196" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="64.0" y="126.0" width="110" height="70.0" rx="6" fill="#c7d4f7"/>
+<text x="119.0" y="118.0" font-size="19" font-weight="700" fill="#111827" text-anchor="middle">1.00</text>
+<text x="119.0" y="218" font-size="16" fill="#111827" text-anchor="middle">4 / 4</text>
+<text x="119.0" y="238" font-size="13" fill="#6b7280" text-anchor="middle">le · sur</text>
+<rect x="238.0" y="110.60000000000001" width="110" height="85.39999999999999" rx="6" fill="#c7d4f7"/>
+<text x="293.0" y="102.60000000000001" font-size="19" font-weight="700" fill="#111827" text-anchor="middle">1.22</text>
+<text x="293.0" y="218" font-size="16" fill="#111827" text-anchor="middle">3 / 4</text>
+<text x="293.0" y="238" font-size="13" fill="#6b7280" text-anchor="middle">salon · dort</text>
+<rect x="412.0" y="90.3" width="110" height="105.7" rx="6" fill="#3d65f6"/>
+<text x="467.0" y="82.3" font-size="19" font-weight="700" fill="#111827" text-anchor="middle">1.51</text>
+<text x="467.0" y="218" font-size="16" fill="#111827" text-anchor="middle">2 / 4</text>
+<text x="467.0" y="238" font-size="13" fill="#6b7280" text-anchor="middle">rare</text>
+<rect x="586.0" y="61.599999999999994" width="110" height="134.4" rx="6" fill="#1e40af"/>
+<text x="641.0" y="53.599999999999994" font-size="19" font-weight="700" fill="#111827" text-anchor="middle">1.92</text>
+<text x="641.0" y="218" font-size="16" fill="#111827" text-anchor="middle">1 / 4</text>
+<text x="641.0" y="238" font-size="13" fill="#6b7280" text-anchor="middle">chat · félin</text>
+<text x="30" y="26" font-size="15" fill="#6b7280">poids IDF — plus le mot est rare, plus il pèse</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="388" viewBox="0 0 860 388" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect x="0" y="8" width="860" height="84" rx="8" fill="#f4f7ff" stroke="#dbe4f7"/>
+<rect x="0" y="8" width="8" height="84" rx="4" fill="#3d65f6"/>
+<text x="28" y="44" font-size="24" font-weight="700" fill="#111827">Morphologique</text>
+<text x="28" y="72" font-size="16" fill="#3d65f6">La forme des mots</text>
+<text x="330" y="60" font-size="19" fill="#4b5563" font-family="Roboto Mono, monospace">chats  =  chat + s   (pluriel)</text>
+<rect x="0" y="104" width="860" height="84" rx="8" fill="#f4f7ff" stroke="#dbe4f7"/>
+<rect x="0" y="104" width="8" height="84" rx="4" fill="#3d65f6"/>
+<text x="28" y="140" font-size="24" font-weight="700" fill="#111827">Syntaxique</text>
+<text x="28" y="168" font-size="16" fill="#3d65f6">La structure de la phrase</text>
+<text x="330" y="156" font-size="19" fill="#4b5563" font-family="Roboto Mono, monospace">[Les chats] sujet   —   [dorment] verbe</text>
+<rect x="0" y="200" width="860" height="84" rx="8" fill="#f4f7ff" stroke="#dbe4f7"/>
+<rect x="0" y="200" width="8" height="84" rx="4" fill="#3d65f6"/>
+<text x="28" y="236" font-size="24" font-weight="700" fill="#111827">Sémantique</text>
+<text x="28" y="264" font-size="16" fill="#3d65f6">Le sens littéral</text>
+<text x="330" y="252" font-size="19" fill="#4b5563" font-family="Roboto Mono, monospace">dormir( chats )   →   état</text>
+<rect x="0" y="296" width="860" height="84" rx="8" fill="#f4f7ff" stroke="#dbe4f7"/>
+<rect x="0" y="296" width="8" height="84" rx="4" fill="#3d65f6"/>
+<text x="28" y="332" font-size="24" font-weight="700" fill="#111827">Discursif</text>
+<text x="28" y="360" font-size="16" fill="#3d65f6">L'enchaînement</text>
+<text x="330" y="348" font-size="19" fill="#4b5563" font-family="Roboto Mono, monospace">« Les chats dorment. Ils sont fatigués. »</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="330" viewBox="0 0 780 330" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="780" height="330" fill="#ffffff"/>
+<text x="8" y="26" font-size="17" fill="#6b7280">Phrase 1</text>
+<rect x="8" y="36" width="60" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="38.0" y="62.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">le</text>
+<rect x="77" y="36" width="86" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="120.0" y="62.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">chat</text>
+<rect x="172" y="36" width="86" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="215.0" y="62.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">dort</text>
+<rect x="267" y="36" width="73" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="303.5" y="62.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">sur</text>
+<rect x="349" y="36" width="60" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="379.0" y="62.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">le</text>
+<rect x="418" y="36" width="112" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="474.0" y="62.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">canapé</text>
+<text x="8" y="112" font-size="17" fill="#6b7280">Phrase 2 — les mêmes mots, autre ordre</text>
+<rect x="8" y="122" width="73" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="44.5" y="148.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">sur</text>
+<rect x="90" y="122" width="60" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="120.0" y="148.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">le</text>
+<rect x="159" y="122" width="112" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="215.0" y="148.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">canapé</text>
+<rect x="280" y="122" width="86" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="323.0" y="148.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">dort</text>
+<rect x="375" y="122" width="60" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="405.0" y="148.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">le</text>
+<rect x="444" y="122" width="86" height="38" rx="9" fill="#eef2ff" stroke="#c7d4f7"/><text x="487.0" y="148.0" font-size="19" font-family="Roboto Mono, monospace" fill="#111827" text-anchor="middle">chat</text>
+<text x="8" y="208" font-size="18" fill="#3d65f6" font-weight="700">on jette tout dans un sac</text>
+<line x1="8" y1="224" x2="300" y2="224" stroke="#3d65f6" stroke-width="3"/>
+<polygon points="312,224 296,215 296,233" fill="#3d65f6"/>
+<path d="M 330 214 L 470 214 L 492 312 L 308 312 Z" fill="#eef2ff" stroke="#3d65f6" stroke-width="2.5"/>
+<text x="400" y="266" font-size="21" font-weight="700" fill="#3d65f6" text-anchor="middle">sac</text>
+<text x="400" y="292" font-size="14" fill="#6b7280" text-anchor="middle">l'ordre a disparu</text>
+<text x="534" y="34" font-size="17" fill="#6b7280">Ce qu'on garde : les comptes</text>
+<rect x="534" y="52" width="200" height="36" rx="8" fill="#ffffff" stroke="#dbe4f7"/>
+<text x="550" y="76" font-size="18" font-family="Roboto Mono, monospace" fill="#111827">le</text>
+<text x="716" y="76" font-size="19" font-weight="700" fill="#3d65f6" text-anchor="end">2</text>
+<rect x="534" y="96" width="200" height="36" rx="8" fill="#ffffff" stroke="#dbe4f7"/>
+<text x="550" y="120" font-size="18" font-family="Roboto Mono, monospace" fill="#111827">chat</text>
+<text x="716" y="120" font-size="19" font-weight="700" fill="#3d65f6" text-anchor="end">1</text>
+<rect x="534" y="140" width="200" height="36" rx="8" fill="#ffffff" stroke="#dbe4f7"/>
+<text x="550" y="164" font-size="18" font-family="Roboto Mono, monospace" fill="#111827">dort</text>
+<text x="716" y="164" font-size="19" font-weight="700" fill="#3d65f6" text-anchor="end">1</text>
+<rect x="534" y="184" width="200" height="36" rx="8" fill="#ffffff" stroke="#dbe4f7"/>
+<text x="550" y="208" font-size="18" font-family="Roboto Mono, monospace" fill="#111827">sur</text>
+<text x="716" y="208" font-size="19" font-weight="700" fill="#3d65f6" text-anchor="end">1</text>
+<rect x="534" y="228" width="200" height="36" rx="8" fill="#ffffff" stroke="#dbe4f7"/>
+<text x="550" y="252" font-size="18" font-family="Roboto Mono, monospace" fill="#111827">canapé</text>
+<text x="716" y="252" font-size="19" font-weight="700" fill="#3d65f6" text-anchor="end">1</text>
+<text x="534" y="290" font-size="15" fill="#6b7280">vecteur = [2, 1, 1, 1, 1, 0, 0, … ]</text>
+</svg>

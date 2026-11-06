@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="212" viewBox="0 0 860 212" font-family="Roboto, Helvetica, Arial, sans-serif">
+<rect width="860" height="212" fill="#ffffff"/>
+<rect x="10" y="8" width="412" height="196" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="1.6"/>
+<rect x="438" y="8" width="412" height="196" rx="10" fill="#f4f7ff" stroke="#3d65f6" stroke-width="1.6"/>
+<text x="28" y="38" font-size="16" fill="#991b1b" font-weight="700" text-anchor="start">Vocabulaire de mots entiers</text>
+<rect x="28" y="66" width="164" height="44" rx="8" fill="#ffffff" stroke="#fca5a5" stroke-width="1.6"/>
+<text x="110" y="94" font-size="15" fill="#111827" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">incroyablement</text>
+<line x1="200" y1="88" x2="232" y2="88" stroke="#ef4444" stroke-width="2.2"/><polygon points="240,88 230,82 230,94" fill="#ef4444"/>
+<rect x="246" y="66" width="150" height="44" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+<text x="321" y="94" font-size="16" fill="#991b1b" font-weight="700" text-anchor="middle">inconnu</text>
+<text x="28" y="150" font-size="14" fill="#7f1d1d" text-anchor="start">aucune colonne, aucun vecteur :</text>
+<text x="28" y="172" font-size="14" fill="#7f1d1d" text-anchor="start">le mot est simplement ignoré</text>
+<text x="456" y="38" font-size="16" fill="#1e3a8a" font-weight="700" text-anchor="start">Vocabulaire de sous-mots (BPE, WordPiece)</text>
+<rect x="456" y="66" width="54" height="44" rx="8" fill="#dbeafe" stroke="#3d65f6" stroke-width="2"/>
+<text x="483.0" y="94" font-size="16" fill="#1e3a8a" font-weight="700" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">in</text>
+<text x="521" y="95" font-size="20" fill="#3d65f6" font-weight="700" text-anchor="middle">+</text>
+<rect x="532" y="66" width="76" height="44" rx="8" fill="#dbeafe" stroke="#3d65f6" stroke-width="2"/>
+<text x="570.0" y="94" font-size="16" fill="#1e3a8a" font-weight="700" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">croy</text>
+<text x="619" y="95" font-size="20" fill="#3d65f6" font-weight="700" text-anchor="middle">+</text>
+<rect x="630" y="66" width="76" height="44" rx="8" fill="#dbeafe" stroke="#3d65f6" stroke-width="2"/>
+<text x="668.0" y="94" font-size="16" fill="#1e3a8a" font-weight="700" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">able</text>
+<text x="717" y="95" font-size="20" fill="#3d65f6" font-weight="700" text-anchor="middle">+</text>
+<rect x="728" y="66" width="76" height="44" rx="8" fill="#dbeafe" stroke="#3d65f6" stroke-width="2"/>
+<text x="766.0" y="94" font-size="16" fill="#1e3a8a" font-weight="700" font-family="Menlo, Roboto Mono, monospace" text-anchor="middle">ment</text>
+<text x="456" y="150" font-size="14" fill="#1e3a8a" text-anchor="start">chaque morceau existe dans le vocabulaire</text>
+<text x="456" y="172" font-size="13" fill="#6b7280" text-anchor="start" font-style="italic">découpage illustratif : chaque tokenizer a le sien</text>
+</svg>

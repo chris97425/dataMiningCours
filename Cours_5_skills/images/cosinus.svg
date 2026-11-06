@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="320" viewBox="0 0 560 320" font-family="Roboto, Helvetica, Arial, sans-serif">
+<line x1="80" y1="270" x2="500" y2="270" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="80" y1="270" x2="80" y2="24" stroke="#cbd5e1" stroke-width="1.5"/>
+<line x1="80" y1="270" x2="210" y2="225" stroke="#3d65f6" stroke-width="3.5" stroke-linecap="round"/><polygon points="210,225 201.1,233.0 198.0,224.2" fill="#3d65f6"/>
+<line x1="80" y1="270" x2="410" y2="70" stroke="#93a7f9" stroke-width="3.5" stroke-linecap="round"/><polygon points="410,70 403.0,79.7 398.1,71.7" fill="#93a7f9"/>
+<path d="M 155.6 243.8 A 80 80 0 0 0 148.4 228.5" fill="none" stroke="#4b5563" stroke-width="1.6"/>
+<text x="180" y="182" font-size="26" font-weight="700" fill="#3d65f6">a</text>
+<text x="376" y="78" font-size="26" font-weight="700" fill="#6b8bf5">b</text>
+<text x="176" y="232" font-size="22" fill="#4b5563">θ</text>
+<text x="58" y="298" font-size="18" fill="#4b5563">0</text>
+<text x="410" y="254" font-size="16" fill="#4b5563">dimension 1</text>
+<text x="90" y="42" font-size="16" fill="#4b5563">dimension 2</text>
+</svg>
