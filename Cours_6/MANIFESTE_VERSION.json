@@ -1,0 +1,54 @@
+{
+  "kit": "Atelier patrimoine et RAG — cours suivant le cours 5",
+  "collecte": "Hors ligne après données figées ; API sans contournement ; erreurs journalisées",
+  "fichiers_controles": {
+    "atelier_etudiant.ipynb": {
+      "octets": 22006,
+      "sha256": "aa125abd2c71a4557f813d50d2ac26d051b104bd6bb7907ed6e276f885f0a030"
+    },
+    "atelier_corrige.ipynb": {
+      "octets": 8955,
+      "sha256": "7ed9a526ffc93ca9de6131c43c78b20095601e65c5a0a39afeeaf76e80fc4b6e"
+    },
+    "GUIDE_ENSEIGNANT.md": {
+      "octets": 12258,
+      "sha256": "5143f77735bff95c3a0862b8cd1d8767f2dfa1e560c55e1fa8b9c46f340b82f4"
+    },
+    "ILLUSTRATIONS_SOURCES.md": {
+      "octets": 2940,
+      "sha256": "0cbe0fcbd607a4598e1d9d718b9ea6d5aa3c2d4798d2c90c5b57e288fffc38a3"
+    },
+    "data/brutes/index_liaison.json": {
+      "octets": 122088,
+      "sha256": "f16d64c0b23931dc8f4415b7bd2e1093946daa14d953c9c9020cf18e214bbe1e"
+    },
+    "data/brutes/source_1_pop_merimee.jsonl": {
+      "octets": 1888474,
+      "sha256": "e5f5bf8e10dc22b70e622ebc4d08e52e3ff2d583bf8e42e4283af7959accd962"
+    },
+    "data/brutes/source_2_wikidata_wikipedia.jsonl": {
+      "octets": 586171,
+      "sha256": "9ebf858ca6ca6e1dc29c4b944cf2f854d21f9d29e2ced68fd71ce5ac70d1dac5"
+    },
+    "data/brutes/source_3_commons.csv": {
+      "octets": 217633,
+      "sha256": "3e7f1169ebca9ac057d7cedeb98e0717f6e8802e991430d80864503356ada096"
+    },
+    "data/brutes/manifeste_collecte.json": {
+      "octets": 1158,
+      "sha256": "2ebf8db8e4f8602bd8a81eeaef093484bafcca33eaf677fd68c0963328f642cb"
+    },
+    "data/atelier/manifeste_atelier.json": {
+      "octets": 505,
+      "sha256": "2ec673db3bb71ddd13f71672ff9728549909e5db90d933d64e5c88cb68889398"
+    },
+    "corrige/evaluation_retrieval_synthese.csv": {
+      "octets": 147,
+      "sha256": "7e5180caa16a23605207c23abda421835666656a6128e73b273c6e3c3c74509b"
+    },
+    "corrige/resultats_requetes.csv": {
+      "octets": 2517,
+      "sha256": "5a868ef2eae75644a0bd39eac8f1ea35bfe8d628ddad4574f74f2e1adbfdba71"
+    }
+  }
+}

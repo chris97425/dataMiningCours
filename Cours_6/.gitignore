@@ -1,0 +1,11 @@
+# Corrigé et solutions enseignant — ne pas versionner / ne pas distribuer
+correction/
+correction/**
+
+# Runtime local
+sorties/*
+!sorties/.gitkeep
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/

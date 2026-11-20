@@ -1,0 +1,14 @@
+{
+  "copies_techniques_pop": 6,
+  "copies_techniques_source2": 8,
+  "p380_masques": 32,
+  "p380_masques_developpement": 10,
+  "p380_masques_test": 22,
+  "variantes_images_exactes": 4,
+  "variantes_images_recompressees": 4,
+  "questions_test": 10,
+  "questions_developpement": 2,
+  "vues_retrieval": 247,
+  "chunks_rag_corriges": 1326,
+  "avertissement": "Les anomalies ne sont présentes que dans data/atelier. Liens P380 = référence pédagogique déclarative, pas vérité historique indépendante."
+}

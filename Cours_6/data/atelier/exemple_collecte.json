@@ -1,0 +1,325 @@
+{
+  "qid": "Q3329255",
+  "commentaire": "Exemple figé pour l'inspection de la collecte ; une entité seulement.",
+  "source_1_pop": [
+    {
+      "source": "POP/Mérimée",
+      "source_id": "ACR0001729",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/ACR0001729",
+      "date_collecte": "2026-11-20T16:24:23+00:00",
+      "statut_collecte": "disponible",
+      "notice": {
+        "POP_INCIDENT": [],
+        "POP_MASS_EDIT": [],
+        "POP_MOISSONNAGE": [],
+        "MANIFEST_IIIF": "",
+        "POP_ANCIENNE_REF": "",
+        "DPT_LETTRE_ACTU": "",
+        "POP_DOSSIER_VERT_REFDOC": [],
+        "POP_ARRETE_PROTECTION_REFDOC": [],
+        "POP_DOSSIER_PROTECTION_REFDOC": [],
+        "COM_ACTU": "",
+        "DPT_ACTU": "",
+        "REG_ACTU": "",
+        "ROLE": "",
+        "SOUR": "",
+        "DMOIS": "",
+        "_id": "63d3dd0efc23410b275bcbf0",
+        "POP_COORDONNEES": {
+          "lat": -20.8836152538155,
+          "lon": 55.4501645123237
+        },
+        "POP_COORDINATES_POLYGON": {
+          "type": "Polygon",
+          "coordinates": []
+        },
+        "PRODUCTEUR": {
+          "_id": "693b189bcc50bec7d4dfab60",
+          "label": "Label Architecture contemporaine remarquable",
+          "associatedDatabases": [
+            {
+              "database": {
+                "_id": "693b188809eac51af5b75896",
+                "label": "Mérimée",
+                "slug": "merimee",
+                "hasRestrictedValues": false,
+                "createdAt": "2025-12-11T19:16:24.962Z",
+                "updatedAt": "2025-12-11T19:16:24.962Z",
+                "__v": 0,
+                "id": "693b188809eac51af5b75896"
+              }
+            }
+          ]
+        },
+        "BASE": "Patrimoine architectural (Mérimée)",
+        "CONTIENT_IMAGE": "oui",
+        "POP_FLAGS": [
+          "DOSS_EMPTY",
+          "COPY_EMPTY",
+          "CONTACT_EMPTY",
+          "POP_COORDONNEES_NOT_IN_FRANCE"
+        ],
+        "POP_CONTIENT_GEOLOCALISATION": "oui",
+        "POP_DATE": [],
+        "POP_IMPORT": [
+          "63d3dd0da4b6c00b272d1313",
+          "6a6cb8970ca6dde0f3de4da5",
+          "6a6cb9490ca6dde0f3de66f6",
+          "6a6cb9fd0ca6dde0f3de81cd",
+          "6a6cba690ca6dde0f3de9cb8",
+          "6a6cbbd30ca6dde0f3decdf3",
+          "6a6cbc690ca6dde0f3dee7a6",
+          "6a6cbd2d0ca6dde0f3df0f6e",
+          "6a6cbee80ca6dde0f3df5256",
+          "6a6cc0d50ca6dde0f3df979b",
+          "6a7045cdf2a9d0e06eb021ca",
+          "6a7045f8f2a9d0e06eb02bce",
+          "6a70924ef2a9d0e06ebb9889",
+          "6a719e303736c44cef3b83cd",
+          "6aa1558821674f41929ae90f"
+        ],
+        "TOUT": "",
+        "ACTU": "",
+        "ADRS": "Sainte-Marie (rue) 21bis ; Paris (rue de) 28",
+        "AFFE": "",
+        "AIRE": "",
+        "APPL": "",
+        "APRO": [],
+        "ARCHEO": "",
+        "AUTP": [],
+        "AUTR": [
+          "Hébrard Jean (architecte)",
+          "Abadie Pierre (architecte)",
+          "Monfreid, Daniel de (architecte)"
+        ],
+        "CADA": [
+          "AL 34"
+        ],
+        "CANT": "",
+        "COLL": "",
+        "COM": [
+          "Saint-Denis"
+        ],
+        "COOR": " 55.4501645123237 ; -20.8836152538155",
+        "COORM": "",
+        "COPY": [
+          "© Ministère de la Culture / Direction des affaires culturelles de La Réunion"
+        ],
+        "COUV": [],
+        "DATE": [
+          "1963",
+          "1970"
+        ],
+        "DBOR": "",
+        "DOMN": [
+          "architecture de culture recherche sport ou loisir"
+        ],
+        "DENO": [
+          "édifice et aménagement de culture recherche sport ou loisir",
+          "musée"
+        ],
+        "DENQ": "2023",
+        "DEPL": "",
+        "DESC": "$2c",
+        "DIMS": "",
+        "DMAJ": "2026-09-09",
+        "DMIS": "2023-01-27",
+        "DOSS": "dossier individuel",
+        "DPRO": "",
+        "DPT": [
+          "974"
+        ],
+        "DPT_LETTRE": [
+          "La Réunion"
+        ],
+        "EDIF": "",
+        "ELEV": [],
+        "ENER": [],
+        "ESCA": [],
+        "ETAG": [],
+        "ETAT": [],
+        "ETUD": [
+          "Labellisé Architecture contemporaine remarquable"
+        ],
+        "GENR": [],
+        "HIST": "Le premier musée est installé en 1912 au sein de l’ancien évêché qui occupait une grande maison d’habitation du milieu du XIXe siècle dotée d’une façade néo-classique en pierre masquant une structure de bois. Les conditions de conservation des œuvres étant insuffisantes dans cet édifice, le Département commande au cabinet Hébrard en 1959 des plans pour un nouveau musée. La parti-pris finalement choisi est la destruction de l’ancienne maison et la reconstruction en béton armé de la façade de style néo-classique. Derrière cette façade sont édifiées les salles d’exposition. Le nouveau musée est inauguré en 1965 et cinq ans plus tard il est complété de deux ailes délimitant une cour sur la rue Sainte-Marie, qui abritent les réserves et de nouveaux espaces d’exposition.",
+        "HYDR": "",
+        "IMPL": "",
+        "INSEE": [
+          "97411"
+        ],
+        "INTE": [],
+        "JATT": [],
+        "JDAT": [],
+        "LINHA": [],
+        "LREG": [],
+        "LBASE2": "",
+        "LIEU": "",
+        "LOCA": "",
+        "MFICH": "",
+        "MOSA": "",
+        "MHPP": "",
+        "MICR": "",
+        "MURS": [
+          "béton"
+        ],
+        "NBOR": "",
+        "NOMS": [
+          "Préault Clémence"
+        ],
+        "OBS": "",
+        "PAFF": "",
+        "PART": [],
+        "PARN": [],
+        "PDEN": "",
+        "PERS": [],
+        "PLAN": "",
+        "PLOC": "",
+        "PPRO": "",
+        "PREP": [],
+        "PROT": [],
+        "PSTA": "",
+        "REFE": [],
+        "REFP": [],
+        "REFO": [],
+        "REFJOC": [],
+        "REFMUS": [],
+        "REG": [
+          "La Réunion"
+        ],
+        "REMA": "",
+        "REMP": "",
+        "RENV": [],
+        "REPR": "",
+        "RFPA": "",
+        "SCLD": [
+          "20e siècle"
+        ],
+        "SCLE": [
+          "20e siècle"
+        ],
+        "SCLX": [],
+        "SITE": "",
+        "STAT": "public",
+        "TECH": [],
+        "TICO": "Musée Léon-Dierx",
+        "TOIT": [
+          "béton en couverture"
+        ],
+        "TYPO": "",
+        "VERT": "",
+        "REFIM": "",
+        "IMG": [],
+        "VIDEO": "",
+        "POP_DOSSIER_VERT": [],
+        "POP_ARRETE_PROTECTION": [],
+        "POP_DOSSIER_PROTECTION": [],
+        "DOSURL": "",
+        "DOSURLPDF": "",
+        "DOSADRS": "",
+        "LIENS": [],
+        "IMAGE": "",
+        "VISI": [],
+        "VOCA": "",
+        "VOUT": [],
+        "WEB": "",
+        "ZONE": "WGS84",
+        "THEM": "",
+        "ACMH": "",
+        "ACURL": "",
+        "WADRS": "21bis rue Sainte-Marie ; 28 rue de Paris",
+        "WCOM": [
+          "Saint-Denis"
+        ],
+        "WRENV": "",
+        "REFM": "",
+        "CONTACT": "",
+        "IDAGR": "",
+        "LMDP": "",
+        "PINT": "",
+        "DLAB": "2023",
+        "REF": "ACR0001729",
+        "MEMOIRE": [
+          {
+            "ref": "APR05_202397400002",
+            "url": "memoire/APR05_202397400002/apr05_202397400002.jpg",
+            "copy": "© Ministère de la Culture (France), Direction des Affaires Culturelles de La Réunion – Tous droits réservés ",
+            "name": "vue partielle des façades",
+            "marq": ""
+          }
+        ],
+        "HISTORIQUE": [],
+        "__v": 0,
+        "ANCIEN_PRODUCTEUR_LABEL": "Label Architecture contemporaine remarquable",
+        "PRODUCTEUR_CONVERTED": true,
+        "base": "merimee",
+        "LABEL": "Architecture contemporaine remarquable",
+        "id": "63d3dd0efc23410b275bcbf0",
+        "custom_PRODUCTEUR_LABEL": "Label Architecture contemporaine remarquable",
+        "custom_LOCA": "La Réunion ; La Réunion (974) ; Saint-Denis ; 21bis rue Sainte-Marie ; 28 rue de Paris"
+      }
+    }
+  ],
+  "source_2_wikidata_wikipedia": {
+    "source": "Wikidata/Wikipédia",
+    "source_id": "Q3329255",
+    "ids_merimee_declares": [
+      "ACR0001729"
+    ],
+    "url_wikidata": "http://www.wikidata.org/entity/Q3329255",
+    "url_wikipedia": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_L%C3%A9on-Dierx",
+    "titre_wikipedia": "Musée Léon-Dierx",
+    "label_wikidata": "musée Léon-Dierx",
+    "labels_wikidata": {
+      "fr": "musée Léon-Dierx",
+      "en": "Musée Léon-Dierx"
+    },
+    "description_wikidata": "musée français situé à Saint-Denis (La Réunion)",
+    "descriptions_wikidata": {
+      "fr": "musée français situé à Saint-Denis (La Réunion)",
+      "en": "art museum in Saint-Denis, Réunion"
+    },
+    "alias_fr": [
+      "Musée Léon Dierx",
+      "Musée léon-dierx",
+      "Musee Leon-Dierx",
+      "Musée Départemental de la Réunion - Musée Léon Dierx"
+    ],
+    "alias_en": [],
+    "texte_integral": "Le musée Léon-Dierx est un musée d'art de l'île de La Réunion, département d'outre-mer français dans le sud-ouest de l'océan Indien. Il est situé dans la rue de Paris à Saint-Denis, le chef-lieu.\n\n\n== Histoire du musée ==\n\n\n=== Projet et création du musée ===\nDès le milieu du XIXe siècle, l’élite intellectuelle et politique de La Réunion réclame la création d’un musée consacré, selon la formule de l’époque, aux « Beaux-Arts ». Il faut attendre le début du XXe siècle pour assister à sa naissance, grâce à l’action de deux créoles, amis d’enfance, Georges Athénas et Aimé Merlo (connus en littérature sous le pseudonyme littéraire de Marius-Ary Leblond). Ils reçoivent dans leur démarche le soutien du Conseil Général (à l'époque, Conseil Colonial) de La Réunion qui affecte au projet l’ancienne résidence des évêques de Saint-Denis (ex-maison Manès). Le 12 novembre 1912, le public découvre le nouveau musée, le second créé à La Réunion après le Muséum d’Histoire naturelle. Il porte depuis sa création le nom de Léon Dierx, poète, peintre et sculpteur réunionnais.\n\n\n=== La maison Manès ===\nLors de sa création, les collections du musée sont installées dans une ancienne maison d’habitation, bâtie entre 1843 et 1846. Située le long de la rue de Paris, elle se distingue par sa façade en pierre qui masque un bâtiment construit en bois. Elle a été construite par les frères Fraixe, architectes, pour Gustave Manès, notable et planteur de la colonie qui la vend en 1855 à Georges Imhaus (d) , un industriel et homme politique. En 1860, elle devient la propriété du Conseil général qui la met à disposition des évêques de la colonie. L’évêché quitte les lieux en 1911.\n\n\n=== Reconstruction ===\nDe 1912 aux années 1950, le musée ne subit aucune modification : les administrateurs du musée se contentent de procéder à des réparations urgentes ou à des travaux d’entretien. Au début des années 1960, un projet de reconstruction est élaboré par les architectes Jean Hébrard et Daniel de Montfreid, alors responsable des bâtiments publics dans le département. En 1963, les collections sont mises en réserve et la vieille maison Manès est alors entièrement détruite, y compris la façade en pierre. En 1965, le nouveau musée rouvre ses portes au public. Le portique et la façade ont été reconstruits en béton et des salles modernes et fonctionnelles permettent un meilleur accrochage. L’ensemble est complété à l’arrière par des bureaux et des réserves terminés en 1970.\n\nLe musée a été représenté sur une série de timbres signés Robert Caulet, diffusés de 1932 à 1944.\n\n\n== Collections ==\n\nIl contient des marines de Numa Desjardins, des estampes d'Alfred Richard, un bronze de Pablo Picasso, des œuvres de la collection Lucien Vollard, le frère d'Ambroise Vollard, parmi lesquelles celles de Gustave Caillebotte, Paul Cézanne, Paul Gauguin, Auguste Renoir, Odilon Redon, Georges Rouault, etc., Mer et rochers rouges de Louis Valtat, Fleurs de Maurice de Vlaminck ainsi que des photographies du XIXe siècle (photographies de François Cudenet et de ses toiles) et des toiles d'artistes locaux (dont Arthur Grimaud, Adolphe Le Roy, Antoine Louis Roussin) ainsi que du peintre montmartrois Georges Michel.\nUne partie des collections du musée est visible sur le site de l'Iconothèque historique de l'océan Indien, catalogue numérique des musées départementaux de La Réunion.\n\n\n=== Peintures ===\n\nGeorges Michel : Averse sur la plaine Saint-Denis (1820-1840)\nEugène Delacroix : Agave au Maroc (entre 1830 et 1840)\nHenri Frédéric Schopin : Paul et Virginie dans la forêt (1841)\nAdèle Ferrand : Autoportrait à la robe blanche (vers 1840-1845)\nHenri Frédéric Schopin : Virginie au bain (1843-1844)\nAdèle Ferrand : Portrait de Denis François le Coat de Kervéguen (vers 1846)\nArthur Grimaud : Portrait d'un colon de Bourbon (1848)\nAdolphe Martial Potémont : Paysage à Madagascar (vers 1850)\nNuma Desjardins : Vue de Saint-Denis (1854)\nThéodore Gudin : Un soleil levant sur l'île Bourbon (1868)\nAdolphe Le Roy : Gorges de la Rivière du Mât (1877)\nAntoine Louis Roussin : La Cathédrale de Saint-Denis (1877)\nÉmile Bernard : Maison au fond d'un parc (1888)\nMaurice Eliot : L'Étang fleuri (1892)\nGustave Caillebotte : L'Entrée du jardin, Petit Gennevilliers (vers 1893)\nBerthe Morisot : Jeune Fille au divan (1893)\nMaximilien Luce : Le Jardin (vers 1893-1895)\nErnest de Chamaillard : Falaises de Douarnenez (vers 1900)\nFrancisco Iturrino : Grand Paysage (vers 1900)\nJacqueline Marval : Les Cigales (vers 1906)\nÉmile Bernard : Femme au tambourin (1907)\nLouis Valtat : Portrait d'Ambroise Vollard (vers 1908)\nAlbert Marquet : Vue de Paris (vers 1910)\nFélix Vallotton : Femme lisant dans un intérieur (1910)\nThéo Van Rysselberghe : Visage de femme en plein air (vers 1910)\nGeorges Dufrenoy : La Vielle (1911) et Paysage de France (1911)\nFrederick Carl Frieseke : Femme nue dans un sous-bois (avant 1914)\nÉmile Bernard : Portrait d'Ambroise Vollard (1916)\nOthon Friesz : La Bergère endormie (1920)\nMaxime Maufra : Bretons sur la route (non datée)\n\n\n=== Sculptures ===\nProsper d'Épinay : La Ceinture dorée (XIXe siècle)\nJean-Baptiste Carpeaux : Bacchante (milieu du XIXe siècle)\nPaul Gauguin : Jeune Femme au capuchon (1886-1887)\nPaul Gauguin : Pot à personnages bretons (1886-1887)\nPaul Gauguin : Masque de sauvage (1894-1895)\nAristide Maillol : Les Deux Sœurs (1899)\nAntoine Bourdelle : Étude pour le Monument aux combattants et défenseurs du Tarn-et-Garonne de 1870-1871 ou Étude pour le Monument aux morts de 1870 (1896-1902)\nAristide Maillol : Tête de femme ou Étude (1899)\nAntoine Bourdelle : Buste du général Philebert (1904)\nPablo Picasso : Masque (1907)\nAlbert Marquet : L'Enfant aux raisins (premier quart du XXe siècle)\nPaul Gauguin : La Petite Parisienne (1909)\nAuguste Renoir : Petite Laveuse (1916)\nAntoine Bourdelle : Vierge à l'Enfant ou Vierge d'Alsace (1920)\n\n\n== Conservateurs ==\nLes conservateurs et responsables scientifiques du Musée Léon-Dierx depuis 1911 :\n\nAimé Merlo\nEugène Massinot\nHenri Wacquiez\nSuzanne Greffet-Kending\nFrançois Cheval\nJean-Paul Le Maguet\nLaurence Le Cieux\nLaurence Madeline\nBernard Leveneur\n\n\n== Expositions temporaires ==\nAdèle Ferrand, femme peintre à l’époque romantique, octobre 2015 - mars 2016\nDe Manet à Picasso, novembre 2016 - juin 2017. Collaboration avec Johannesburg Art Gallery\nAu cœur d'une île, les artistes et les Hauts de La Réunion au XIXe siècle, septembre 2017- avril 2018\nTraces fantômes de Charly Lesquelin et Un peu de bleu dans le paysage de Charles Prime, mai - août 2018. Résidence d'artiste Patrimoine et création\nUn monde flottant, dialogues d’estampes Japon-Europe, octobre 2018 - mars 2019. Collaboration avec Johannesburg Art Gallery\nLe Jour de l'abolition, avril - septembre 2019. En lien avec les 375 ans de l'abolition de l'esclavage à La Réunion\nLes Hauts d'une île, photographies de Morgan Fache, novembre 2019 - avril 2020. Résidence d'artiste Patrimoine et création\n\"PIÉDBWA\", l'Arbre Manifeste, installation de Kako, novembre 2020 - avril 2021. Résidence d'artiste Patrimoine et création.\n\n\n== Bibliographie ==\n\n\n=== Catalogues d'exposition ===\nJean-François Rebeyrotte. La collection Ambroise Vollard du Musée Léon-Dierx : les donations de 1912 et 1947. Musée Léon Dierx, 1999 (ISBN 2-85056-356-0)\nChristian Germanaz, Bernard Leveneur. Au cœur d'une île, les artistes et les Hauts de La Réunion au XIXe siècle. Musée Léon Dierx, 2017  (ISBN 978-2-9527874-8-2)\nClaude Allemand-Cosneau, Bernard Leveneur. De Manet à Picasso : trésors de la Johannesburg Art Gallery et du Musée Léon Dierx. Musée Léon Dierx, 2016  (ISBN 978-2-9527874-7-5)\n\n\n=== Autres ===\nArmelle Jacquinot, Maryse Duchêne, Jacqueline Ah-Koon. Le Musée Léon Dierx, la Réunion. Réunion des musées nationaux, 2001 (ISBN 2-7118-4405-6)\nFabienne Jonca, Bernard Leveneur. Ambroise Vollard – Un don singulier. Éditions 4 Épices, 2017  (ISBN 978-2-95272-04-96)\n\n\n== Références ==\n\n\n== Voir aussi ==\n\n\n=== Articles connexes ===\nListe des musées français\nIconothèque historique de l'océan Indien\n\n\n=== Liens externes ===\n\nSite officiel\n\nRessource relative à l'architecture : Mérimée \nRessource relative au tourisme : Muséofile  \n\n Portail des musées   Portail des arts   Portail de Saint-Denis",
+    "article_present": true,
+    "article_manquant": false,
+    "coordonnees_wikidata": [
+      "Point(55.45 -20.8838)"
+    ],
+    "images_declarees": [
+      "http://commons.wikimedia.org/wiki/Special:FilePath/Mus%C3%A9e-L%C3%A9on-Dierx.JPG"
+    ],
+    "date_collecte": "2026-11-20T16:24:23+00:00"
+  },
+  "source_3_commons": [
+    {
+      "source": "Wikimedia Commons",
+      "image_id": "15184536",
+      "qid": "Q3329255",
+      "titre_fichier": "File:Musée-Léon-Dierx.JPG",
+      "chemin_local": "data/brutes/images/15184536_musee-leon-dierx-jpg.jpg",
+      "url_page_description": "https://commons.wikimedia.org/wiki/File:Mus%C3%A9e-L%C3%A9on-Dierx.JPG",
+      "url_original": "https://upload.wikimedia.org/wikipedia/commons/7/70/Mus%C3%A9e-L%C3%A9on-Dierx.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "url_vignette": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Mus%C3%A9e-L%C3%A9on-Dierx.JPG/960px-Mus%C3%A9e-L%C3%A9on-Dierx.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "largeur": "3888",
+      "hauteur": "2592",
+      "taille_octets_originale": "4412662",
+      "mime_original": "image/jpeg",
+      "sha1_commons_original": "1f68bc943a1448f71c7cdb0bef1adad2204f0c18",
+      "description_commons": "Vue du Musée Léon-Dierx de Saint-Denis de La Réunion.",
+      "auteur": "Thierry Caro",
+      "credit": "Travail personnel",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "date_fichier": "2011-05-12 14:26:13",
+      "categories": "May 2009 in Réunion|GFDL|Taken with Canon EOS 400D|Musée Léon-Dierx|License migration redundant|CC-BY-SA-4.0,3.0,2.5,2.0,1.0|Self-published work|Metal fences in France|Green fences|Unidentified Arecaceae in Réunion|Photographs of flags of France in Saint-Denis (Réunion)|User:Thierry Caro/2009",
+      "date_collecte": "2026-11-20T16:24:23+00:00"
+    }
+  ]
+}

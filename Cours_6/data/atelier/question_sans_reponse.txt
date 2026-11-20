@@ -1,0 +1,2 @@
+Quel document atteste que tous les monuments du corpus sont ouverts gratuitement tous les jours ?
+Attendu : aucun jugement de pertinence positif fourni ; le système doit pouvoir s'abstenir.

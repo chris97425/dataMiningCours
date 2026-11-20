@@ -1,0 +1,30 @@
+{
+  "date_collecte": "2026-11-20T16:24:23+00:00",
+  "perimetre": "Entités Wikidata situées dans La Réunion (P131*) et porteuses d'une référence Mérimée (P380). Sous-ensemble non exhaustif.",
+  "user_agent": "AtelierPedagogiqueDataMining-RAG/1.0 (cours Esiroi; usage enseignement)",
+  "comptes": {
+    "entites_index": 247,
+    "references_merimee_uniques": 267,
+    "references_pop_suivies": 267,
+    "notices_pop_disponibles": 266,
+    "references_pop_indisponibles": 1,
+    "entites_wikidata_wikipedia": 247,
+    "articles_wikipedia_avec_texte": 207,
+    "lignes_commons_entite_image": 198,
+    "fichiers_images_uniques": 196,
+    "associations_avec_image_locale": 198,
+    "fichiers_images_locaux_uniques": 196
+  },
+  "sources": {
+    "wikidata_query": "https://query.wikidata.org/sparql",
+    "wikidata_api": "https://www.wikidata.org/w/api.php",
+    "wikipedia_api": "https://fr.wikipedia.org/w/api.php",
+    "commons_api": "https://commons.wikimedia.org/w/api.php",
+    "pop_url_modele": "https://pop.culture.gouv.fr/notice/merimee/{REF}"
+  },
+  "erreurs": 1,
+  "images_telechargees": true,
+  "versions": {
+    "python_requests": "2.32.5"
+  }
+}

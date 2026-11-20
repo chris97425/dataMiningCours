@@ -1,0 +1,62 @@
+{
+  "00_collecte_api": {
+    "titre": "File:Web API diagram.svg",
+    "page_description": "https://commons.wikimedia.org/wiki/File:Web_API_diagram.svg",
+    "url_fichier_original": "https://upload.wikimedia.org/wikipedia/commons/3/37/Web_API_diagram.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "url_vignette": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Web_API_diagram.svg/1280px-Web_API_diagram.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "chemin_local": "illustrations_etapes/00_collecte_api.png",
+    "auteur": "I.hate.spam.mail.here",
+    "licence": "CC0",
+    "licence_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "w": null,
+    "h": null
+  },
+  "02_unicode": {
+    "titre": "File:New Unicode logo.svg",
+    "page_description": "https://commons.wikimedia.org/wiki/File:New_Unicode_logo.svg",
+    "url_fichier_original": "https://upload.wikimedia.org/wikipedia/commons/0/09/New_Unicode_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "url_vignette": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/New_Unicode_logo.svg/1280px-New_Unicode_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "chemin_local": "illustrations_etapes/02_unicode.png",
+    "auteur": "Unicode Consortium",
+    "licence": "Public domain",
+    "licence_url": "",
+    "w": null,
+    "h": null
+  },
+  "03_levenshtein": {
+    "titre": "File:Levenshtein distance animation.gif",
+    "page_description": "https://commons.wikimedia.org/wiki/File:Levenshtein_distance_animation.gif",
+    "url_fichier_original": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Levenshtein_distance_animation.gif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "url_vignette": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Levenshtein_distance_animation.gif/1280px-Levenshtein_distance_animation.gif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "chemin_local": "illustrations_etapes/03_levenshtein.gif",
+    "auteur": "Napsternxg",
+    "licence": "CC BY-SA 4.0",
+    "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "w": null,
+    "h": null
+  },
+  "06_catalogue_bibliotheque": {
+    "titre": "File:Photograph of Card Catalog in Central Search Room - DPLA - 5be4fa7f7ec7f58594a5dc6765659025.jpg",
+    "page_description": "https://commons.wikimedia.org/wiki/File:Photograph_of_Card_Catalog_in_Central_Search_Room_-_DPLA_-_5be4fa7f7ec7f58594a5dc6765659025.jpg",
+    "url_fichier_original": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Photograph_of_Card_Catalog_in_Central_Search_Room_-_DPLA_-_5be4fa7f7ec7f58594a5dc6765659025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "url_vignette": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Photograph_of_Card_Catalog_in_Central_Search_Room_-_DPLA_-_5be4fa7f7ec7f58594a5dc6765659025.jpg/1280px-Photograph_of_Card_Catalog_in_Central_Search_Room_-_DPLA_-_5be4fa7f7ec7f58594a5dc6765659025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "chemin_local": "illustrations_etapes/06_catalogue_bibliotheque.png",
+    "auteur": "General Services Administration. National Archives and Records Service. Office of Educational Programs. Education Division. ?-4/1/1985",
+    "licence": "Public domain",
+    "licence_url": "",
+    "w": null,
+    "h": null
+  },
+  "07_cosine": {
+    "titre": "File:Cosine-Similarity-For-Vectorspaces.pdf",
+    "page_description": "https://commons.wikimedia.org/wiki/File:Cosine-Similarity-For-Vectorspaces.pdf",
+    "url_fichier_original": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Cosine-Similarity-For-Vectorspaces.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "url_vignette": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Cosine-Similarity-For-Vectorspaces.pdf/page1-1280px-Cosine-Similarity-For-Vectorspaces.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "chemin_local": "illustrations_etapes/07_cosine.png",
+    "auteur": "Renepick",
+    "licence": "CC BY-SA 3.0",
+    "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "w": null,
+    "h": null
+  }
+}

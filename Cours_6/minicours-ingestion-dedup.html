@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini-cours · Ingestion → Dédoublonnage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <style>
+    /* ===========================================
+       VIEWPORT FITTING: MANDATORY BASE STYLES
+       =========================================== */
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      margin: 0;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      padding: var(--slide-padding) var(--slide-padding) 0.35rem;
+    }
+
+    :root {
+      --bg: #141414;
+      --ink: #f5f5f5;
+      --muted: rgba(245, 245, 245, 0.62);
+      --signal: #ff5a1f;
+      --signal-ink: #141414;
+      --panel: #1d1d1d;
+      --line: rgba(245, 245, 245, 0.12);
+
+      --title-size: clamp(1.5rem, 5vw, 4rem);
+      --h2-size: clamp(1.15rem, 3.2vw, 2.35rem);
+      --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+      --body-size: clamp(0.75rem, 1.45vw, 1.05rem);
+      --small-size: clamp(0.65rem, 1vw, 0.875rem);
+
+      --slide-padding: clamp(1rem, 3.5vw, 3.25rem);
+      --content-gap: clamp(0.5rem, 1.8vw, 1.6rem);
+      --element-gap: clamp(0.25rem, 1vw, 0.85rem);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 85% 15%, rgba(255, 90, 31, 0.12), transparent 55%),
+        linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.02) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .slide > * { position: relative; z-index: 1; }
+
+    .eyebrow {
+      font-size: var(--small-size);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--signal);
+      font-weight: 600;
+      margin: 0 0 var(--element-gap);
+    }
+
+    h1, h2 {
+      font-family: "Archivo Black", sans-serif;
+      font-weight: 400;
+      line-height: 1.05;
+      margin: 0;
+    }
+
+    h1 { font-size: var(--title-size); }
+    h2 { font-size: var(--h2-size); }
+
+    .lede, .body-copy {
+      font-size: var(--body-size);
+      line-height: 1.4;
+      color: var(--muted);
+      max-width: 38rem;
+      margin: var(--element-gap) 0 0;
+    }
+
+    .giant-num {
+      font-family: "Archivo Black", sans-serif;
+      font-size: clamp(3.2rem, 11vw, 7.5rem);
+      line-height: 0.85;
+      color: rgba(255, 255, 255, 0.07);
+      margin: 0 0 calc(-1 * clamp(0.3rem, 0.8vh, 0.8rem));
+      user-select: none;
+    }
+
+    .layout-split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: var(--content-gap);
+      align-items: center;
+      max-height: 100%;
+      width: 100%;
+    }
+
+    .note-card {
+      background: var(--signal);
+      color: var(--signal-ink);
+      padding: clamp(0.75rem, 1.8vw, 1.25rem);
+      border-radius: 4px;
+      margin-top: var(--content-gap);
+      max-width: 38rem;
+    }
+
+    .note-card strong {
+      font-family: "Archivo Black", sans-serif;
+      display: block;
+      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+      margin-bottom: 0.3rem;
+    }
+
+    .note-card p {
+      margin: 0;
+      font-size: var(--body-size);
+      line-height: 1.35;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: clamp(0.75rem, 1.6vw, 1.15rem);
+      width: 100%;
+      max-width: min(92vw, 620px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      min-height: 0;
+    }
+
+    .panel-label {
+      font-size: var(--small-size);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin: 0;
+      flex: 0 0 auto;
+    }
+
+    /* Mermaid: never clip — scale to fit instead */
+    .mermaid-wrap {
+      flex: 1 1 auto;
+      min-height: clamp(160px, 38vh, 340px);
+      max-height: min(48vh, 380px);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
+
+    .mermaid {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
+
+    .mermaid svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin: var(--element-gap) 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.35rem, 0.9vh, 0.7rem);
+    }
+
+    .bullet-list li {
+      font-size: var(--body-size);
+      line-height: 1.35;
+      padding-left: 1.1rem;
+      position: relative;
+      color: var(--ink);
+    }
+
+    .bullet-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.45em;
+      width: 0.45rem;
+      height: 0.45rem;
+      background: var(--signal);
+    }
+
+    .pipe {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+      margin-top: var(--content-gap);
+    }
+
+    .pipe span {
+      font-size: var(--small-size);
+      padding: 0.3rem 0.55rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+    }
+
+    .pipe span.on {
+      background: var(--signal);
+      border-color: var(--signal);
+      color: var(--signal-ink);
+      font-weight: 600;
+    }
+
+    .pipe .arrow {
+      border: 0;
+      padding: 0;
+      color: var(--signal);
+      font-weight: 700;
+    }
+
+    .bars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(0.35rem, 1vw, 0.7rem);
+      align-items: end;
+      height: clamp(7rem, 26vh, 12rem);
+      width: 100%;
+    }
+
+    .bar-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      height: 100%;
+      gap: 0.3rem;
+    }
+
+    .bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .bar.hot { background: var(--signal); }
+
+    .bar-col strong {
+      font-size: var(--small-size);
+      font-weight: 600;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .chunk-viz {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr 1.15fr;
+      gap: 0.4rem;
+      width: 100%;
+    }
+
+    .chunk-block {
+      border: 1px dashed rgba(255, 90, 31, 0.55);
+      background: rgba(255, 90, 31, 0.08);
+      border-radius: 4px;
+      padding: 0.5rem 0.55rem;
+      font-size: var(--small-size);
+      min-height: clamp(3rem, 9vh, 4.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .chunk-block em {
+      font-style: normal;
+      color: var(--signal);
+      font-weight: 600;
+    }
+
+    .overlap {
+      background: rgba(255, 90, 31, 0.22);
+      border-style: solid;
+    }
+
+    .fp-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.5rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    .fp-card {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.55rem 0.65rem;
+      background: #191919;
+      font-size: var(--small-size);
+    }
+
+    .fp-card code {
+      display: block;
+      margin-top: 0.3rem;
+      color: var(--signal);
+      font-family: "Space Grotesk", monospace;
+      letter-spacing: 0.04em;
+      word-break: break-all;
+    }
+
+    .fp-vs {
+      font-family: "Archivo Black", sans-serif;
+      color: var(--signal);
+      font-size: clamp(0.9rem, 2vw, 1.15rem);
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.5rem;
+    }
+
+    .meta-tags span {
+      font-size: var(--small-size);
+      background: rgba(255, 90, 31, 0.15);
+      border: 1px solid rgba(255, 90, 31, 0.35);
+      color: var(--ink);
+      padding: 0.22rem 0.45rem;
+      border-radius: 4px;
+    }
+
+    .next-step {
+      margin-top: var(--element-gap);
+      font-size: var(--small-size);
+      color: var(--muted);
+    }
+
+    .next-step b { color: var(--signal); font-weight: 600; }
+
+    .fil-rouge {
+      margin: 0.45rem 0 0;
+      font-size: var(--small-size);
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .fil-rouge b {
+      color: var(--signal);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.7rem;
+      flex: 0 0 auto;
+      margin-top: 0;
+      padding: 0.15rem var(--slide-padding) clamp(0.4rem, 1.2vh, 0.75rem);
+      max-width: 100%;
+    }
+
+    .tech-row .label {
+      font-size: var(--small-size);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .tech-row a {
+      font-size: var(--small-size);
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--signal);
+      line-height: 1.3;
+    }
+
+    .tech-row a:hover,
+    .tech-row a:focus-visible {
+      color: var(--signal);
+    }
+
+    dialog.video-modal {
+      width: min(92vw, 1040px);
+      max-height: 90vh;
+      background: #101010;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.85rem;
+    }
+
+    dialog.video-modal::backdrop {
+      background: rgba(0, 0, 0, 0.82);
+    }
+
+    .video-modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+      font-size: var(--small-size);
+      color: var(--muted);
+    }
+
+    .video-modal-close {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      font-size: var(--small-size);
+      cursor: pointer;
+    }
+
+    .video-modal video {
+      display: block;
+      width: 100%;
+      max-height: 76vh;
+      background: #000;
+      border-radius: 4px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .slide.is-active .reveal,
+    .slide.is-active .reveal-stagger > * {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .slide.is-active .reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
+    .slide.is-active .reveal-stagger > *:nth-child(2) { transition-delay: 0.12s; }
+    .slide.is-active .reveal-stagger > *:nth-child(3) { transition-delay: 0.19s; }
+    .slide.is-active .reveal-stagger > *:nth-child(4) { transition-delay: 0.26s; }
+    .slide.is-active .reveal-stagger > *:nth-child(5) { transition-delay: 0.33s; }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--signal);
+      z-index: 40;
+      transition: width 0.25s ease;
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: clamp(0.6rem, 1.5vw, 1.2rem);
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      z-index: 30;
+    }
+
+    .nav-dots button {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(245, 245, 245, 0.35);
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .nav-dots button[aria-current="true"] {
+      background: var(--signal);
+      border-color: var(--signal);
+    }
+
+    .slide-index {
+      position: fixed;
+      top: clamp(0.65rem, 1.6vw, 1.1rem);
+      right: clamp(0.8rem, 2vw, 1.5rem);
+      font-size: var(--small-size);
+      color: var(--muted);
+      z-index: 30;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .keyboard-hint {
+      position: fixed;
+      bottom: clamp(0.6rem, 2vw, 1.2rem);
+      right: clamp(0.8rem, 2vw, 1.5rem);
+      font-size: var(--small-size);
+      color: var(--muted);
+      z-index: 30;
+    }
+
+    .title-rail {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 44vw);
+      height: 100%;
+      min-height: 0;
+    }
+
+    .title-main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--slide-padding);
+      min-height: 0;
+    }
+
+    .title-side {
+      background: var(--signal);
+      color: var(--signal-ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(1rem, 3vw, 2.5rem) clamp(2.2rem, 4.5vw, 3.6rem) clamp(1rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2.5rem);
+      gap: clamp(0.6rem, 1.6vh, 1.2rem);
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .intro-video-card {
+      background: #141414;
+      border-radius: 6px;
+      padding: 0.45rem;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+
+    .intro-video-card video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: min(38vh, 320px);
+      object-fit: contain;
+      background: #141414;
+      border-radius: 4px;
+    }
+
+    .intro-video-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 0.2rem;
+      font-size: var(--small-size);
+      color: var(--muted);
+    }
+
+    .intro-video-expand {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 0.18rem 0.5rem;
+      font-size: var(--small-size);
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .intro-video-expand:hover,
+    .intro-video-expand:focus-visible {
+      border-color: var(--signal);
+      color: var(--signal);
+    }
+
+    .title-side ol {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: var(--body-size);
+      line-height: 1.4;
+    }
+
+    .title-side h3 {
+      font-family: "Archivo Black", sans-serif;
+      font-size: var(--h3-size);
+      margin: 0;
+    }
+
+    @media (max-height: 700px) {
+      :root {
+        --slide-padding: clamp(0.7rem, 2.5vw, 1.75rem);
+        --content-gap: clamp(0.35rem, 1.2vw, 0.9rem);
+        --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+        --h2-size: clamp(1rem, 3vw, 1.7rem);
+      }
+      .mermaid-wrap { min-height: 140px; max-height: 36vh; }
+      .giant-num { font-size: clamp(2.4rem, 9vw, 4.5rem); }
+      .intro-video-card video { max-height: 30vh; }
+    }
+
+    @media (max-height: 600px) {
+      :root {
+        --slide-padding: clamp(0.5rem, 2vw, 1.25rem);
+        --content-gap: clamp(0.3rem, 1vw, 0.7rem);
+        --title-size: clamp(1.1rem, 4vw, 2rem);
+        --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+      }
+      .nav-dots, .keyboard-hint, .decorative, .fil-rouge { display: none; }
+      .bars { height: 6rem; }
+      .note-card { display: none; }
+      .mermaid-wrap { min-height: 120px; max-height: 34vh; }
+    }
+
+    @media (max-height: 500px) {
+      :root {
+        --slide-padding: clamp(0.4rem, 1.8vw, 1rem);
+        --title-size: clamp(1rem, 3.5vw, 1.5rem);
+        --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+        --body-size: clamp(0.65rem, 1vw, 0.85rem);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .layout-split,
+      .title-rail { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      .title-side { padding: clamp(0.85rem, 2.5vw, 1.5rem) clamp(2rem, 5vw, 2.8rem) clamp(0.85rem, 2.5vw, 1.5rem) clamp(0.85rem, 2.5vw, 1.5rem); justify-content: center; gap: 0.6rem; }
+      .intro-video-card video { max-height: 28vh; }
+      .title-side ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1rem; }
+      .giant-num { font-size: clamp(2.6rem, 16vw, 4.5rem); }
+      .fp-row { grid-template-columns: 1fr; }
+      .fp-vs { text-align: center; }
+      .panel { max-width: 100%; }
+      .mermaid-wrap { max-height: 32vh; min-height: 140px; }
+    }
+
+    @media (max-width: 600px) {
+      :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+      .bars { grid-template-columns: repeat(2, 1fr); height: auto; }
+      .bar-col { min-height: 5rem; }
+      .chunk-viz { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+      }
+      html { scroll-behavior: auto; }
+      .reveal, .reveal-stagger > * {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <nav class="nav-dots" id="dots" aria-label="Navigation des slides"></nav>
+  <div class="slide-index" id="slideIndex" aria-live="polite">01 / 06</div>
+  <div class="keyboard-hint">↑↓ · Espace · molette</div>
+
+  <main id="deck">
+    <!-- 1. Title -->
+    <section class="slide is-active" data-title="Parcours" aria-label="Slide 1">
+      <div class="title-rail">
+        <div class="title-main">
+          <p class="eyebrow reveal">Pipeline RAG · Partie ingestion</p>
+          <h1 class="reveal">Ingestion →<br />Dédoublonnage</h1>
+          <p class="lede reveal">Un même document traverse 5 étapes. Objectif : des chunks propres, citables et uniques — avant toute vectorisation.</p>
+          <div class="pipe reveal-stagger" aria-hidden="true">
+            <span class="on">1 Collecte</span><span class="arrow">→</span>
+            <span>2 Parse</span><span class="arrow">→</span>
+            <span>3 Nettoyage</span><span class="arrow">→</span>
+            <span>4 Chunks</span><span class="arrow">→</span>
+            <span>5 Dédup</span>
+          </div>
+          <div class="tech-row reveal" style="padding-left:0; padding-right:0; margin-top: var(--content-gap);">
+            <span class="label">Vue d’ensemble</span>
+            <a href="https://www.pinecone.io/learn/retrieval-augmented-generation/" target="_blank" rel="noopener noreferrer">Pinecone · What is RAG</a>
+            <a href="https://www.pinecone.io/learn/series/vector-databases-in-production-for-busy-engineers/rag-pipeline-design/" target="_blank" rel="noopener noreferrer">Pinecone · pipeline</a>
+          </div>
+        </div>
+        <aside class="title-side reveal">
+          <div class="intro-video-card">
+            <video id="inlineIntroVideo" controls playsinline preload="metadata" poster="videos/intro_ingestion_dedup_poster.png">
+              <source src="videos/intro_ingestion_dedup.mp4" type="video/mp4" />
+            </video>
+            <div class="intro-video-bar">
+              <span>Vidéo d’intro · 43 s</span>
+              <button type="button" class="intro-video-expand" id="openIntroVideo">⛶ Agrandir</button>
+            </div>
+          </div>
+          <div>
+            <h3>Fil conducteur</h3>
+            <ol>
+              <li>Collecter les sources</li>
+              <li>Extraire le texte</li>
+              <li>Retirer le bruit</li>
+              <li>Découper + étiqueter</li>
+              <li>Dédoublonner</li>
+            </ol>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 2. Collecte / Entrepôt -->
+    <section class="slide" data-title="Collecte" aria-label="Slide 2">
+      <div class="slide-content layout-split">
+        <div>
+          <div class="giant-num decorative" aria-hidden="true">01</div>
+          <p class="eyebrow reveal">Étape 1 · Collecte</p>
+          <h2 class="reveal">Rassembler des sources hétérogènes.</h2>
+          <p class="body-copy reveal">Un corpus n’arrive jamais « prêt pour le LLM ». PDF, Word, wiki, SQL, mails : chaque format a sa structure, parfois sans texte (scan).</p>
+          <p class="fil-rouge reveal"><b>Dans le TP (§0–1)</b> — Domaine de la Confiance (PA00105810 / Q3034582) : CSV POP, JSONL Wikipédia et photo Commons.</p>
+          <ul class="bullet-list reveal-stagger">
+            <li><b>Quoi</b> — centraliser les fichiers dans un entrepôt unique</li>
+            <li><b>Pourquoi</b> — sans collecte stable, le reste du pipeline est inutilisable</li>
+            <li><b>Résultat</b> — un lot de documents bruts prêts à parser</li>
+          </ul>
+          <p class="next-step reveal">Ensuite → <b>parser</b> chaque format pour en tirer du texte structuré.</p>
+        </div>
+        <div class="panel reveal">
+          <p class="panel-label">Schéma · De la source au parseur</p>
+          <div class="mermaid-wrap">
+            <div class="mermaid">
+flowchart LR
+  A[PDF] --> W[Entrepôt]
+  B[Word] --> W
+  C[Wiki] --> W
+  D[SQL] --> W
+  W --> P[Parseur]
+  classDef hot fill:#ff5a1f,stroke:#ff5a1f,color:#141414
+  classDef cold fill:#1d1d1d,stroke:#888,color:#f5f5f5
+  class W,P hot
+  class A,B,C,D cold
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tech-row reveal" aria-label="Technos de collecte">
+        <span class="label">Technos</span>
+        <a href="https://github.com/Unstructured-IO/unstructured" target="_blank" rel="noopener noreferrer">Unstructured</a>
+        <a href="https://tika.apache.org/" target="_blank" rel="noopener noreferrer">Apache Tika</a>
+        <a href="https://python.langchain.com/docs/how_to/document_loader/" target="_blank" rel="noopener noreferrer">LangChain · document loaders</a>
+      </nav>
+    </section>
+
+    <!-- 3. Parseur -->
+    <section class="slide" data-title="Parse" aria-label="Slide 3">
+      <div class="slide-content layout-split">
+        <div>
+          <div class="giant-num decorative" aria-hidden="true">02</div>
+          <p class="eyebrow reveal">Étape 2 · Parse</p>
+          <h2 class="reveal">Extraire le texte sans perdre la structure.</h2>
+          <p class="body-copy reveal">Le parseur convertit chaque format en texte. Un PDF digital est simple ; un scan passe par l’OCR. Titres, sections et pages restent : ils serviront au découpage et aux citations.</p>
+          <p class="fil-rouge reveal"><b>Dans le TP (§0–1)</b> — pages POP (HTML→JSON), API MediaWiki et métadonnées Commons sont extraites en fichiers structurés.</p>
+          <ul class="bullet-list reveal-stagger">
+            <li>PDF digital → texte + positions</li>
+            <li>Scan → OCR (qualité variable)</li>
+            <li>HTML / wiki → contenu principal</li>
+          </ul>
+          <div class="note-card reveal">
+            <strong>À retenir</strong>
+            <p>Échantillonne l’extraction avant de lancer toute la collection : un mauvais parse se propage à tous les chunks.</p>
+          </div>
+          <p class="next-step reveal">Ensuite → <b>nettoyer</b> le bruit (en-têtes, pieds de page, artefacts OCR).</p>
+        </div>
+        <div class="panel reveal">
+          <p class="panel-label">Graphique · Effort d’extraction</p>
+          <div class="bars" aria-hidden="true">
+            <div class="bar-col"><div class="bar" style="height:18%"></div><strong>PDF digital</strong></div>
+            <div class="bar-col"><div class="bar" style="height:40%"></div><strong>Word / HTML</strong></div>
+            <div class="bar-col"><div class="bar hot" style="height:74%"></div><strong>Table</strong></div>
+            <div class="bar-col"><div class="bar hot" style="height:96%"></div><strong>Scan OCR</strong></div>
+          </div>
+          <p class="panel-label">Schéma · Chaîne de parse</p>
+          <div class="mermaid-wrap" style="min-height: clamp(120px, 22vh, 200px); max-height: 28vh;">
+            <div class="mermaid">
+flowchart LR
+  F[Fichier] --> D{Type}
+  D -->|PDF| T[Texte]
+  D -->|Scan| O[OCR]
+  D -->|HTML| H[DOM]
+  O --> T
+  H --> T
+  T --> S[Structure]
+  classDef hot fill:#ff5a1f,stroke:#ff5a1f,color:#141414
+  classDef cold fill:#1d1d1d,stroke:#888,color:#f5f5f5
+  class F,D cold
+  class T,S,O,H hot
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tech-row reveal" aria-label="Technos de parse">
+        <span class="label">Technos</span>
+        <a href="https://pymupdf.readthedocs.io/" target="_blank" rel="noopener noreferrer">PyMuPDF</a>
+        <a href="https://github.com/jsvine/pdfplumber" target="_blank" rel="noopener noreferrer">pdfplumber</a>
+        <a href="https://github.com/tesseract-ocr/tesseract" target="_blank" rel="noopener noreferrer">Tesseract OCR</a>
+      </nav>
+    </section>
+
+    <!-- 4. Nettoyeur -->
+    <section class="slide" data-title="Nettoyage" aria-label="Slide 4">
+      <div class="slide-content layout-split">
+        <div>
+          <div class="giant-num decorative" aria-hidden="true">03</div>
+          <p class="eyebrow reveal">Étape 3 · Nettoyage</p>
+          <h2 class="reveal">Retirer le bruit avant le découpage.</h2>
+          <p class="body-copy reveal">En-têtes, pieds de page et numéros se répètent. L’OCR laisse des coquilles. Ce bruit rapproche des documents qui n’ont rien en commun, juste parce qu’ils partagent « Page 12 ».</p>
+          <p class="fil-rouge reveal"><b>Dans le TP (§2)</b> — « e&#x0301;glise » → « église » (NFC) et clé « eglise » ; « Tampon (Le) » → « Le Tampon ».</p>
+          <ul class="bullet-list reveal-stagger">
+            <li>Supprimer en-têtes / pieds de page</li>
+            <li>Normaliser UTF-8 et espaces</li>
+            <li>Garder le signal utile (contenu métier)</li>
+          </ul>
+          <p class="next-step reveal">Ensuite → <b>découper</b> en chunks et y attacher des métadonnées.</p>
+        </div>
+        <div class="panel reveal">
+          <p class="panel-label">Schéma · Avant / après</p>
+          <div class="mermaid-wrap">
+            <div class="mermaid">
+flowchart LR
+  A[Texte bruité] --> N[Nettoyeur]
+  N --> B[Texte utile]
+  classDef hot fill:#ff5a1f,stroke:#ff5a1f,color:#141414
+  classDef cold fill:#1d1d1d,stroke:#888,color:#f5f5f5
+  class A cold
+  class N,B hot
+            </div>
+          </div>
+          <div class="fp-row">
+            <div class="fp-card">
+              <strong>Bruit</strong>
+              <code>« Confidentiel · Page 12 »</code>
+            </div>
+            <div class="fp-vs">≠</div>
+            <div class="fp-card">
+              <strong>Signal</strong>
+              <code>« Domaine de la Confiance… »</code>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tech-row reveal" aria-label="Technos de nettoyage">
+        <span class="label">Technos</span>
+        <a href="https://www.crummy.com/software/BeautifulSoup/" target="_blank" rel="noopener noreferrer">BeautifulSoup</a>
+        <a href="https://github.com/adbar/trafilatura" target="_blank" rel="noopener noreferrer">trafilatura</a>
+        <a href="https://github.com/Mimino666/langdetect" target="_blank" rel="noopener noreferrer">langdetect</a>
+      </nav>
+    </section>
+
+    <!-- 5. Chunks + métadonnées -->
+    <section class="slide" data-title="Chunks" aria-label="Slide 5">
+      <div class="slide-content layout-split">
+        <div>
+          <div class="giant-num decorative" aria-hidden="true">04</div>
+          <p class="eyebrow reveal">Étape 4 · Chunks & métadonnées</p>
+          <h2 class="reveal">Créer des unités de recherche citables.</h2>
+          <p class="body-copy reveal">On découpe en chunks (souvent 256–1024 tokens, chevauchement 10–20 %) pour ne pas couper une idée. Chaque chunk reçoit source, date, titre et section.</p>
+          <p class="fil-rouge reveal"><b>Dans le TP (§6)</b> — chaque chunk garde <code>chunk_id</code>, <code>entity_id</code>, <code>source</code>, <code>url</code>, <code>licence</code> et <code>hash_texte</code>.</p>
+          <ul class="bullet-list reveal-stagger">
+            <li>Découper selon la structure (sections) si possible</li>
+            <li>Overlap pour conserver le contexte aux frontières</li>
+            <li>Métadonnées = filtrage + citations honnêtes</li>
+          </ul>
+          <div class="meta-tags reveal">
+            <span>source</span><span>date</span><span>titre</span><span>section</span><span>droits</span>
+          </div>
+          <div class="note-card reveal">
+            <strong>À retenir</strong>
+            <p>De mauvais chunks donnent de mauvaises réponses, même avec de bons embeddings. Sans métadonnées, une réponse n’a pas de source.</p>
+          </div>
+          <p class="next-step reveal">Ensuite → <b>dédoublonner</b> pour n’indexer qu’une fois chaque contenu.</p>
+        </div>
+        <div class="panel reveal">
+          <p class="panel-label">Graphique · Chevauchement</p>
+          <div class="chunk-viz" aria-hidden="true">
+            <div class="chunk-block"><em>Chunk A</em><span>mots 1 → 90</span></div>
+            <div class="chunk-block overlap"><em>Overlap</em><span>~15 mots</span></div>
+            <div class="chunk-block"><em>Chunk B</em><span>mots 76 → 165</span></div>
+          </div>
+          <p class="panel-label">Schéma · Texte → chunk enrichi</p>
+          <div class="mermaid-wrap" style="min-height: clamp(110px, 20vh, 180px); max-height: 26vh;">
+            <div class="mermaid">
+flowchart LR
+  T[Texte propre] --> C[Découpe]
+  C --> M[Métadonnées]
+  M --> K[Chunk prêt]
+  classDef hot fill:#ff5a1f,stroke:#ff5a1f,color:#141414
+  classDef cold fill:#1d1d1d,stroke:#888,color:#f5f5f5
+  class T cold
+  class C,M,K hot
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tech-row reveal" aria-label="Technos de découpage">
+        <span class="label">Technos</span>
+        <a href="https://python.langchain.com/docs/how_to/recursive_text_splitter/" target="_blank" rel="noopener noreferrer">LangChain · splitter</a>
+        <a href="https://docs.llamaindex.ai/en/stable/module_guides/loading/documents_and_nodes/" target="_blank" rel="noopener noreferrer">LlamaIndex · métadonnées</a>
+        <a href="https://www.pinecone.io/learn/chunking-strategies/" target="_blank" rel="noopener noreferrer">Pinecone · chunking</a>
+      </nav>
+    </section>
+
+    <!-- 6. Dédup -->
+    <section class="slide" data-title="Dédup" aria-label="Slide 6">
+      <div class="slide-content layout-split">
+        <div>
+          <div class="giant-num decorative" aria-hidden="true">05</div>
+          <p class="eyebrow reveal">Étape 5 · Dédoublonnage</p>
+          <h2 class="reveal">Indexer une fois, identifier pour toujours.</h2>
+          <p class="body-copy reveal">Un même contenu revient souvent : copie technique, variante de titre, image redimensionnée. Sans dédup, la recherche remonte des copies et fausse l’évaluation.</p>
+          <p class="fil-rouge reveal"><b>Dans le TP (§3–5)</b> — SHA-256 + Levenshtein/Jaccard sur textes, SHA-256 + pHash sur images, puis <code>chunk_id</code> stable (§6).</p>
+          <ul class="bullet-list reveal-stagger">
+            <li><b>Exact</b> — SHA-256 identique → copie technique écartée</li>
+            <li><b>Quasi</b> — Levenshtein / Jaccard / pHash (et MinHash à grande échelle)</li>
+            <li><b>ID stable</b> — suit chaque chunk dans le temps et les audits</li>
+          </ul>
+          <div class="note-card reveal">
+            <strong>Fin de l’ingestion</strong>
+            <p>Sortie attendue : un corpus de chunks uniques, enrichis, prêts pour les embeddings et l’index vectoriel.</p>
+          </div>
+        </div>
+        <div class="panel reveal">
+          <p class="panel-label">Schéma · Décision de déduplication</p>
+          <div class="mermaid-wrap">
+            <div class="mermaid">
+flowchart TD
+  A[Chunk] --> H[Empreinte]
+  H --> Q{Déjà vu ?}
+  Q -->|SHA exact| X[Écarter]
+  Q -->|Quasi| R[Représentant]
+  Q -->|Nouveau| K[ID stable]
+  classDef hot fill:#ff5a1f,stroke:#ff5a1f,color:#141414
+  classDef cold fill:#1d1d1d,stroke:#888,color:#f5f5f5
+  class A,H,Q cold
+  class X,R,K hot
+            </div>
+          </div>
+          <div class="fp-row">
+            <div class="fp-card">
+              <strong>PA97400011:original</strong>
+              <code>sha256 identique</code>
+            </div>
+            <div class="fp-vs">=</div>
+            <div class="fp-card">
+              <strong>PA97400011:copie_1</strong>
+              <code>doublon écarté</code>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tech-row reveal" aria-label="Technos de déduplication">
+        <span class="label">Technos</span>
+        <a href="https://github.com/ekzhu/datasketch" target="_blank" rel="noopener noreferrer">datasketch · MinHash</a>
+        <a href="https://github.com/1e0ng/simhash" target="_blank" rel="noopener noreferrer">simhash</a>
+        <a href="https://pillow.readthedocs.io/" target="_blank" rel="noopener noreferrer">Pillow · pHash</a>
+      </nav>
+    </section>
+  </main>
+
+  <dialog class="video-modal" id="introVideoDialog" aria-label="Vidéo d'introduction — Ingestion à dédoublonnage">
+    <div class="video-modal-head">
+      <span>Vidéo d’introduction · Parcours complet (Collecte → Dédoublonnage)</span>
+      <button type="button" class="video-modal-close" id="closeIntroVideo">Fermer (Échap)</button>
+    </div>
+    <video id="introVideoEl" controls playsinline preload="metadata" poster="videos/intro_ingestion_dedup_poster.png">
+      <source src="videos/intro_ingestion_dedup.mp4" type="video/mp4" />
+    </video>
+  </dialog>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "strict",
+      theme: "dark",
+      themeVariables: {
+        darkMode: true,
+        background: "#1d1d1d",
+        primaryColor: "#ff5a1f",
+        primaryTextColor: "#141414",
+        primaryBorderColor: "#ff5a1f",
+        lineColor: "#a0a0a0",
+        secondaryColor: "#2a2a2a",
+        tertiaryColor: "#141414",
+        fontFamily: "Space Grotesk, sans-serif",
+        fontSize: "13px"
+      },
+      flowchart: {
+        curve: "basis",
+        padding: 10,
+        nodeSpacing: 24,
+        rankSpacing: 30,
+        htmlLabels: true,
+        useMaxWidth: true
+      }
+    });
+
+    function fitMermaidSvg(container) {
+      const svg = container.querySelector("svg");
+      if (!svg) return;
+
+      svg.removeAttribute("height");
+      svg.style.height = "auto";
+      svg.style.maxWidth = "100%";
+      svg.style.width = "100%";
+      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+      const wrap = container.closest(".mermaid-wrap") || container;
+      const maxW = wrap.clientWidth || container.clientWidth;
+      const maxH = wrap.clientHeight || container.clientHeight;
+      if (!maxW || !maxH) return;
+
+      let bbox;
+      try {
+        bbox = svg.getBBox();
+      } catch (_) {
+        return;
+      }
+      if (!bbox.width || !bbox.height) return;
+
+      const pad = 8;
+      svg.setAttribute(
+        "viewBox",
+        `${bbox.x - pad} ${bbox.y - pad} ${bbox.width + pad * 2} ${bbox.height + pad * 2}`
+      );
+
+      const scale = Math.min(maxW / (bbox.width + pad * 2), maxH / (bbox.height + pad * 2), 1);
+      const w = (bbox.width + pad * 2) * scale;
+      const h = (bbox.height + pad * 2) * scale;
+      svg.style.width = `${w}px`;
+      svg.style.height = `${h}px`;
+    }
+
+    class PresentationController {
+      constructor() {
+        this.slides = [...document.querySelectorAll(".slide")];
+        this.current = 0;
+        this.progress = document.getElementById("progress");
+        this.indexEl = document.getElementById("slideIndex");
+        this.dots = document.getElementById("dots");
+        this.touchY = null;
+        this.wheelLock = false;
+        this.buildDots();
+        this.bind();
+        this.observe();
+        this.goTo(0, false);
+        this.renderMermaid();
+      }
+
+      buildDots() {
+        this.slides.forEach((_, i) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.setAttribute("aria-label", `Aller à la slide ${i + 1}`);
+          btn.addEventListener("click", () => this.goTo(i));
+          this.dots.appendChild(btn);
+        });
+      }
+
+      bind() {
+        const dialog = document.getElementById("introVideoDialog");
+        const modalVideo = document.getElementById("introVideoEl");
+        const inlineVideo = document.getElementById("inlineIntroVideo");
+        const openBtn = document.getElementById("openIntroVideo");
+        const closeBtn = document.getElementById("closeIntroVideo");
+        this.inlineVideo = inlineVideo;
+
+        if (openBtn && dialog && modalVideo) {
+          openBtn.addEventListener("click", () => {
+            const t = inlineVideo ? inlineVideo.currentTime : 0;
+            inlineVideo?.pause();
+            dialog.showModal();
+            modalVideo.currentTime = t;
+            modalVideo.play().catch(() => {});
+          });
+          closeBtn?.addEventListener("click", () => dialog.close());
+          dialog.addEventListener("close", () => modalVideo.pause());
+          dialog.addEventListener("click", (e) => {
+            if (e.target === dialog) dialog.close();
+          });
+        }
+
+        window.addEventListener("keydown", (e) => {
+          if (dialog && dialog.open) return;
+          if (e.target && e.target.tagName === "VIDEO" && e.key === " ") return;
+          if (["ArrowDown", "PageDown", " ", "ArrowRight"].includes(e.key)) {
+            e.preventDefault();
+            this.next();
+          } else if (["ArrowUp", "PageUp", "ArrowLeft"].includes(e.key)) {
+            e.preventDefault();
+            this.prev();
+          } else if (e.key === "Home") {
+            e.preventDefault();
+            this.goTo(0);
+          } else if (e.key === "End") {
+            e.preventDefault();
+            this.goTo(this.slides.length - 1);
+          }
+        });
+
+        window.addEventListener("wheel", (e) => {
+          if (this.wheelLock) return;
+          if (Math.abs(e.deltaY) < 20) return;
+          this.wheelLock = true;
+          if (e.deltaY > 0) this.next();
+          else this.prev();
+          setTimeout(() => { this.wheelLock = false; }, 650);
+        }, { passive: true });
+
+        window.addEventListener("touchstart", (e) => {
+          this.touchY = e.changedTouches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener("touchend", (e) => {
+          if (this.touchY == null) return;
+          const dy = e.changedTouches[0].clientY - this.touchY;
+          if (Math.abs(dy) > 40) {
+            if (dy < 0) this.next();
+            else this.prev();
+          }
+          this.touchY = null;
+        }, { passive: true });
+
+        window.addEventListener("resize", () => {
+          document.querySelectorAll(".mermaid").forEach(fitMermaidSvg);
+        });
+      }
+
+      observe() {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+              const idx = this.slides.indexOf(entry.target);
+              if (idx >= 0) this.setActive(idx);
+            }
+          });
+        }, { threshold: [0.55] });
+        this.slides.forEach((s) => io.observe(s));
+      }
+
+      next() { this.goTo(Math.min(this.current + 1, this.slides.length - 1)); }
+      prev() { this.goTo(Math.max(this.current - 1, 0)); }
+
+      goTo(index, scroll = true) {
+        this.current = index;
+        if (scroll) {
+          this.slides[index].scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        this.setActive(index);
+      }
+
+      setActive(index) {
+        if (index !== 0 && this.inlineVideo && !this.inlineVideo.paused) {
+          this.inlineVideo.pause();
+        }
+        this.current = index;
+        this.slides.forEach((s, i) => s.classList.toggle("is-active", i === index));
+        [...this.dots.children].forEach((d, i) => {
+          if (i === index) d.setAttribute("aria-current", "true");
+          else d.removeAttribute("aria-current");
+        });
+        const n = String(index + 1).padStart(2, "0");
+        const total = String(this.slides.length).padStart(2, "0");
+        this.indexEl.textContent = `${n} / ${total}`;
+        this.progress.style.width = `${((index + 1) / this.slides.length) * 100}%`;
+      }
+
+      async renderMermaid() {
+        const nodes = document.querySelectorAll(".mermaid");
+        await mermaid.run({ nodes });
+        requestAnimationFrame(() => {
+          nodes.forEach(fitMermaidSvg);
+          setTimeout(() => nodes.forEach(fitMermaidSvg), 80);
+        });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      new PresentationController();
+    });
+  </script>
+</body>
+</html>

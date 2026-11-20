@@ -1,2 +1,10 @@
-*/correction/*
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# Corrigés enseignant — ne jamais committer
 correction/
+**/correction/
+Cours_5/correction/
+Cours_6/correction/
